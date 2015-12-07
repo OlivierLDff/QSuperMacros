@@ -4,7 +4,7 @@ Project {
     name: "Qt super-macros";
 
     Product {
-        name: "qt-super-macros";
+        name: "libqtqmltricks-qtsupermacros";
         type: "staticlibrary";
         targetName: "QtSuperMacros";
 
