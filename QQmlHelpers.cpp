@@ -1,4 +1,9 @@
-#include "qqmlhelpers.h"
+
+#include "QQmlEnumClassHelper.h"
+#include "QQmlListPropertyHelper.h"
+#include "QQmlVarPropertyHelpers.h"
+#include "QQmlPtrPropertyHelpers.h"
+#include "QQmlConstRefPropertyHelpers.h"
 
 /*!
     \defgroup QT_QML_HELPERS Qt helper macros

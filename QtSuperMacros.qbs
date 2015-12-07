@@ -14,24 +14,28 @@ Project {
             Depends { name: "cpp"; }
             Depends {
                 name: "Qt";
-                submodules: ["core"];
+                submodules: ["core", "qml"];
             }
         }
         Depends { name: "cpp"; }
         Depends {
             name: "Qt";
-                submodules: ["core"];
+                submodules: ["core", "qml"];
         }
         Group {
             name: "C++ sources";
             files: [
-                "qqmlhelpers.cpp",
+                "QQmlHelpers.cpp",
             ]
         }
         Group {
             name: "C++ headers";
             files: [
-                "qqmlhelpers.h",
+                "QQmlConstRefPropertyHelpers.h",
+                "QQmlEnumClassHelper.h",
+                "QQmlListPropertyHelper.h",
+                "QQmlPtrPropertyHelpers.h",
+                "QQmlVarPropertyHelpers.h",
             ]
         }
         Group {
