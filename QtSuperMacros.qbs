@@ -39,7 +39,7 @@ Project {
             ]
         }
         Group {
-            qbs.install: true;
+            qbs.install: (product.type === "dynamiclibrary");
             fileTagsFilter: product.type;
         }
     }
