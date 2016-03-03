@@ -100,12 +100,4 @@ class _Test_QmlAutoProperty_ : public QObject {
     QML_CONSTANT_AUTO_PROPERTY (QObject *, var9)
 };
 
-
-// NOTE : cleanup preprocessor vars to avoid conflicts
-
-#undef QML_AUTO_GETTER
-#undef QML_AUTO_MEMBER
-#undef QML_AUTO_NOTIFIER
-#undef QML_AUTO_SETTER
-
 #endif // QQMLAUTOPROPERTYHELPERS_H
