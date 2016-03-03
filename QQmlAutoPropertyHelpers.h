@@ -19,6 +19,7 @@ template<>           struct CheapestType<float>   { typedef float     type_def; 
 template<>           struct CheapestType<double>  { typedef double    type_def; };
 template<typename T> struct CheapestType<T *>     { typedef T *       type_def; };
 
+
 // NOTE : individual macros for getter, setter, notifier, and member
 
 #define QML_AUTO_GETTER(type, name) \
@@ -28,12 +29,14 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
 
 #define QML_AUTO_SETTER(type, name, prefix) \
     bool prefix##name (CheapestType<type>::type_def name) { \
-        bool ret = false; \
-        if ((ret = m_##name != name)) { \
+        if (m_##name != name) { \
             m_##name = name; \
             emit name##Changed (); \
+            return true; \
         } \
-        return ret; \
+        else { \
+            return false; \
+        } \
     }
 
 #define QML_AUTO_NOTIFIER(type, name) \
@@ -41,6 +44,7 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
 
 #define QML_AUTO_MEMBER(type, name) \
     type m_##name;
+
 
 // NOTE : actual auto-property helpers
 
@@ -77,9 +81,10 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
         QML_AUTO_GETTER (type, name) \
     private:
 
+
 // NOTE : test class for all cases
 
-class _QmlAutoProperty_ : public QObject {
+class _Test_QmlAutoProperty_ : public QObject {
     Q_OBJECT
 
     QML_WRITABLE_AUTO_PROPERTY (bool,      var1)
@@ -94,5 +99,13 @@ class _QmlAutoProperty_ : public QObject {
     QML_CONSTANT_AUTO_PROPERTY (QString,   var8)
     QML_CONSTANT_AUTO_PROPERTY (QObject *, var9)
 };
+
+
+// NOTE : cleanup preprocessor vars to avoid conflicts
+
+#undef QML_AUTO_GETTER
+#undef QML_AUTO_MEMBER
+#undef QML_AUTO_NOTIFIER
+#undef QML_AUTO_SETTER
 
 #endif // QQMLAUTOPROPERTYHELPERS_H
