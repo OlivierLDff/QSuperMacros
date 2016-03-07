@@ -1,14 +1,17 @@
 #ifndef QQMLCONSTREFPROPERTYHELPERS
 #define QQMLCONSTREFPROPERTYHELPERS
+
 #include <QObject>
+
+#include "QQmlHelpersCommon.h"
 
 #define QML_WRITABLE_CSTREF_PROPERTY(type, name) \
     protected: \
-        Q_PROPERTY (type name READ get_##name WRITE set_##name NOTIFY name##Changed) \
+        Q_PROPERTY (type name READ MAKE_GETTER_NAME (name) WRITE set_##name NOTIFY name##Changed) \
     private: \
         type m_##name; \
     public: \
-        const type & get_##name (void) const { \
+        const type & MAKE_GETTER_NAME (name) (void) const { \
             return m_##name ; \
         } \
     public Q_SLOTS: \
@@ -26,11 +29,11 @@
 
 #define QML_READONLY_CSTREF_PROPERTY(type, name) \
     protected: \
-        Q_PROPERTY (type name READ get_##name NOTIFY name##Changed) \
+        Q_PROPERTY (type name READ MAKE_GETTER_NAME (name) NOTIFY name##Changed) \
     private: \
         type m_##name; \
     public: \
-        const type & get_##name (void) const { \
+        const type & MAKE_GETTER_NAME (name) (void) const { \
             return m_##name ; \
         } \
         bool update_##name (const type & name) { \
@@ -47,11 +50,11 @@
 
 #define QML_CONSTANT_CSTREF_PROPERTY(type, name) \
     protected: \
-        Q_PROPERTY (type name READ get_##name CONSTANT) \
+        Q_PROPERTY (type name READ MAKE_GETTER_NAME (name) CONSTANT) \
     private: \
         type m_##name; \
     public: \
-        const type & get_##name (void) const { \
+        const type & MAKE_GETTER_NAME (name) (void) const { \
             return m_##name ; \
         } \
     private:

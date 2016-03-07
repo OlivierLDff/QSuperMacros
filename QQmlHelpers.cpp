@@ -4,6 +4,9 @@
 #include "QQmlVarPropertyHelpers.h"
 #include "QQmlPtrPropertyHelpers.h"
 #include "QQmlConstRefPropertyHelpers.h"
+#include "QQmlAutoPropertyHelpers.h"
+
+// TODO : rewrite this doc
 
 /*!
     \defgroup QT_QML_HELPERS Qt helper macros

@@ -11,7 +11,8 @@ HEADERS += \
     $$PWD/QQmlEnumClassHelper.h \
     $$PWD/QQmlConstRefPropertyHelpers.h \
     $$PWD/QQmlListPropertyHelper.h \
-    $$PWD/QQmlAutoPropertyHelpers.h
+    $$PWD/QQmlAutoPropertyHelpers.h \
+    $$PWD/QQmlHelpersCommon.h
 
 SOURCES += \
     $$PWD/QQmlHelpers.cpp

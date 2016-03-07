@@ -3,27 +3,12 @@
 
 #include <QObject>
 
-// NOTE : SFINAE trickery to find which type is the cheapest between T and const T &
-
-template<typename T> struct CheapestType          { typedef const T & type_def; };
-template<>           struct CheapestType<bool>    { typedef bool      type_def; };
-template<>           struct CheapestType<quint8>  { typedef quint8    type_def; };
-template<>           struct CheapestType<quint16> { typedef quint16   type_def; };
-template<>           struct CheapestType<quint32> { typedef quint32   type_def; };
-template<>           struct CheapestType<quint64> { typedef quint64   type_def; };
-template<>           struct CheapestType<qint8>   { typedef qint8     type_def; };
-template<>           struct CheapestType<qint16>  { typedef qint16    type_def; };
-template<>           struct CheapestType<qint32>  { typedef qint32    type_def; };
-template<>           struct CheapestType<qint64>  { typedef qint64    type_def; };
-template<>           struct CheapestType<float>   { typedef float     type_def; };
-template<>           struct CheapestType<double>  { typedef double    type_def; };
-template<typename T> struct CheapestType<T *>     { typedef T *       type_def; };
-
+#include "QQmlHelpersCommon.h"
 
 // NOTE : individual macros for getter, setter, notifier, and member
 
 #define QML_AUTO_GETTER(type, name) \
-    CheapestType<type>::type_def get_##name (void) const { \
+    CheapestType<type>::type_def MAKE_GETTER_NAME(name) (void) const { \
         return m_##name; \
     }
 
@@ -45,12 +30,11 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
 #define QML_AUTO_MEMBER(type, name) \
     type m_##name;
 
-
 // NOTE : actual auto-property helpers
 
 #define QML_WRITABLE_AUTO_PROPERTY(type, name) \
     protected: \
-        Q_PROPERTY (type name READ get_##name WRITE set_##name NOTIFY name##Changed) \
+        Q_PROPERTY (type name READ MAKE_GETTER_NAME(name) WRITE set_##name NOTIFY name##Changed) \
     private: \
         QML_AUTO_MEMBER (type, name) \
     public: \
@@ -62,7 +46,7 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
 
 #define QML_READONLY_AUTO_PROPERTY(type, name) \
     protected: \
-        Q_PROPERTY (type name READ get_##name NOTIFY name##Changed) \
+        Q_PROPERTY (type name READ MAKE_GETTER_NAME(name) NOTIFY name##Changed) \
     private: \
         QML_AUTO_MEMBER (type, name) \
     public: \
@@ -74,13 +58,12 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
 
 #define QML_CONSTANT_AUTO_PROPERTY(type, name) \
     protected: \
-        Q_PROPERTY (type name READ get_##name CONSTANT) \
+        Q_PROPERTY (type name READ MAKE_GETTER_NAME(name) CONSTANT) \
     private: \
         QML_AUTO_MEMBER (type, name) \
     public: \
         QML_AUTO_GETTER (type, name) \
     private:
-
 
 // NOTE : test class for all cases
 

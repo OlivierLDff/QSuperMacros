@@ -11,7 +11,7 @@
         Q_ENUMS (Type) \
     };
 
-class _QmlEnumClass_ { Q_GADGET }; // NOTE : to avoid "no suitable class found" MOC note
+class _Test_QmlEnumClass_ { Q_GADGET }; // NOTE : to avoid "no suitable class found" MOC note
 
 #endif // QQMLENUMCLASS
 
