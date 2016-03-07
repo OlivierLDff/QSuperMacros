@@ -17,3 +17,7 @@ HEADERS += \
 SOURCES += \
     $$PWD/QQmlHelpers.cpp
 
+DISTFILES += \
+    $$PWD/README.md \
+    $$PWD/LICENSE.md
+
