@@ -1,61 +1,82 @@
 #ifndef QQMLLISTPROPERTYHELPER
 #define QQMLLISTPROPERTYHELPER
 
-#include <QList>
+#include <QVector>
 #include <QQmlListProperty>
 
-template<class ObjType> class QQmlSmartList : public QQmlListProperty<ObjType> {
+#include "QQmlHelpersCommon.h"
+
+template<class ObjType> class QQmlSmartListWrapper : public QQmlListProperty<ObjType> {
 public:
-    explicit QQmlSmartList (QObject * object)
-        : QQmlListProperty<ObjType>
+    typedef QVector<ObjType *>            CppListType;
+    typedef QQmlListProperty<ObjType>     QmlListPropertyType;
+    typedef QQmlSmartListWrapper<ObjType> SmartListWrapperType;
+
+    typedef typename CppListType::const_iterator const_iterator;
+
+    explicit QQmlSmartListWrapper (QObject * object, const int reserve = 0)
+        : QmlListPropertyType
           (object,
-           this,
-           &QQmlSmartList<ObjType>::callbackAppend,
-           &QQmlSmartList<ObjType>::callbackCount,
-           &QQmlSmartList<ObjType>::callbackAt,
-           &QQmlSmartList<ObjType>::callbackClear)
-    { }
+           &m_items,
+           &SmartListWrapperType::callbackAppend,
+           &SmartListWrapperType::callbackCount,
+           &SmartListWrapperType::callbackAt,
+           &SmartListWrapperType::callbackClear)
+    {
+        if (reserve > 0) {
+            m_items.reserve (reserve);
+        }
+    }
 
-    typedef QList<ObjType *>          CppListType;
-    typedef QQmlSmartList<ObjType>    SmartListType;
-    typedef QQmlListProperty<ObjType> QmlListPropertyType;
+    const CppListType & items (void) const {
+        return m_items;
+    }
 
-    CppListType list;
+    const_iterator begin (void) const {
+        return m_items.begin ();
+    }
+
+    const_iterator end (void) const {
+        return m_items.end ();
+    }
+
+    const_iterator constBegin (void) const {
+        return m_items.constBegin ();
+    }
+
+    const_iterator constEnd (void) const {
+        return m_items.constEnd ();
+    }
 
     static int callbackCount (QmlListPropertyType * prop) {
-        SmartListType * self = static_cast<SmartListType *> (prop->data);
-        return (self != Q_NULLPTR ? self->list.count () : 0);
+        return static_cast<CppListType *> (prop->data)->count ();
     }
 
     static void callbackClear (QmlListPropertyType * prop) {
-        SmartListType * self = static_cast<SmartListType *> (prop->data);
-        if (self != Q_NULLPTR) {
-            self->list.clear ();
-        }
+        static_cast<CppListType *> (prop->data)->clear ();
     }
 
     static void callbackAppend (QmlListPropertyType * prop, ObjType * obj) {
-        SmartListType * self = static_cast<SmartListType *> (prop->data);
-        if (self != Q_NULLPTR && obj != Q_NULLPTR) {
-            self->list.append (obj);
-        }
+        static_cast<CppListType *> (prop->data)->append (obj);
     }
 
     static ObjType * callbackAt (QmlListPropertyType * prop, int idx) {
-        SmartListType * self = static_cast<SmartListType *> (prop->data);
-        return (self != Q_NULLPTR ? self->list.at (idx) : Q_NULLPTR);
+        return static_cast<CppListType *> (prop->data)->at (idx);
     }
+
+private:
+    CppListType m_items;
 };
 
 #define QML_LIST_PROPERTY(TYPE, NAME) \
     private: \
-        Q_PROPERTY (QQmlListProperty<TYPE> NAME READ get_##NAME CONSTANT) \
+        Q_PROPERTY (QQmlListProperty<TYPE> NAME READ MAKE_GETTER_NAME (NAME) CONSTANT) \
     public: \
-        QQmlSmartList<TYPE> & get_##NAME (void) { \
+        const QQmlSmartListWrapper<TYPE> & MAKE_GETTER_NAME (NAME) (void) const { \
             return m_##NAME; \
         } \
     private: \
-        QQmlSmartList<TYPE> m_##NAME;
+        QQmlSmartListWrapper<TYPE> m_##NAME;
 
 
 #endif // QQMLLISTPROPERTYHELPER
