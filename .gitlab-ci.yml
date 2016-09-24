@@ -1,18 +1,30 @@
 {
   "before_script": [],
   "stages": [
-    "build",
+    "build"
   ],
-  "build_on_linux_gcc_qt5.2": {
+  "build_on_linux_qt5.2_gcc": {
     "stage": "build",
     "script": [
-      "qbs build release"
+      "bash ~/qt5-smart-build.sh qbs gcc qt 5.2 release"
     ],
     "tags": [
       "linux",
       "gcc",
       "qt5.2",
-      "qbs",
+      "smart-build"
+    ]
+  },
+  "build_on_linux_qt5.7_gcc": {
+    "stage": "build",
+    "script": [
+      "bash ~/qt5-smart-build.sh qbs gcc qt 5.7 release"
+    ],
+    "tags": [
+      "linux",
+      "gcc",
+      "qt5.7",
+      "smart-build"
     ]
   }
 }
