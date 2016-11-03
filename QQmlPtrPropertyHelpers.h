@@ -17,7 +17,7 @@
     public Q_SLOTS: \
         bool set_##name (type * name) { \
             bool ret = false; \
-            if ((ret = m_##name != name)) { \
+            if ((ret = (m_##name != name))) { \
                 m_##name = name; \
                 emit name##Changed (m_##name); \
             } \
@@ -38,7 +38,7 @@
         } \
         bool update_##name (type * name) { \
             bool ret = false; \
-            if ((ret = m_##name != name)) { \
+            if ((ret = (m_##name != name))) { \
                 m_##name = name; \
                 emit name##Changed (m_##name); \
             } \
