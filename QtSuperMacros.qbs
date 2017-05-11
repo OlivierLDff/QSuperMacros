@@ -35,6 +35,7 @@ Project {
                 "QQmlEnumClassHelper.h",
                 "QQmlListPropertyHelper.h",
                 "QQmlPtrPropertyHelpers.h",
+                "QQmlSingletonHelper.h",
                 "QQmlVarPropertyHelpers.h",
             ]
         }
