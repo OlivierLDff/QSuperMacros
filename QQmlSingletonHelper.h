@@ -25,7 +25,6 @@
     private: \
         explicit CLASS (void);
 
-
 class _test_QmlSingleton_ : public QObject {
     QML_SINGLETON_IMPL (_test_QmlSingleton_)
 };

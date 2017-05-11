@@ -2,6 +2,10 @@
 #define QQMLENUMCLASS
 
 #include <QObject>
+#include <QString>
+#include <QQmlEngine>
+#include <QMetaEnum>
+#include <QMetaObject>
 
 #ifdef Q_ENUM
 #   define QML_EXPORT_ENUM Q_ENUM
@@ -17,6 +21,12 @@
                 __VA_ARGS__ \
             }; \
             QML_EXPORT_ENUM (Type) \
+            static QString asString (const int value) { \
+                return QString::fromLatin1 (staticMetaObject.enumerator (0).valueToKey (value)); \
+            } \
+            static void registerQmlModule (const char * uri, const int majorVersion, const int minorVersion, const char * name) { \
+                qmlRegisterUncreatableType<NAME> (uri, majorVersion, minorVersion, name, "Enum class, can't be instanciated !"); \
+            } \
         private: \
             explicit NAME (void) { } \
             NAME (const NAME &); \
@@ -24,7 +34,7 @@
     }; \
     Q_DECLARE_METATYPE (NAME::Type)
 
-class _Test_QmlEnumClass_ { Q_GADGET }; // NOTE : to avoid "no suitable class found" MOC note
+QML_ENUM_CLASS (_Test_QmlEnumClass_) // NOTE : to avoid "no suitable class found" MOC note
 
 #endif // QQMLENUMCLASS
 
