@@ -4,9 +4,9 @@
 #include <QObject>
 #include <QJSEngine>
 #include <QQmlEngine>
+#include <qqml.h>
 
 #define QML_SINGLETON_IMPL(CLASS) \
-    Q_OBJECT \
     public: \
         static CLASS & instance (void) { \
             static CLASS ret; \
@@ -22,10 +22,9 @@
         static void registerQmlModule (const char * uri, const int majorVersion, const int minorVersion, const char * name) { \
             qmlRegisterSingletonType<CLASS> (uri, majorVersion, minorVersion, name, &CLASS::qmlSingletonFactory); \
         } \
-    private: \
-        explicit CLASS (void);
 
 class _test_QmlSingleton_ : public QObject {
+    Q_OBJECT
     QML_SINGLETON_IMPL (_test_QmlSingleton_)
 };
 

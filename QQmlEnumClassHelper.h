@@ -6,6 +6,7 @@
 #include <QQmlEngine>
 #include <QMetaEnum>
 #include <QMetaObject>
+#include <qqml.h>
 
 #ifdef Q_ENUM
 #   define QML_EXPORT_ENUM Q_ENUM
