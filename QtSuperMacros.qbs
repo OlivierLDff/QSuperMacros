@@ -9,7 +9,7 @@ Project {
         targetName: "QtSuperMacros";
 
         Export {
-            cpp.includePaths: ".";
+            cpp.includePaths: "./src";
 
             Depends { name: "cpp"; }
             Depends {
@@ -31,12 +31,12 @@ Project {
         Group {
             name: "C++ headers";
             files: [
-                "QQmlConstRefPropertyHelpers.h",
-                "QQmlEnumClassHelper.h",
-                "QQmlListPropertyHelper.h",
-                "QQmlPtrPropertyHelpers.h",
-                "QQmlSingletonHelper.h",
-                "QQmlVarPropertyHelpers.h",
+                "src/QQmlConstRefPropertyHelpers.h",
+                "src/QQmlEnumClassHelper.h",
+                "src/QQmlListPropertyHelper.h",
+                "src/QQmlPtrPropertyHelpers.h",
+                "src/QQmlSingletonHelper.h",
+                "src/QQmlVarPropertyHelpers.h",
             ]
         }
         Group {

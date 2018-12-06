@@ -1,3 +1,7 @@
+/**
+ * \file QQmlListPropertyHelper.h
+ * \brief Declare List Property Helper
+ */
 #ifndef QQMLLISTPROPERTYHELPER
 #define QQMLLISTPROPERTYHELPER
 
@@ -6,6 +10,18 @@
 
 #include "QQmlHelpersCommon.h"
 
+QSUPER_MACROS_NAMESPACE_START
+
+/**
+ * \defgroup QSM_LIST_HELPER List Properties
+ * \brief Macros to generate a Smart List
+ */
+
+/**
+ * Smart List template class. Used to create a QML list property that maps to an internal 
+ * QList of objects, without having to declare and implement all static function pointers...
+ * \ingroup QSM_LIST_HELPER
+ */
 template<class ObjType> class QQmlSmartListWrapper : public QQmlListProperty<ObjType> {
 public:
     typedef QVector<ObjType *>            CppListType;
@@ -68,16 +84,35 @@ private:
     CppListType m_items;
 };
 
-#define QML_LIST_PROPERTY(TYPE, NAME) \
+/**
+ * A really handy macro to create a QML list property that maps to an internal 
+ * QList of objects, without having to declare and implement all static function pointers...
+ * \ingroup QSM_LIST_HELPER
+ * \hideinitializer
+ * \param type Type Contain in the list
+ * \param name Name of the list in lowerCamelCase
+ * \param Name Name of the list in UpperCamelCase
+ */
+#define QSM_LIST_PROPERTY(type, name, Name) \
     private: \
-        Q_PROPERTY (QQmlListProperty<TYPE> NAME READ MAKE_GETTER_NAME (NAME) CONSTANT) \
+        Q_PROPERTY (QQmlListProperty<type> name READ QSM_MAKE_GETTER_NAME(name, Name) CONSTANT) \
     public: \
-        const QQmlSmartListWrapper<TYPE> & MAKE_GETTER_NAME (NAME) (void) const { \
-            return m_##NAME; \
+        const QQmlSmartListWrapper<type> & QSM_MAKE_GETTER_NAME(name, Name) (void) const { \
+            return QSM_MAKE_ATTRIBUTE_NAME(name, Name);; \
         } \
     private: \
-        QQmlSmartListWrapper<TYPE> m_##NAME;
+        QQmlSmartListWrapper<type> QSM_MAKE_ATTRIBUTE_NAME(name, Name);
 
+/**
+ * \internal
+ */
+class QSUPER_MACROS_API_ _Test_QmlStartListWrapper : public QObject
+{
+	Q_OBJECT
+	QSM_LIST_PROPERTY(QString, myStringList, MyStringList);
+};
+
+QSUPER_MACROS_NAMESPACE_END
 
 #endif // QQMLLISTPROPERTYHELPER
 
