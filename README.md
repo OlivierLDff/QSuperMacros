@@ -10,6 +10,10 @@ A set of one-line C++ macros to simplify the creation of reccurent things (like 
 - [Doxygen](https://github.com/doxygen/doxygen) : To generate the documentation.
 - [DoxygenBootstrapped](https://github.com/OlivierLDff/DoxygenBootstrapped) : Integrate doxygen with CMake. *v1.3.1*.
 
+## API
+
+* The documentation can be found [here](https://olivierldff.github.io/QSuperMacrosDoc/)
+
 ## Convention
 
 * Class attribute are `_<property>`.
