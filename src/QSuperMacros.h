@@ -53,8 +53,8 @@
 /** Use the namespace. Using this macro give the same result no matters if the library is compiled with or without a namespace */
 #define QSUPER_MACROS_USING_NAMESPACE using namespace QSUPER_MACROS_NAMESPACE;
 #else
-#undef QSUPER_MACROS_NAMESPACE_NAME
-#define QSUPER_MACROS_NAMESPACE_NAME
+#undef QSUPER_MACROS_NAMESPACE
+#define QSUPER_MACROS_NAMESPACE
 /** Start of the namespace declaratio. Using this macro give the same result no matters if the library is compiled with or without a namespace */
 #define QSUPER_MACROS_NAMESPACE_START
 /** End of the namespace declaration. Using this macro give the same result no matters if the library is compiled with or without a namespace */

@@ -8,7 +8,7 @@ A set of one-line C++ macros to simplify the creation of reccurent things (like 
 ## Dependencies
 
 - [Doxygen](https://github.com/doxygen/doxygen) : To generate the documentation.
-- [DoxygenBootstrapped](https://github.com/OlivierLDff/DoxygenBootstrapped) : Integrate doxygen with CMake. *v1.3.1*.
+- [DoxygenBootstrapped](https://github.com/OlivierLDff/DoxygenBootstrapped) : Integrate doxygen with CMake. *v1.3.2*.
 
 ## API
 
@@ -87,7 +87,7 @@ make
 ### Dependencies
 
 - **QSUPER_MACROS_DOXYGEN_BT_REPOSITORY** : Repository of DoxygenBt. *Default : "https://github.com/OlivierLDff/DoxygenBootstrapped.git"*
-- **QSUPER_MACROS_DOXYGEN_BT_TAG** : Git Tag of DoxygenBt. *Default : "v1.3.1"*
+- **QSUPER_MACROS_DOXYGEN_BT_TAG** : Git Tag of DoxygenBt. *Default : "v1.3.2"*
 
 ### Output
 
@@ -123,7 +123,7 @@ SET( QSUPER_MACROS_BUILD_STATIC ON )
 SET( QSUPER_MACROS_BUILD_DOC OFF )
 SET( QSUPER_MACROS_USE_NAMESPACE ON )
 SET( QSUPER_MACROS_REPOSITORY "https://github.com/OlivierLDff/QSuperMacros.git" )
-SET( QSUPER_MACROS_TAG v1.0.0 )
+SET( QSUPER_MACROS_TAG v1.0.1 )
 INCLUDE(path/to/BuildQSuperMacros.cmake)
 ```
 
