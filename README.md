@@ -88,7 +88,7 @@ make
 * **QSUPER_MACROS_USE_QT_PREFIX** : Use Qt-ish internal attribute prefix `m_attribute `[ON OFF]. *Default = OFF.*
 * **QSUPER_MACROS_USE_QT_GETTERS** : Use Qt-ish Getter naming convention `attribute()` [ON OFF]. *Default = OFF.*
 * **QSUPER_MACROS_USE_QT_SETTERS** : Use Qt-ish Setter naming convention `setAttribute` [ON OFF]. *Default = OFF.*
-* **QSUPER_MACROS_USE_QT_RESET** : Use Qt-ish Setter naming convention resetAttribute [ON OFF]. *Default = OFF.*
+* **QSUPER_MACROS_USE_QT_RESETS** : Use Qt-ish Setter naming convention resetAttribute [ON OFF]. *Default = OFF.*
 * **QSUPER_MACROS_USE_QT_SIGNALS** : Use Qt-ish signal naming convention `attributeChanged`. It is really recommended to leave this option ON because QML Connections don't handle signals starting with Capital Letter [ON OFF]. *Default = ON.*
 
 ### Dependencies
