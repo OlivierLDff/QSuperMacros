@@ -123,7 +123,7 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
  * \param name Attribute name in lowerCamelCase
  * \param Name Attribute name in UpperCamelCase
  */
-#ifdef QSUPER_MACROS_USE_QT_RESET
+#ifdef QSUPER_MACROS_USE_QT_RESETS
 #   define QSM_MAKE_RESET_NAME(name, Name) reset##Name
 #else
 #   define QSM_MAKE_RESET_NAME(name, Name) Reset##Name

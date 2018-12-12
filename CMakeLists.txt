@@ -20,7 +20,7 @@
 #	- QSUPER_MACROS_USE_QT_PREFIX : Use Qt-ish internal attribute prefix m_attribute [ON OFF]. Default = OFF.
 #	- QSUPER_MACROS_USE_QT_GETTERS : Use Qt-ish Getter naming convention attribute() [ON OFF]. Default = OFF.
 #	- QSUPER_MACROS_USE_QT_SETTERS : Use Qt-ish Setter naming convention setAttribute [ON OFF]. Default = OFF.
-#	- QSUPER_MACROS_USE_QT_RESET : Use Qt-ish Setter naming convention resetAttribute [ON OFF]. Default = OFF.
+#	- QSUPER_MACROS_USE_QT_RESETS : Use Qt-ish Setter naming convention resetAttribute [ON OFF]. Default = OFF.
 #	- QSUPER_MACROS_USE_QT_SIGNALS : Use Qt-ish signal naming convention attributeChanged. It is really recommended to leave this option ON because QML Connections don't handle signals starting with Capital Letter [ON OFF]. Default = ON.
 
 #
@@ -65,6 +65,7 @@ ENDIF(QSUPER_MACROS_BUILD_DOC)
 SET( QSUPER_MACROS_USE_QT_PREFIX OFF CACHE BOOL "Use Qt-ish internal attribute prefix m_attribute [ON OFF]" )
 SET( QSUPER_MACROS_USE_QT_GETTERS OFF CACHE BOOL "Use Qt-ish Getter naming convention attribute() [ON OFF]" )
 SET( QSUPER_MACROS_USE_QT_SETTERS OFF CACHE BOOL "Use Qt-ish Setter naming convention setAttribute [ON OFF]" )
+SET( QSUPER_MACROS_USE_QT_RESETS OFF CACHE BOOL "Use Qt-ish Reset naming convention resetAttribute [ON OFF]" )
 SET( QSUPER_MACROS_USE_QT_SIGNALS ON CACHE BOOL "Use Qt-ish signal naming convention attributeChanged. It is really recommended to leave this option ON because QML Connections don't handle signals starting with Capital Letter [ON OFF]" )
 
 PROJECT( ${QSUPER_MACROS_PROJECT} )
@@ -137,6 +138,7 @@ ENDIF(QSUPER_MACROS_BUILD_DOC)
 MESSAGE( STATUS "QSUPER_MACROS_USE_QT_PREFIX          : ${QSUPER_MACROS_USE_QT_PREFIX}" )
 MESSAGE( STATUS "QSUPER_MACROS_USE_QT_GETTERS         : ${QSUPER_MACROS_USE_QT_GETTERS}" )
 MESSAGE( STATUS "QSUPER_MACROS_USE_QT_SETTERS         : ${QSUPER_MACROS_USE_QT_SETTERS}" )
+MESSAGE( STATUS "QSUPER_MACROS_USE_QT_RESETS          : ${QSUPER_MACROS_USE_QT_RESETS}" )
 MESSAGE( STATUS "QSUPER_MACROS_USE_QT_SIGNALS         : ${QSUPER_MACROS_USE_QT_SIGNALS}" )
 
 MESSAGE( STATUS "------ ${QSUPER_MACROS_TARGET} End Configuration ------" )
@@ -211,6 +213,9 @@ ENDIF(QSUPER_MACROS_USE_QT_GETTERS)
 IF(QSUPER_MACROS_USE_QT_SETTERS)
 	TARGET_COMPILE_DEFINITIONS( ${QSUPER_MACROS_TARGET} PUBLIC -DQSUPER_MACROS_USE_QT_SETTERS )
 ENDIF(QSUPER_MACROS_USE_QT_SETTERS)
+IF(QSUPER_MACROS_USE_QT_RESETS)
+	TARGET_COMPILE_DEFINITIONS( ${QSUPER_MACROS_TARGET} PUBLIC -DQSUPER_MACROS_USE_QT_RESETS )
+ENDIF(QSUPER_MACROS_USE_QT_RESETS)
 IF(QSUPER_MACROS_USE_QT_SIGNALS)
 	TARGET_COMPILE_DEFINITIONS( ${QSUPER_MACROS_TARGET} PUBLIC -DQSUPER_MACROS_USE_QT_SIGNALS )
 ENDIF(QSUPER_MACROS_USE_QT_SIGNALS)
