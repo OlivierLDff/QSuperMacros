@@ -114,6 +114,21 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
 #   define QSM_MAKE_SIGNAL_NAME(name, Name) Name##Changed
 #endif
 
+/** 
+ * \def QSM_MAKE_RESET_NAME(name, Name) 
+ * \ingroup QQML_HELPER_COMMON
+ * \hideinitializer
+ * \brief Create a reset function name in the qt naming convention `resetName` if `QSUPER_MACROS_USE_QT_RESET` is set
+ * or non qt `ResetName`
+ * \param name Attribute name in lowerCamelCase
+ * \param Name Attribute name in UpperCamelCase
+ */
+#ifdef QSUPER_MACROS_USE_QT_RESET
+#   define QSM_MAKE_RESET_NAME(name, Name) reset##Name
+#else
+#   define QSM_MAKE_RESET_NAME(name, Name) Reset##Name
+#endif
+
 QSUPER_MACROS_NAMESPACE_END
 
 #endif // QQMLHELPERSCOMMON_H

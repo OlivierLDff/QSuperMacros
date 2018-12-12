@@ -20,6 +20,7 @@
 #	- QSUPER_MACROS_USE_QT_PREFIX : Use Qt-ish internal attribute prefix m_attribute [ON OFF]. Default = OFF.
 #	- QSUPER_MACROS_USE_QT_GETTERS : Use Qt-ish Getter naming convention attribute() [ON OFF]. Default = OFF.
 #	- QSUPER_MACROS_USE_QT_SETTERS : Use Qt-ish Setter naming convention setAttribute [ON OFF]. Default = OFF.
+#	- QSUPER_MACROS_USE_QT_RESET : Use Qt-ish Setter naming convention resetAttribute [ON OFF]. Default = OFF.
 #	- QSUPER_MACROS_USE_QT_SIGNALS : Use Qt-ish signal naming convention attributeChanged. It is really recommended to leave this option ON because QML Connections don't handle signals starting with Capital Letter [ON OFF]. Default = ON.
 
 #
@@ -32,6 +33,7 @@
 #
 ## VERSION
 #	- 1.0.0 : 06/12/2018 : Initial Work
+#	- 1.1.0 : 12/12/2018 : Reset functions
 
 # ┌──────────────────────────────────────────────────────────────────┐
 # │						  CMAKE PROPERTIES							 │
@@ -95,8 +97,8 @@ FIND_PACKAGE(Qt5Qml REQUIRED)
 
 # Project version must be set here
 SET(QSUPER_MACROS_VERSION_MAJOR 1)
-SET(QSUPER_MACROS_VERSION_MINOR 0)
-SET(QSUPER_MACROS_VERSION_PATCH 1)
+SET(QSUPER_MACROS_VERSION_MINOR 1)
+SET(QSUPER_MACROS_VERSION_PATCH 0)
 SET(QSUPER_MACROS_VERSION ${QSUPER_MACROS_VERSION_MAJOR}.${QSUPER_MACROS_VERSION_MINOR}.${QSUPER_MACROS_VERSION_PATCH} CACHE STRING "Version")
 
 IF( EXISTS "${CMAKE_SOURCE_DIR}/.git" )

@@ -14,10 +14,16 @@ A set of one-line C++ macros to simplify the creation of reccurent things (like 
 
 * The documentation can be found [here](https://olivierldff.github.io/QSuperMacrosDoc/)
 
+## Release
+
+* `1.0.0` : Initial work
+* `1.1.0` : Reset functions
+
 ## Convention
 
 * Class attribute are `_<property>`.
 * Getter and Setter are `Get<Property>`, `Set<Property>`.
+* Reset are `Reset<Property>`.
 * Signals are `<property>Changed`.
 
 ## For one-line creation of QML properties
@@ -82,6 +88,7 @@ make
 * **QSUPER_MACROS_USE_QT_PREFIX** : Use Qt-ish internal attribute prefix `m_attribute `[ON OFF]. *Default = OFF.*
 * **QSUPER_MACROS_USE_QT_GETTERS** : Use Qt-ish Getter naming convention `attribute()` [ON OFF]. *Default = OFF.*
 * **QSUPER_MACROS_USE_QT_SETTERS** : Use Qt-ish Setter naming convention `setAttribute` [ON OFF]. *Default = OFF.*
+* **QSUPER_MACROS_USE_QT_RESET** : Use Qt-ish Setter naming convention resetAttribute [ON OFF]. *Default = OFF.*
 * **QSUPER_MACROS_USE_QT_SIGNALS** : Use Qt-ish signal naming convention `attributeChanged`. It is really recommended to leave this option ON because QML Connections don't handle signals starting with Capital Letter [ON OFF]. *Default = ON.*
 
 ### Dependencies

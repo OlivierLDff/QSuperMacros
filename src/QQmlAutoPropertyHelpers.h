@@ -132,6 +132,26 @@ QSUPER_MACROS_NAMESPACE_START
 #define QSM_AUTO_MEMBER(type, name, Name, def) \
     type QSM_MAKE_ATTRIBUTE_NAME(name, Name) = def;
 
+/** Reset the member to the default value def
+ * \ingroup QSM_AUTO_HELPER
+ * \hideinitializer
+ * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
+ * \param name Attribute name in lowerCamelCase
+ * \param Name Attribute name in UpperCamelCase
+ * \param def Default value of the members. If you want to let the type choose default value just use `{}`
+ * 
+ * It generates for this goal :
+ *  \code
+ *      // Default Naming Convention
+ *      bool ResetName() { return SetName(def); }
+ *
+ *      // Qt Naming Convention
+ *      bool resetName() { return setName(def); }
+ *  \endcode
+ */
+#define QSM_AUTO_RESET(type, name, Name, def) \
+    bool QSM_MAKE_RESET_NAME(name, Name)() { return QSM_MAKE_SETTER_NAME(name, Name)(def); }
+
 // NOTE : Actual Helpers
 
 /** Generate a **Writable** Auto Property
@@ -148,7 +168,7 @@ QSUPER_MACROS_NAMESPACE_START
  *  \code
  *      // Default Naming Convention
  *      protected:
- *           Q_PROPERTY (type name READ GetName WRITE SetName NOTIFY NameChanged)
+ *           Q_PROPERTY (type name READ GetName WRITE SetName RESET ResetName NOTIFY NameChanged)
  *      private:
  *             type _name = def;
  *      public:
@@ -163,13 +183,14 @@ QSUPER_MACROS_NAMESPACE_START
  *              else 
  *                  return false;
  *          }
+ *          bool ResetName() { return SetName(def); }
  *      signals:
- *			void NameChanged();
+ *          void NameChanged();
  *      private:
  *
  *      // Qt Naming Convention
  *      protected:
- *          Q_PROPERTY (type name READ name WRITE setName NOTIFY nameChanged)
+ *          Q_PROPERTY (type name READ name WRITE setName RESET resetName NOTIFY nameChanged)
  *      private:
  *          type m_name = def;
  *      public:
@@ -184,6 +205,7 @@ QSUPER_MACROS_NAMESPACE_START
  *              else 
  *                  return false;
  *          }
+ *             bool resetName() { return setName(def); }
  *      signals:
  *          void nameChanged();
  *      private:
@@ -203,12 +225,13 @@ QSUPER_MACROS_NAMESPACE_START
  */
 #define QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT(type, name, Name, def) \
     protected: \
-        Q_PROPERTY (type name READ QSM_MAKE_GETTER_NAME(name, Name) WRITE QSM_MAKE_SETTER_NAME(name, Name) NOTIFY QSM_MAKE_SIGNAL_NAME(name, Name)) \
+        Q_PROPERTY (type name READ QSM_MAKE_GETTER_NAME(name, Name) WRITE QSM_MAKE_SETTER_NAME(name, Name) RESET QSM_MAKE_RESET_NAME(name, Name) NOTIFY QSM_MAKE_SIGNAL_NAME(name, Name)) \
     private: \
         QSM_AUTO_MEMBER (type, name, Name, def) \
     public: \
         QSM_AUTO_GETTER (type, name, Name) \
         QSM_AUTO_SETTER (type, name, Name) \
+        QSM_AUTO_RESET(type, name, Name, def) \
     Q_SIGNALS: \
         QSM_AUTO_NOTIFIER (type, name, Name) \
     private:
@@ -226,7 +249,7 @@ QSUPER_MACROS_NAMESPACE_START
  *  \code
  *      // Default Naming Convention
  *      protected:
- *          Q_PROPERTY (type name READ GetName WRITE SetName NOTIFY NameChanged)
+ *          Q_PROPERTY (type name READ GetName WRITE SetName RESET ResetName NOTIFY NameChanged)
  *      private:
  *          type _name = {}};
  *      public:
@@ -241,13 +264,14 @@ QSUPER_MACROS_NAMESPACE_START
  *              else 
  *                  return false;
  *          }
+ *          bool ResetName() { return SetName({}); }
  *      signals:
  *          void NameChanged();
  *      private:
  *
  *      // Qt Naming Convention
  *      protected:
- *          Q_PROPERTY (type name READ name WRITE setName NOTIFY nameChanged)
+ *          Q_PROPERTY (type name READ name WRITE setName RESET resetName NOTIFY nameChanged)
  *      private:
  *          type m_name = {};
  *      public:
@@ -262,6 +286,7 @@ QSUPER_MACROS_NAMESPACE_START
  *              else 
  *                  return false;
  *          }
+ *          bool resetName() { return setName({}); }
  *      signals:
  *          void nameChanged();
  *      private:
@@ -311,6 +336,7 @@ QSUPER_MACROS_NAMESPACE_START
  *              else 
  *                  return false;
  *          }
+ *          bool ResetName() { return SetName(def); }
  *      signals:
  *          void NameChanged();
  *      private:
@@ -332,6 +358,7 @@ QSUPER_MACROS_NAMESPACE_START
  *              else 
  *                  return false;
  *          }
+ *          bool resetName() { return setName(def); }
  *      signals:
  *          void nameChanged();
  *      private:
@@ -357,6 +384,7 @@ QSUPER_MACROS_NAMESPACE_START
     public: \
         QSM_AUTO_GETTER (type, name, Name) \
         QSM_AUTO_SETTER (type, name, Name) \
+        QSM_AUTO_RESET (type, name, Name, def) \
     Q_SIGNALS: \
         QSM_AUTO_NOTIFIER (type, name, Name) \
     private:
@@ -389,6 +417,7 @@ QSUPER_MACROS_NAMESPACE_START
  *              else 
  *                  return false;
  *          }
+ *          bool ResetName() { return SetName({}); }
  *      signals:
  *          void NameChanged();
  *      private:
@@ -410,6 +439,7 @@ QSUPER_MACROS_NAMESPACE_START
  *              else 
  *                  return false;
  *          }
+ *          bool resetName() { return setName({}); }
  *      signals:
  *          void nameChanged();
  *      private:
