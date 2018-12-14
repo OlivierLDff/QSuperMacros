@@ -164,7 +164,7 @@ QSUPER_MACROS_NAMESPACE_START
  *      protected:
  *          Q_PROPERTY (type * name READ GetName WRITE SetName RESET ResetName NOTIFY NameChanged)
  *      private:
- *          type _name = def;
+ *          type* _name = def;
  *      public:
  *          type* GetName() { return _name; }
  *          bool SetName(const type* name) 
@@ -186,7 +186,7 @@ QSUPER_MACROS_NAMESPACE_START
  *      protected:
  *          Q_PROPERTY (type * name READ name WRITE setName RESET resetName NOTIFY nameChanged)
  *      private:
- *          type m_name = def;
+ *          type* m_name = def;
  *      public:
  *          type * name() const { return m_name; }
  *          bool setName(type * name) 
@@ -245,7 +245,7 @@ QSUPER_MACROS_NAMESPACE_START
  *      protected:
  *          Q_PROPERTY (type * name READ GetName WRITE SetName RESET ResetName NOTIFY NameChanged)
  *      private:
- *          type _name = {};
+ *          type* _name = {};
  *      public:
  *          type * GetName() const { return _name; }
  *          bool SetName(type * name) 
@@ -267,7 +267,7 @@ QSUPER_MACROS_NAMESPACE_START
  *      protected:
  *          Q_PROPERTY (type* name READ name WRITE setName RESET resetName NOTIFY nameChanged)
  *      private:
- *          type m_name = {};
+ *          type* m_name = {};
  *      public:
  *          type * name() const { return m_name; }
  *          bool setName(type * name) 
@@ -317,7 +317,7 @@ QSUPER_MACROS_NAMESPACE_START
  *      protected:
  *          Q_PROPERTY (type* name READ GetName NOTIFY NameChanged)
  *      private:
- *          type _name = def;
+ *          type* _name = def;
  *      public:
  *          type * GetName() const { return _name; }
  *          bool SetName(type * name) 
@@ -339,7 +339,7 @@ QSUPER_MACROS_NAMESPACE_START
  *      protected:
  *          Q_PROPERTY (type* name READ name NOTIFY nameChanged)
  *      private:
- *          type m_name = def;
+ *          type* m_name = def;
  *      public:
  *          type * name() const { return m_name; }
  *          bool setName(type * name) 
@@ -398,7 +398,7 @@ QSUPER_MACROS_NAMESPACE_START
  *      protected:
  *          Q_PROPERTY (type* name READ GetName NOTIFY NameChanged)
  *      private:
- *          type _name = {};
+ *          type* _name = {};
  *      public:
  *          type * GetName() const { return _name; }
  *          bool SetName(type * name) 
@@ -420,7 +420,7 @@ QSUPER_MACROS_NAMESPACE_START
  *      protected:
  *          Q_PROPERTY (type* name READ name NOTIFY nameChanged)
  *      private:
- *          type m_name = {};
+ *          type* m_name = {};
  *      public:
  *          type * name() const { return m_name; }
  *          bool setName(type * name) 
@@ -472,7 +472,8 @@ QSUPER_MACROS_NAMESPACE_START
  *      private:
  *          type _name = def;
  *      public:
- *          type * GetName() const { return _name; }
+ *          type * GetName() { return &_name; }
+ *          const type * GetName() const { return &_name; }
  *      private:
  *
  *      // Qt Naming Convention
@@ -481,7 +482,8 @@ QSUPER_MACROS_NAMESPACE_START
  *      private:
  *          type m_name = def;
  *      public:
- *          type * name() const { return m_name; }
+ *          type * name() { return &m_name; }
+ *          const type * name() const { return &m_name; }
  *      private:
  *  \endcode 
  *
@@ -501,9 +503,10 @@ QSUPER_MACROS_NAMESPACE_START
     protected: \
         Q_PROPERTY (type * name READ QSM_MAKE_GETTER_NAME(name, Name) CONSTANT) \
     private: \
-        QSM_PTR_MEMBER (type, name, Name, def) \
+		type QSM_MAKE_ATTRIBUTE_NAME(name, Name) = def; \
     public: \
-        QSM_PTR_GETTER (type, name, Name) \
+		const type * QSM_MAKE_GETTER_NAME(name, Name) (void) const { return &QSM_MAKE_ATTRIBUTE_NAME(name, Name); } \
+		type * QSM_MAKE_GETTER_NAME(name, Name) (void) { return &QSM_MAKE_ATTRIBUTE_NAME(name, Name); } \
     private:
 
 /** Generate a **Constant** Ptr Property
@@ -523,7 +526,8 @@ QSUPER_MACROS_NAMESPACE_START
  *      private:
  *          type _name = {};
  *      public:
- *          type * GetName() const { return _name; }
+ *          type * GetName() { return &_name; }
+ *          const type * GetName() const { return &_name; }
  *      private:
  *
  *      // Qt Naming Convention
@@ -532,7 +536,8 @@ QSUPER_MACROS_NAMESPACE_START
  *      private:
  *          type m_name = {};
  *      public:
- *          type * name() const { return m_name; }
+ *          type * name() { return &m_name; }
+ *          const type * name() const { return &m_name; }
  *      private:
  *  \endcode 
  *
@@ -549,7 +554,7 @@ QSUPER_MACROS_NAMESPACE_START
  *  \endcode 
  */
 #define QSM_CONSTANT_PTR_PROPERTY(type, name, Name) \
-        QSM_CONSTANT_PTR_PROPERTY_WDEFAULT(type, name, Name, {})
+	QSM_CONSTANT_PTR_PROPERTY_WDEFAULT(type, name, Name, {})
 
 /**
  * \internal
@@ -564,7 +569,7 @@ class QSUPER_MACROS_API_ _Test_QmlPtrProperty_ : public QObject
 
     QSM_WRITABLE_PTR_PROPERTY_WDEFAULT (int,     var4, Var4, nullptr)
     QSM_READONLY_PTR_PROPERTY_WDEFAULT (bool,    var5, Var5, nullptr)
-    QSM_CONSTANT_PTR_PROPERTY_WDEFAULT (QString, var6, Var6, nullptr)
+    QSM_CONSTANT_PTR_PROPERTY_WDEFAULT (QString, var6, Var6, "MyString")
 };
 
 QSUPER_MACROS_NAMESPACE_END
