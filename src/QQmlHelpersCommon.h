@@ -7,6 +7,10 @@
 #define QQMLHELPERSCOMMON_H
 
 #include <QtGlobal>
+#include <QQmlEngine>
+#include <QMetaEnum>
+#include <QMetaObject>
+#include <qqml.h>
 
 #include <QSuperMacros.h>
 
