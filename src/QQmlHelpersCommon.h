@@ -129,6 +129,93 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
 #   define QSM_MAKE_RESET_NAME(name, Name) Reset##Name
 #endif
 
+/**
+ * \def QSM_REGISTER_OBJ_TO_QML_WITH_NAME(Type) 
+ * \ingroup QQML_HELPER_COMMON
+ * \hideinitializer
+ * \brief Create a function to easily register a QObject to the qml system
+ * \param Type Class Name
+ * 
+ * To use this macro simply call it into your QObject derived class
+ * \code
+ * class MyQObject : public QObject
+ * {
+ *     Q_OBJECT
+ *     QSM_REGISTER_OBJ_TO_QML_WITH_NAME(MyQObject)
+ * };
+ * \endcode
+ * Then to register the class :
+ * \code
+ * // Regular Naming convetion
+ * MyQObject::RegisterToQml("MyUri", 1, 0, "MyQObjectQmlName");
+ * \endcode
+ *    
+ */
+#define QSM_REGISTER_OBJ_TO_QML_WITH_NAME(Type) \
+public: \
+	static void RegisterToQml(const char * uri, const int majorVersion, const int minorVersion, const char * name) { \
+			qmlRegisterType<Type>(uri, majorVersion, minorVersion, name); \
+	} \
+private:
+
+ /**
+  * \def QSM_REGISTER_OBJ_TO_QML_NO_NAME(Type)
+  * \ingroup QQML_HELPER_COMMON
+  * \hideinitializer
+  * \brief Create a function to easily register a QObject to the qml system
+  * \param Type Class Name
+  *
+  * To use this macro simply call it into your QObject derived class
+  * \code
+  * class MyQObject : public QObject
+  * {
+  *     Q_OBJECT
+  *     QSM_REGISTER_OBJ_TO_QML_NO_NAME(MyQObject)
+  * };
+  * \endcode
+  * Then to register the class :
+  * \code
+  * // Regular Naming convetion
+  * MyQObject::RegisterToQml("MyUri", 1, 0);
+  * \endcode
+  *
+  */
+#define QSM_REGISTER_OBJ_TO_QML_NO_NAME(Type) \
+public: \
+	static void RegisterToQml(const char * uri, const int majorVersion, const int minorVersion) { \
+			qmlRegisterType<Type>(uri, majorVersion, minorVersion, #Type ); \
+	} \
+private:
+
+  /**
+   * \def QSM_REGISTER_OBJ_TO_QML(Type)
+   * \ingroup QQML_HELPER_COMMON
+   * \hideinitializer
+   * \brief Create a function to easily register a QObject to the qml system
+   * \param Type Class Name
+   *
+   * To use this macro simply call it into your QObject derived class
+   * \code
+   * class MyQObject : public QObject
+   * {
+   *     Q_OBJECT
+   *     QSM_REGISTER_OBJ_TO_QML(MyQObject)
+   * };
+   * \endcode
+   * Then to register the class :
+   * \code
+   * // Regular Naming convetion
+   * MyQObject::RegisterToQml("MyUri", 1, 0);
+   * // or
+   * MyQObject::RegisterToQml("MyUri", 1, 0, "MyQObjectQmlName");
+   * \endcode
+   *
+   */
+#define QSM_REGISTER_OBJ_TO_QML(Type) \
+	QSM_REGISTER_OBJ_TO_QML_WITH_NAME(Type); \
+	QSM_REGISTER_OBJ_TO_QML_NO_NAME(Type)\
+private:
+
 QSUPER_MACROS_NAMESPACE_END
 
 #endif // QQMLHELPERSCOMMON_H

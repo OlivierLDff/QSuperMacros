@@ -12,10 +12,14 @@
 #include <QMetaObject>
 #include <qqml.h>
 
+#include "QSuperMacros.h"
+
  /**
   * \defgroup QSM_ENUM_HELPER Enum Class
   * \brief Macros to generate an Enum Class exposed to Qml Engine
   */
+
+QSUPER_MACROS_NAMESPACE_START
 
 /** \def QSM_EXPORT_ENUM Export Enum for qt moc
  * \ingroup QSM_ENUM_HELPER */
@@ -24,6 +28,7 @@
 #else
 #   define QSM_EXPORT_ENUM Q_ENUMS
 #endif
+
 /**
  * \def QSM_ENUM_CLASS(Name, ...)
  * \ingroup QSM_ENUM_HELPER
@@ -40,10 +45,12 @@
  * Example in use :
  * \code
  *      // Declare the enum
- *      QML_ENUM_CLASS (DaysOfWeek, Monday = 1, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday)
+ *      QSM_ENUM_CLASS (DaysOfWeek, Monday = 1, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday)
  *      
  *      // Register to the qml engine
- *      DaysOfWeek::RegisterToQml("Library", 1, 0, "Name")   
+ *      DaysOfWeek::RegisterToQml("MyUri", 1, 0, "Name") 
+ *      // Register with the name DaysOfWeek
+ *      DaysOfWeek::RegisterToQml("MyUri", 1, 0) 
  *
  *      // Get Value as string
  *      QString val = DaysOfWeek::AsString(Monday); // Return "Monday"
@@ -66,6 +73,9 @@
             static void RegisterToQml (const char * uri, const int majorVersion, const int minorVersion, const char * name) { \
                 qmlRegisterUncreatableType<Name> (uri, majorVersion, minorVersion, name, "Enum class, can't be instanciated !"); \
             } \
+            static void RegisterToQml (const char * uri, const int majorVersion, const int minorVersion) { \
+                qmlRegisterUncreatableType<Name> (uri, majorVersion, minorVersion, #Name, "Enum class, can't be instanciated !"); \
+            } \
         private: \
             explicit Name (void) { } \
             Name (const Name &); \
@@ -73,7 +83,12 @@
     }; \
     Q_DECLARE_METATYPE (Name::Type)
 
+/**
+ * \internal
+ */
 QSM_ENUM_CLASS (_Test_QmlEnumClass_) // NOTE : to avoid "no suitable class found" MOC note
+
+QSUPER_MACROS_NAMESPACE_END
 
 #endif // QQMLENUMCLASS
 

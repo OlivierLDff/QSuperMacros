@@ -580,6 +580,11 @@ QSUPER_MACROS_NAMESPACE_START
 #define QSM_CONSTANT_AUTO_PROPERTY(type, name, Name) \
         QSM_CONSTANT_AUTO_PROPERTY_WDEFAULT(type, name, Name, {})
 
+#define QSM_CONSTANT_AUTO_VIRTUAL_PROPERTY(type, name, Name, getter) \
+    protected: \
+        Q_PROPERTY (type name READ getter CONSTANT) \
+    private:
+
 // NOTE : test class for all cases
 
 /**
