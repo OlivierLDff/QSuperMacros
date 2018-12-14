@@ -479,18 +479,6 @@ QSUPER_MACROS_NAMESPACE_START
  *          type _name = def;
  *      public:
  *          CheapestType<type>::type_def GetName() const { return _name; }
- *          bool SetName(CheapestType<type>::type_def name) 
- *          {
- *              if(_name != name)
- *              {
- *                  _name = name;
- *                  emit NameChanged();
- *              }
- *              else 
- *                  return false;
- *          }
- *      signals:
- *          void NameChanged();
  *      private:
  *
  *      // Qt Naming Convention
@@ -541,18 +529,6 @@ QSUPER_MACROS_NAMESPACE_START
  *          type _name = {};
  *      public:
  *          CheapestType<type>::type_def GetName() const { return _name; }
- *          bool SetName(CheapestType<type>::type_def name) 
- *          {
- *              if(_name != name)
- *              {
- *                  _name = name;
- *                  emit NameChanged();
- *              }
- *              else 
- *                  return false;
- *          }
- *      signals:
- *          void NameChanged();
  *      private:
  *
  *      // Qt Naming Convention
@@ -580,6 +556,44 @@ QSUPER_MACROS_NAMESPACE_START
 #define QSM_CONSTANT_AUTO_PROPERTY(type, name, Name) \
         QSM_CONSTANT_AUTO_PROPERTY_WDEFAULT(type, name, Name, {})
 
+ /** Generate a **Const** Auto Property
+  * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by
+  * deciding itself which type is the cheapest (using some template trickery internally).
+  * \ingroup QSM_AUTO_HELPER
+  * \hideinitializer
+  * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
+  * \param name Attribute name in lowerCamelCase
+  * \param Name Attribute name in UpperCamelCase
+  * \param getter Getter function for the attribute
+  *
+  * It generates for this goal :
+  *  \code
+  *      // Default Naming Convention
+  *      protected:
+  *          Q_PROPERTY (type name READ GetName CONSTANT)
+  *      private:
+  *
+  *      // Qt Naming Convention
+  *      protected:
+  *          Q_PROPERTY (type name READ name CONSTANT)
+  *      private:
+  *  \endcode
+  *
+  *  You can declare a property in your QObject like this
+  *  \code
+  *  // Create an integer with default to {}
+  *  QSM_CONSTANT_AUTO_VIRTUAL_PROPERTY(int, myInt, MyInt, GetMyInt);
+  *  public: void GetMyInt() const { return 5; }
+  *
+  *  // Create a QString with default to {}
+  *  QSM_CONSTANT_AUTO_VIRTUAL_PROPERTY(QString, myString, GetMyString);
+  *  public: void GetMyString() const { return "MyString"; }
+  *
+  *  // Create a pointer to a QObject default to {}
+  *  QSM_CONSTANT_AUTO_VIRTUAL_PROPERTY(QObject*, myObject, GetMyObject);
+  *  public: void GetMyObject() const { return nullptr; }
+  *  \endcode
+  */
 #define QSM_CONSTANT_AUTO_VIRTUAL_PROPERTY(type, name, Name, getter) \
     protected: \
         Q_PROPERTY (type name READ getter CONSTANT) \
