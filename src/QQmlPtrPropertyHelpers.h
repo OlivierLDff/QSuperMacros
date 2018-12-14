@@ -162,12 +162,12 @@ QSUPER_MACROS_NAMESPACE_START
  *  \code
  *      // Default Naming Convention
  *      protected:
- *          Q_PROPERTY (type name READ GetName WRITE SetName RESET ResetName NOTIFY NameChanged)
+ *          Q_PROPERTY (type * name READ GetName WRITE SetName RESET ResetName NOTIFY NameChanged)
  *      private:
  *          type _name = def;
  *      public:
- *          const type& GetName() const { return _name; }
- *          bool SetName(const type& name) 
+ *          type* GetName() { return _name; }
+ *          bool SetName(const type* name) 
  *          {
  *              if(_name != name)
  *              {
@@ -179,17 +179,17 @@ QSUPER_MACROS_NAMESPACE_START
  *          }
  *          bool ResetName() { return SetName(def); }
  *      signals:
- *          void NameChanged(const type& name);
+ *          void NameChanged(type* name);
  *      private:
  *
  *      // Qt Naming Convention
  *      protected:
- *          Q_PROPERTY (type name READ name WRITE setName RESET resetName NOTIFY nameChanged)
+ *          Q_PROPERTY (type * name READ name WRITE setName RESET resetName NOTIFY nameChanged)
  *      private:
  *          type m_name = def;
  *      public:
- *          const type& name() const { return m_name; }
- *          bool setName(const type& name) 
+ *          type * name() const { return m_name; }
+ *          bool setName(type * name) 
  *          {
  *              if(m_name != name)
  *              {
@@ -201,20 +201,20 @@ QSUPER_MACROS_NAMESPACE_START
  *          }
  *          bool resetName() { return setName(def); }
  *      signals:
- *          void nameChanged(const type& name);
+ *          void nameChanged(type * name);
  *      private:
  *  \endcode 
  *
  *  You can declare a property in your QObject like this
  *  \code 
  *  // Create an integer with default value 23
- *  QSM_WRITABLE_PTR_PROPERTY_WDEFAULT(int, myInt, MyInt, 23);
+ *  QSM_WRITABLE_PTR_PROPERTY_WDEFAULT(int, myInt, MyInt, nullptr);
  * 
  *  // Create a QString with default value "MyString"
- *  QSM_WRITABLE_PTR_PROPERTY_WDEFAULT(QString, myString, MyString, "MyString");
+ *  QSM_WRITABLE_PTR_PROPERTY_WDEFAULT(QString, myString, MyString, nullptr);
  * 
  *  // Create a bool with default value false
- *  QSM_WRITABLE_PTR_PROPERTY_WDEFAULT(bool, myBool, MyBool, false);
+ *  QSM_WRITABLE_PTR_PROPERTY_WDEFAULT(bool, myBool, MyBool, nullptr);
  *  \endcode 
  */
 #define QSM_WRITABLE_PTR_PROPERTY_WDEFAULT(type, name, Name, def) \
@@ -243,12 +243,12 @@ QSUPER_MACROS_NAMESPACE_START
  *  \code
  *      // Default Naming Convention
  *      protected:
- *          Q_PROPERTY (type name READ GetName WRITE SetName RESET ResetName NOTIFY NameChanged)
+ *          Q_PROPERTY (type * name READ GetName WRITE SetName RESET ResetName NOTIFY NameChanged)
  *      private:
  *          type _name = {};
  *      public:
- *          const type& GetName() const { return _name; }
- *          bool SetName(const type& name) 
+ *          type * GetName() const { return _name; }
+ *          bool SetName(type * name) 
  *          {
  *              if(_name != name)
  *              {
@@ -260,17 +260,17 @@ QSUPER_MACROS_NAMESPACE_START
  *          }
  *          bool ResetName() { return SetName({}); }
  *      signals:
- *          void NameChanged(const type& name);
+ *          void NameChanged(type * name);
  *      private:
  *
  *      // Qt Naming Convention
  *      protected:
- *          Q_PROPERTY (type name READ name WRITE setName RESET resetName NOTIFY nameChanged)
+ *          Q_PROPERTY (type* name READ name WRITE setName RESET resetName NOTIFY nameChanged)
  *      private:
  *          type m_name = {};
  *      public:
- *          const type& name() const { return m_name; }
- *          bool setName(const type& name) 
+ *          type * name() const { return m_name; }
+ *          bool setName(type * name) 
  *          {
  *              if(m_name != name)
  *              {
@@ -282,7 +282,7 @@ QSUPER_MACROS_NAMESPACE_START
  *          }
  *          bool ResetName() { return SetName({}); }
  *      signals:
- *          void nameChanged(const type& name);
+ *          void nameChanged(type * name);
  *      private:
  *  \endcode 
  *
@@ -315,12 +315,12 @@ QSUPER_MACROS_NAMESPACE_START
  *  \code
  *      // Default Naming Convention
  *      protected:
- *          Q_PROPERTY (type name READ GetName NOTIFY NameChanged)
+ *          Q_PROPERTY (type* name READ GetName NOTIFY NameChanged)
  *      private:
  *          type _name = def;
  *      public:
- *          const type& GetName() const { return _name; }
- *          bool SetName(const type& name) 
+ *          type * GetName() const { return _name; }
+ *          bool SetName(type * name) 
  *          {
  *              if(_name != name)
  *              {
@@ -332,17 +332,17 @@ QSUPER_MACROS_NAMESPACE_START
  *          }
  *          bool ResetName() { return SetName(def); }
  *      signals:
- *          void NameChanged(const type& name);
+ *          void NameChanged(type * name);
  *      private:
  *
  *      // Qt Naming Convention
  *      protected:
- *          Q_PROPERTY (type name READ name NOTIFY nameChanged)
+ *          Q_PROPERTY (type* name READ name NOTIFY nameChanged)
  *      private:
  *          type m_name = def;
  *      public:
- *          const type& name() const { return m_name; }
- *          bool setName(const type& name) 
+ *          type * name() const { return m_name; }
+ *          bool setName(type * name) 
  *          {
  *              if(m_name != name)
  *              {
@@ -354,7 +354,7 @@ QSUPER_MACROS_NAMESPACE_START
  *          }
  *          bool resetName() { return setName(def); }
  *      signals:
- *          void nameChanged(const type& name);
+ *          void nameChanged(type * name);
  *      private:
  *  \endcode 
  *
@@ -396,12 +396,12 @@ QSUPER_MACROS_NAMESPACE_START
  *  \code
  *      // Default Naming Convention
  *      protected:
- *          Q_PROPERTY (type name READ GetName NOTIFY NameChanged)
+ *          Q_PROPERTY (type* name READ GetName NOTIFY NameChanged)
  *      private:
  *          type _name = {};
  *      public:
- *          const type& GetName() const { return _name; }
- *          bool SetName(const type& name) 
+ *          type * GetName() const { return _name; }
+ *          bool SetName(type * name) 
  *          {
  *              if(_name != name)
  *              {
@@ -413,17 +413,17 @@ QSUPER_MACROS_NAMESPACE_START
  *          }
  *          bool ResetName() { return SetName(def); }
  *      signals:
- *          void NameChanged(const type& name);
+ *          void NameChanged(type * name);
  *      private:
  *
  *      // Qt Naming Convention
  *      protected:
- *          Q_PROPERTY (type name READ name NOTIFY nameChanged)
+ *          Q_PROPERTY (type* name READ name NOTIFY nameChanged)
  *      private:
  *          type m_name = {};
  *      public:
- *          const type& name() const { return m_name; }
- *          bool setName(const type& name) 
+ *          type * name() const { return m_name; }
+ *          bool setName(type * name) 
  *          {
  *              if(m_name != name)
  *              {
@@ -435,7 +435,7 @@ QSUPER_MACROS_NAMESPACE_START
  *          }
  *          bool resetName() { return setName(def); }
  *      signals:
- *          void nameChanged(const type& name);
+ *          void nameChanged(type * name);
  *      private:
  *  \endcode 
  *
@@ -468,20 +468,20 @@ QSUPER_MACROS_NAMESPACE_START
  *  \code
  *      // Default Naming Convention
  *      protected:
- *          Q_PROPERTY (type name READ GetName CONSTANT)
+ *          Q_PROPERTY (type* name READ GetName CONSTANT)
  *      private:
  *          type _name = def;
  *      public:
- *          const type& GetName() const { return _name; }
+ *          type * GetName() const { return _name; }
  *      private:
  *
  *      // Qt Naming Convention
  *      protected:
- *          Q_PROPERTY (type name READ name CONSTANT)
+ *          Q_PROPERTY (type* name READ name CONSTANT)
  *      private:
  *          type m_name = def;
  *      public:
- *          const type& name() const { return m_name; }
+ *          type * name() const { return m_name; }
  *      private:
  *  \endcode 
  *
@@ -519,20 +519,20 @@ QSUPER_MACROS_NAMESPACE_START
  *  \code
  *      // Default Naming Convention
  *      protected:
- *          Q_PROPERTY (type name READ GetName CONSTANT)
+ *          Q_PROPERTY (type* name READ GetName CONSTANT)
  *      private:
  *          type _name = {};
  *      public:
- *          const type& GetName() const { return _name; }
+ *          type * GetName() const { return _name; }
  *      private:
  *
  *      // Qt Naming Convention
  *      protected:
- *          Q_PROPERTY (type name READ name CONSTANT)
+ *          Q_PROPERTY (type* name READ name CONSTANT)
  *      private:
  *          type m_name = {};
  *      public:
- *          const type& name() const { return m_name; }
+ *          type * name() const { return m_name; }
  *      private:
  *  \endcode 
  *
