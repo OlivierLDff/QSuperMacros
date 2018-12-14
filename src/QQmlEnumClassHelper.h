@@ -19,8 +19,6 @@
   * \brief Macros to generate an Enum Class exposed to Qml Engine
   */
 
-QSUPER_MACROS_NAMESPACE_START
-
 /** \def QSM_EXPORT_ENUM Export Enum for qt moc
  * \ingroup QSM_ENUM_HELPER */
 #ifdef Q_ENUM
@@ -76,12 +74,14 @@ QSUPER_MACROS_NAMESPACE_START
             static void RegisterToQml (const char * uri, const int majorVersion, const int minorVersion) { \
                 qmlRegisterUncreatableType<Name> (uri, majorVersion, minorVersion, #Name, "Enum class, can't be instanciated !"); \
             } \
-        private: \
+        public: \
             explicit Name (void) { } \
             Name (const Name &); \
             Name & operator= (const Name &); \
     }; \
-    Q_DECLARE_METATYPE (Name::Type)
+    //Q_DECLARE_METATYPE ( Name::Type ) \
+
+QSUPER_MACROS_NAMESPACE_START
 
 /**
  * \internal
