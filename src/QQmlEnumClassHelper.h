@@ -68,7 +68,7 @@
             static QString AsString (const int value) { \
                 return QString::fromLatin1 (staticMetaObject.enumerator (0).valueToKey (value)); \
             } \
-            static void RegisterToQml (const char * uri, const int majorVersion, const int minorVersion, const char * name) { \
+            static void RegisterToQml (const char * uri, const int majorVersion, const int minorVersion, const char * name, const char* enumName) { \
                 qmlRegisterUncreatableType<Name> (uri, majorVersion, minorVersion, name, "Enum class, can't be instanciated !"); \
             } \
             static void RegisterToQml (const char * uri, const int majorVersion, const int minorVersion) { \

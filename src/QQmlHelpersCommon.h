@@ -220,6 +220,65 @@ private:
 	QSM_REGISTER_OBJ_TO_QML_NO_NAME(Type)\
 private:
 
+	/**
+	 * \def QSM_REGISTER_OBJ_TO_QML_NO_NAME_NAMESPACE(Type)
+	 * \ingroup QQML_HELPER_COMMON
+	 * \hideinitializer
+	 * \brief Create a function to easily register a QObject to the qml system
+	 * \param Type Class Name
+	 *
+	 * To use this macro simply call it into your QObject derived class
+	 * \code
+	 * class MyQObject : public QObject
+	 * {
+	 *     Q_OBJECT
+	 *     QSM_REGISTER_OBJ_TO_QML_NO_NAME_NAMESPACE(MyQObject, MyNmspce)
+	 * };
+	 * \endcode
+	 * Then to register the class :
+	 * \code
+	 * // Regular Naming convetion
+	 * MyQObject::RegisterToQml("MyUri", 1, 0);
+	 * \endcode
+	 *
+	 */
+#define QSM_APPEND_TYPE_TO_NAMESPACE(Type, Namespace) Type##Namespace
+#define QSM_REGISTER_OBJ_TO_QML_NO_NAME_NAMESPACE(Type, Namespace) \
+public: \
+	static void RegisterToQml(const char * uri, const int majorVersion, const int minorVersion) { \
+			qmlRegisterType<Type>(uri, majorVersion, minorVersion, #Namespace#Type ); \
+	} \
+private:
+
+	 /**
+	  * \def QSM_REGISTER_OBJ_TO_QML_NAMESPACE(Type)
+	  * \ingroup QQML_HELPER_COMMON
+	  * \hideinitializer
+	  * \brief Create a function to easily register a QObject to the qml system
+	  * \param Type Class Name
+	  *
+	  * To use this macro simply call it into your QObject derived class
+	  * \code
+	  * class MyQObject : public QObject
+	  * {
+	  *     Q_OBJECT
+	  *     QSM_REGISTER_OBJ_TO_QML(MyQObject, MyNspc)
+	  * };
+	  * \endcode
+	  * Then to register the class :
+	  * \code
+	  * // Regular Naming convetion
+	  * MyQObject::RegisterToQml("MyUri", 1, 0);
+	  * // or
+	  * MyQObject::RegisterToQml("MyUri", 1, 0, "MyQObjectQmlName");
+	  * \endcode
+	  *
+	  */
+#define QSM_REGISTER_OBJ_TO_QML_NAMESPACE(Type, Namespace) \
+	QSM_REGISTER_OBJ_TO_QML_WITH_NAME(Type); \
+	QSM_REGISTER_OBJ_TO_QML_NO_NAME_NAMESPACE(Type, Namespace)\
+private:
+
 QSUPER_MACROS_NAMESPACE_END
 
 #endif // QQMLHELPERSCOMMON_H
