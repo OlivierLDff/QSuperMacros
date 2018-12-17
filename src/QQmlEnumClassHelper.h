@@ -56,7 +56,8 @@
  * 
  * \note The QML registration using \c qmlRegisterUncreatableType() will still be needed.
  */
-#define QSM_ENUM_CLASS(Name, ...) \
+#define QSM_ENUM_CREATE_TYPE_NAME(Name, Namespace) #Namespace #Name
+#define QSM_ENUM_CLASS(Name, Namespace, ...) \
     struct Name { \
         Q_GADGET \
         public: \
@@ -72,7 +73,7 @@
                 qmlRegisterUncreatableType<Name> (uri, majorVersion, minorVersion, name, "Enum class, can't be instanciated !"); \
             } \
             static void RegisterToQml (const char * uri, const int majorVersion, const int minorVersion) { \
-                qmlRegisterUncreatableType<Name> (uri, majorVersion, minorVersion, #Name, "Enum class, can't be instanciated !"); \
+                qmlRegisterUncreatableType<Name> (uri, majorVersion, minorVersion, QSM_ENUM_CREATE_TYPE_NAME(Name, Namespace), "Enum class, can't be instanciated !"); \
             } \
         public: \
             explicit Name (void) { } \
@@ -86,7 +87,7 @@ QSUPER_MACROS_NAMESPACE_START
 /**
  * \internal
  */
-QSM_ENUM_CLASS (_Test_QmlEnumClass_) // NOTE : to avoid "no suitable class found" MOC note
+QSM_ENUM_CLASS (_Test_QmlEnumClass_, QSUPER_MACROS_NAMESPACE) // NOTE : to avoid "no suitable class found" MOC note
 
 QSUPER_MACROS_NAMESPACE_END
 
