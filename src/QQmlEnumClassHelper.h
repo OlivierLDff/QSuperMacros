@@ -28,11 +28,12 @@
 #endif
 
 /**
- * \def QSM_ENUM_CLASS(Name, ...)
- * \ingroup QSM_ENUM_HELPER
+ * \def QSM_ENUM_CLASS(Name, Namespace, ...)
+ * \ingroup QSM_ENUM_HELPER_NAMESPACE
  * \hideinitializer
  * \details Creates a class that contains a C++ enum that can be exposed to QML.
  * \param Name The name for the class
+ * \param Namespace The namespace that is going to be auto append to the qml type name when setting default name
  * \param ... The variadic list of values for the enum (comma-separated)
  * 
  * It generates for this goal :
@@ -43,21 +44,29 @@
  * Example in use :
  * \code
  *      // Declare the enum
- *      QSM_ENUM_CLASS (DaysOfWeek, Monday = 1, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday)
+ *      QSM_ENUM_CLASS_NAMESPACE (DaysOfWeek, WkNamespace, Monday = 1, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday)
  *      
  *      // Register to the qml engine
- *      DaysOfWeek::RegisterToQml("MyUri", 1, 0, "Name") 
- *      // Register with the name DaysOfWeek
- *      DaysOfWeek::RegisterToQml("MyUri", 1, 0) 
+ *      WkNamespace::DaysOfWeek::RegisterToQml("MyUri", 1, 0, "Name") 
+ *      
+ *      // Register with the name WkNamespaceDaysOfWeek
+ *      WkNamespace::DaysOfWeek::RegisterToQml("MyUri", 1, 0) 
  *
  *      // Get Value as string
- *      QString val = DaysOfWeek::AsString(Monday); // Return "Monday"
+ *      QString val = WkNamespace::DaysOfWeek::AsString(Monday); // Return "Monday"
+ * \endcode
+ * 
+ * Then in QML you can to
+ * \code
+ * import MyUri 1.0
+ * 
+ * property int foo = WkNamespaceDaysOfWeek.Monday // foo === 1
  * \endcode
  * 
  * \note The QML registration using \c qmlRegisterUncreatableType() will still be needed.
  */
 #define QSM_ENUM_CREATE_TYPE_NAME(Name, Namespace) #Namespace #Name
-#define QSM_ENUM_CLASS(Name, Namespace, ...) \
+#define QSM_ENUM_CLASS_NAMESPACE(Name, Namespace, ...) \
     struct Name { \
         Q_GADGET \
         public: \
@@ -80,14 +89,53 @@
             Name (const Name &); \
             Name & operator= (const Name &); \
     }; \
-    //Q_DECLARE_METATYPE ( Name::Type ) \
+
+/**
+ * \def QSM_ENUM_CLASS(Name, ...)
+ * \ingroup QSM_ENUM_HELPER
+ * \hideinitializer
+ * \details Creates a class that contains a C++ enum that can be exposed to QML.
+ * \param Name The name for the class
+ * \param ... The variadic list of values for the enum (comma-separated)
+ *
+ * It generates for this goal :
+ * * The \c {name} C++ QObject-derived class
+ * * The \c {name}::Type enumeration containing the values list
+ * * The \c Q_ENUMS macro call to allow QML usage
+ *
+ * Example in use :
+ * \code
+ *      // Declare the enum
+ *      QSM_ENUM_CLASS (DaysOfWeek, Monday = 1, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday)
+ *
+ *      // Register to the qml engine
+ *      DaysOfWeek::RegisterToQml("MyUri", 1, 0, "Name")
+ *      
+ *      // Register with the name DaysOfWeek
+ *      DaysOfWeek::RegisterToQml("MyUri", 1, 0)
+ *
+ *      // Get Value as string
+ *      QString val = DaysOfWeek::AsString(Monday); // Return "Monday"
+ * \endcode
+ *
+ * Then in QML you can to
+ * \code
+ * import MyUri 1.0
+ *
+ * property int foo = DaysOfWeek.Monday // foo === 1
+ * \endcode
+ *
+ * \note The QML registration using \c qmlRegisterUncreatableType() will still be needed.
+ */
+#define QSM_ENUM_CLASS(Name, ...) QSM_ENUM_CLASS_NAMESPACE(Name, , __VA_ARGS__)
 
 QSUPER_MACROS_NAMESPACE_START
 
 /**
  * \internal
  */
-QSM_ENUM_CLASS (_Test_QmlEnumClass_, QSUPER_MACROS_NAMESPACE) // NOTE : to avoid "no suitable class found" MOC note
+	QSM_ENUM_CLASS_NAMESPACE(_Test_QmlNamespaceEnumClass_, QSUPER_MACROS_NAMESPACE, Value0, Value1, Value3=3) // NOTE : to avoid "no suitable class found" MOC note
+	QSM_ENUM_CLASS(_Test_QmlEnumClass_, Value0, Value1, Value3 = 3); // NOTE : to avoid "no suitable class found" MOC note
 
 QSUPER_MACROS_NAMESPACE_END
 
