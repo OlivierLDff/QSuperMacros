@@ -134,8 +134,8 @@ QSUPER_MACROS_NAMESPACE_START
 /**
  * \internal
  */
-	QSM_ENUM_CLASS_NAMESPACE(_Test_QmlNamespaceEnumClass_, QSUPER_MACROS_NAMESPACE, Value0, Value1, Value3=3) // NOTE : to avoid "no suitable class found" MOC note
-	QSM_ENUM_CLASS(_Test_QmlEnumClass_, Value0, Value1, Value3 = 3); // NOTE : to avoid "no suitable class found" MOC note
+QSM_ENUM_CLASS_NAMESPACE(_Test_QmlNamespaceEnumClass_, QSUPER_MACROS_NAMESPACE, Value0, Value1, Value3=3) // NOTE : to avoid "no suitable class found" MOC note
+QSM_ENUM_CLASS(_Test_QmlEnumClass_, Value0, Value1, Value3 = 3); // NOTE : to avoid "no suitable class found" MOC note
 
 QSUPER_MACROS_NAMESPACE_END
 
