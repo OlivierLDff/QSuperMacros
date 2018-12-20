@@ -56,7 +56,6 @@ public:
 	virtual void JsonRead(const QJsonObject &json) {};
 };
 
-
 /** An object that can be import and export to and from json format */
 class QSUPER_MACROS_API_ QJsonImportExport : public QJsonExportable, public QJsonImportable
 {
