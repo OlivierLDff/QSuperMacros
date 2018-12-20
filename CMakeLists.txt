@@ -161,6 +161,8 @@ SET( QSUPER_MACROS_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlPtrPropertyHelpers.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlSingletonHelper.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlVarPropertyHelpers.h
+	${CMAKE_CURRENT_SOURCE_DIR}/src/QJsonImportExport.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/QJsonImportExport.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/QSuperMacros.h
 	${CMAKE_CURRENT_SOURCE_DIR}/src/QSuperMacros.cpp
 	)
