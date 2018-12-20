@@ -44,7 +44,6 @@ public:
 	virtual void JsonWrite(QJsonObject &json) const {};
 };
 
-
 /** An object that can be import from a json document */
 class QSUPER_MACROS_API_ QJsonImportable
 {
