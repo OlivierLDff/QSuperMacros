@@ -599,6 +599,31 @@ QSUPER_MACROS_NAMESPACE_START
         Q_PROPERTY (type name READ getter CONSTANT) \
     private:
 
+#define QSM_MAKE_STRING_NAME(name, Name) name##String
+#define QSM_MAKE_GETTER_STRING_NAME(name, Name) QSM_MAKE_GETTER_NAME(name, Name)##String
+#define QSM_MAKE_SETTER_STRING_NAME(name, Name) QSM_MAKE_SETTER_NAME(name, Name)##String
+
+// need to implement type& operator=(const QString &address) && toString()
+#define QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT_WSTRING(type, name, Name, def) \
+	QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT(type, name, Name, def) \
+	protected: \
+	Q_PROPERTY(QString QSM_MAKE_STRING_NAME(name, Name) READ QSM_MAKE_GETTER_NAME(name##String, Name##String) WRITE QSM_MAKE_SETTER_NAME(name##String, Name##String) NOTIFY QSM_MAKE_SIGNAL_NAME(name, Name)); \
+	public: \
+	QString QSM_MAKE_GETTER_NAME(name##String, Name##String) () const { return QSM_MAKE_GETTER_NAME(name, Name) ().toString(); } \
+	bool QSM_MAKE_SETTER_NAME(name##String, Name##String) (const QString s) \
+	{ \
+		const type fromString(s); \
+		if(fromString != QSM_MAKE_ATTRIBUTE_NAME(name, Name)) \
+		{ \
+			 QSM_MAKE_SETTER_NAME(name, Name) (fromString);\
+			 return true; \
+		} \
+		return false; \
+	} \
+	private:
+
+
+//Q_PROPERTY(QString name##String READ QSM_MAKE_GETTER_NAME(name, Name)##String WRITE QSM_MAKE_SETTER_NAME(name, Name)##String NOTIFY QSM_MAKE_SIGNAL_NAME(name, Name)); \
 // NOTE : test class for all cases
 
 /**
@@ -632,6 +657,8 @@ class QSUPER_MACROS_API_ _Test_QmlAutoProperty_ : public QObject
     QSM_CONSTANT_AUTO_PROPERTY_WDEFAULT (bool,      var17, Var17, false)
     QSM_CONSTANT_AUTO_PROPERTY_WDEFAULT (QString,   var18, Var18, "Test String")
     QSM_CONSTANT_AUTO_PROPERTY_WDEFAULT (QObject *, var19, Var19, nullptr)
+
+	//QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT_TO_STRING(QHostAddress, addr, Addr, QHostAddress("127.0.0.1"));
 };
 
 QSUPER_MACROS_NAMESPACE_END
