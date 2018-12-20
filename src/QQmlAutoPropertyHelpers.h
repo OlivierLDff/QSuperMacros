@@ -599,11 +599,97 @@ QSUPER_MACROS_NAMESPACE_START
         Q_PROPERTY (type name READ getter CONSTANT) \
     private:
 
-#define QSM_MAKE_STRING_NAME(name, Name) name##String
-#define QSM_MAKE_GETTER_STRING_NAME(name, Name) QSM_MAKE_GETTER_NAME(name, Name)##String
-#define QSM_MAKE_SETTER_STRING_NAME(name, Name) QSM_MAKE_SETTER_NAME(name, Name)##String
-
-// need to implement type& operator=(const QString &address) && toString()
+  /** Generate a **Writable** Auto Property And an accessor as a QString
+   * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by
+   * deciding itself which type is the cheapest (using some template trickery internally).
+   * \ingroup QSM_AUTO_HELPER
+   * \hideinitializer
+   * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
+   * \param name Attribute name in lowerCamelCase
+   * \param Name Attribute name in UpperCamelCase
+   * \param def Default value of the members. If you want to let the type choose default value just use `{}`
+   *
+   * It generates for this goal :
+   *  \code
+   *      // Default Naming Convention
+   *      protected:
+   *           Q_PROPERTY (type name READ GetName WRITE SetName RESET ResetName NOTIFY NameChanged)
+   *      private:
+   *             type _name = def;
+   *      public:
+   *          CheapestType<type>::type_def GetName() const { return _name; }
+   *          bool SetName(CheapestType<type>::type_def name)
+   *          {
+   *              if(_name != name)
+   *              {
+   *                  _name = name;
+   *                  emit NameChanged();
+   *              }
+   *              else
+   *                  return false;
+   *          }
+   *          bool ResetName() { return SetName(def); }
+   *      signals:
+   *          void NameChanged();
+   *      protected:
+   *          Q_PROPERTY (type nameString READ GetNameString WRITE SetNameString NOTIFY NameChanged)
+   *      public:
+   *		  QString GetNameString() const { return GetName().toString(); }
+   *		  void SetNameString(const QString s)
+   *		  {
+   *			  type fromString(s);
+   *			  if(fromString != GetName())
+   *			      return SetName(fromString)
+   *			  return false;
+   *		  }
+   *      private:
+   *
+   *      // Qt Naming Convention
+   *      protected:
+   *          Q_PROPERTY (type name READ name WRITE setName RESET resetName NOTIFY nameChanged)
+   *      private:
+   *          type m_name = def;
+   *      public:
+   *          CheapestType<type>::type_def name() const { return m_name; }
+   *          bool setName(CheapestType<type>::type_def name)
+   *          {
+   *              if(m_name != name)
+   *              {
+   *                  m_name = name;
+   *                  emit nameChanged();
+   *              }
+   *              else
+   *                  return false;
+   *          }
+   *             bool resetName() { return setName(def); }
+   *      signals:
+   *          void nameChanged();
+   *      protected:
+   *          Q_PROPERTY (type nameString READ nameString WRITE setNameString NOTIFY nameChanged)
+   *      public:
+   *		  QString nameString() const { return name().toString(); }
+   *		  void setNameString(const QString s)
+   *		  {
+   *			  type fromString(s);
+   *			  if(fromString != name())
+   *			      return setName(fromString)
+   *			  return false;
+   *		  }
+   *      private:
+   *  \endcode
+   *
+   *  You can declare a property in your QObject like this
+   *  \code
+   *  // Create an integer with default value 23
+   *  QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT(int, myInt, MyInt, 23);
+   *
+   *  // Create a QString with default value "MyString"
+   *  QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT(QString, myString, MyString, "MyString");
+   *
+   *  // Create a pointer to a QObject, default to nullptr
+   *  QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT(QObject*, myObject, MyObject, nullptr);
+   *  \endcode
+   */
 #define QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT_WSTRING(type, name, Name, def) \
 	QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT(type, name, Name, def) \
 	protected: \
@@ -614,10 +700,7 @@ QSUPER_MACROS_NAMESPACE_START
 	{ \
 		const type fromString(s); \
 		if(fromString != QSM_MAKE_ATTRIBUTE_NAME(name, Name)) \
-		{ \
-			 QSM_MAKE_SETTER_NAME(name, Name) (fromString);\
-			 return true; \
-		} \
+			 return QSM_MAKE_SETTER_NAME(name, Name) (fromString);\
 		return false; \
 	} \
 	private:
