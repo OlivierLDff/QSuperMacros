@@ -79,7 +79,7 @@ make
 - **QSUPER_MACROS_PROJECT** : Name of the project. *Default : "QSuperMacros"*
 - **QSUPER_MACROS_BUILD_SHARED** : Build shared library [ON OFF]. *Default: OFF.*
 - **QSUPER_MACROS_BUILD_STATIC** : Build static library [ON OFF]. *Default: ON.*
-- **QSUPER_MACROS_USE_NAMESPACE** : If the library compile with a namespace [ON OFF]. *Default: OFF.*
+- **QSUPER_MACROS_USE_NAMESPACE** : If the library compile with a namespace [ON OFF]. *Default: ON.*
 - **QSUPER_MACROS_NAMESPACE** : Namespace for the library. Only relevant if QSUPER_MACROS_USE_NAMESPACE is ON. *Default: "Qsm".*
 - **QSUPER_MACROS_BUILD_DOC** : Build the QSuperMacros Doc [ON OFF]. *Default: OFF.*
 
