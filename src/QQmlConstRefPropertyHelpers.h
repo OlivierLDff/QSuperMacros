@@ -9,7 +9,7 @@
 
 #include "QQmlHelpersCommon.h"
 
-QSUPER_MACROS_NAMESPACE_START
+QSUPERMACROS_NAMESPACE_START
 
 /**
  * \defgroup QSM_CSTREF_HELPER ConstRef Properties
@@ -20,7 +20,7 @@ QSUPER_MACROS_NAMESPACE_START
 
 /** 
  * Generate a Getter in the form `Get<Name>`
- * To have a Qt-ish Getter (ie `<name>()`), define `QSUPER_MACROS_USE_QT_GETTERS` in your build system
+ * To have a Qt-ish Getter (ie `<name>()`), define `QSUPERMACROS_USE_QT_GETTERS` in your build system
  * \ingroup QSM_CSTREF_HELPER
  * \hideinitializer
  * \param type Type of the attribute (`int`, `quint32`, `QString`, etc...)
@@ -40,7 +40,7 @@ QSUPER_MACROS_NAMESPACE_START
     const type & QSM_MAKE_GETTER_NAME(name, Name) (void) const { return QSM_MAKE_ATTRIBUTE_NAME(name, Name); }
 
 /** Generate a Setter in the form `Set<Name>`
- * To have a Qt-ish Setter (ie `set<Name>()`), define `QSUPER_MACROS_USE_QT_SETTERS` in your build system
+ * To have a Qt-ish Setter (ie `set<Name>()`), define `QSUPERMACROS_USE_QT_SETTERS` in your build system
  * \ingroup QSM_CSTREF_HELPER
  * \hideinitializer
  * \param type Type of the attribute (`int`, `quint32`, `QString`, etc...)
@@ -88,7 +88,7 @@ QSUPER_MACROS_NAMESPACE_START
 
 /** 
  * Generate a Signal in the form `<Name>Changed(const type & <name>)`
- * To have a Qt-ish Signal (ie `<name>Changed(const type & <name>)`), define `QSUPER_MACROS_USE_QT_SIGNALS` in your build system
+ * To have a Qt-ish Signal (ie `<name>Changed(const type & <name>)`), define `QSUPERMACROS_USE_QT_SIGNALS` in your build system
  * \ingroup QSM_CSTREF_HELPER
  * \hideinitializer
  * \param type Type of the attribute (`int`, `quint32`, `QString`, etc...)
@@ -108,7 +108,7 @@ QSUPER_MACROS_NAMESPACE_START
     void QSM_MAKE_SIGNAL_NAME(name, Name) (const type & name);
 
 /** Generate a member in the form `_<name>`
- * To have a Qt-ish member (ie `m_<name>`), define `QSUPER_MACROS_USE_QT_PREFIX` in your build system
+ * To have a Qt-ish member (ie `m_<name>`), define `QSUPERMACROS_USE_QT_PREFIX` in your build system
  * \ingroup QSM_CSTREF_HELPER
  * \hideinitializer
  * \param type Type of the attribute (`int`, `quint32`, `QString`, etc...)
@@ -554,7 +554,7 @@ QSUPER_MACROS_NAMESPACE_START
 /**
  * \internal
  */
-class QSUPER_MACROS_API_ _Test_QmlCstRefProperty_ : public QObject 
+class QSUPERMACROS_API_ _Test_QmlCstRefProperty_ : public QObject 
 {
     Q_OBJECT
 
@@ -567,6 +567,6 @@ class QSUPER_MACROS_API_ _Test_QmlCstRefProperty_ : public QObject
     QSM_CONSTANT_CSTREF_PROPERTY_WDEFAULT (QString, var6, Var6, "MyString")
 };
 
-QSUPER_MACROS_NAMESPACE_END
+QSUPERMACROS_NAMESPACE_END
 
 #endif // QQMLCONSTREFPROPERTYHELPERS

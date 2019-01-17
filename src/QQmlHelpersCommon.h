@@ -19,7 +19,7 @@
  * \brief Macros to generate Getter/Setter/Signals/Attribute in Qt or non Qt naming convention
  */
 
-QSUPER_MACROS_NAMESPACE_START
+QSUPERMACROS_NAMESPACE_START
 
 // NOTE : SFINAE trickery to find which type is the cheapest between T and const T &
 
@@ -57,12 +57,12 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
  * \ingroup QQML_HELPER_COMMON
  * \hideinitializer
  * \brief 
- * * Create an attribute in the Qt-ish form `m_<name>` if `QSUPER_MACROS_USE_QT_PREFIX` is set
+ * * Create an attribute in the Qt-ish form `m_<name>` if `QSUPERMACROS_USE_QT_PREFIX` is set
  * * Otherwise create an attribute in the form `_<name>`
  * \param name Attribute name in lowerCamelCase
  * \param Name Attribute name in UpperCamelCase
  */
-#ifdef QSUPER_MACROS_USE_QT_PREFIX
+#ifdef QSUPERMACROS_USE_QT_PREFIX
 #	define QSM_MAKE_ATTRIBUTE_NAME(name, Name) m_##name
 #else
 #	define QSM_MAKE_ATTRIBUTE_NAME(name, Name) _##name
@@ -71,14 +71,14 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
 /** 
  * \def QSM_MAKE_GETTER_NAME(name, Name) 
  * \brief 
- * * Use the Qt-ish Getter Name convention `<name>` if `QSUPER_MACROS_USE_QT_GETTERS` is defined by build system
- * * Use the Getter Name convention `Get<Name>` if `QSUPER_MACROS_USE_QT_GETTERS` is not defined
+ * * Use the Qt-ish Getter Name convention `<name>` if `QSUPERMACROS_USE_QT_GETTERS` is defined by build system
+ * * Use the Getter Name convention `Get<Name>` if `QSUPERMACROS_USE_QT_GETTERS` is not defined
  * \ingroup QQML_HELPER_COMMON
  * \hideinitializer
  * \param name Attribute name in lowerCamelCase
  * \param Name Attribute name in UpperCamelCase
  */
-#ifdef QSUPER_MACROS_USE_QT_GETTERS
+#ifdef QSUPERMACROS_USE_QT_GETTERS
 #   define QSM_MAKE_GETTER_NAME(name, Name) name
 #else
 #   define QSM_MAKE_GETTER_NAME(name, Name) Get##Name
@@ -89,12 +89,12 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
  * \ingroup QQML_HELPER_COMMON
  * \hideinitializer
  * \brief 
- * * Create an Setter in the Qt-ish form `set<Name>` if `QSUPER_MACROS_USE_QT_SETTERS` is set
+ * * Create an Setter in the Qt-ish form `set<Name>` if `QSUPERMACROS_USE_QT_SETTERS` is set
  * * Otherwise create an attribute in the form `Set<Name>`
  * \param name Attribute name in lowerCamelCase
  * \param Name Attribute name in UpperCamelCase
  */
-#ifdef QSUPER_MACROS_USE_QT_SETTERS
+#ifdef QSUPERMACROS_USE_QT_SETTERS
 #   define QSM_MAKE_SETTER_NAME(name, Name) set##Name
 #else
 #   define QSM_MAKE_SETTER_NAME(name, Name) Set##Name
@@ -105,14 +105,14 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
  * \ingroup QQML_HELPER_COMMON
  * \hideinitializer
  * \brief 
- * * Create an Signal in the Qt-ish form `<name>Changed` if `QSUPER_MACROS_USE_QT_SETTERS` is set
+ * * Create an Signal in the Qt-ish form `<name>Changed` if `QSUPERMACROS_USE_QT_SETTERS` is set
  * * Otherwise create an attribute in the form `<Name>Changed`
  * \param name Attribute name in lowerCamelCase
  * \param Name Attribute name in UpperCamelCase
  * \note It isn't recommended to use this because QML Connection don't 
  * handle C++ signal starting with capital letter
  */
-#ifdef QSUPER_MACROS_USE_QT_SIGNALS
+#ifdef QSUPERMACROS_USE_QT_SIGNALS
 #   define QSM_MAKE_SIGNAL_NAME(name, Name) name##Changed
 #else
 #   define QSM_MAKE_SIGNAL_NAME(name, Name) Name##Changed
@@ -122,12 +122,12 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
  * \def QSM_MAKE_RESET_NAME(name, Name) 
  * \ingroup QQML_HELPER_COMMON
  * \hideinitializer
- * \brief Create a reset function name in the qt naming convention `resetName` if `QSUPER_MACROS_USE_QT_RESET` is set
+ * \brief Create a reset function name in the qt naming convention `resetName` if `QSUPERMACROS_USE_QT_RESET` is set
  * or non qt `ResetName`
  * \param name Attribute name in lowerCamelCase
  * \param Name Attribute name in UpperCamelCase
  */
-#ifdef QSUPER_MACROS_USE_QT_RESETS
+#ifdef QSUPERMACROS_USE_QT_RESETS
 #   define QSM_MAKE_RESET_NAME(name, Name) reset##Name
 #else
 #   define QSM_MAKE_RESET_NAME(name, Name) Reset##Name
@@ -279,6 +279,6 @@ private:
 	QSM_REGISTER_OBJ_TO_QML_NO_NAME_NAMESPACE(Type, Namespace)\
 private:
 
-QSUPER_MACROS_NAMESPACE_END
+QSUPERMACROS_NAMESPACE_END
 
 #endif // QQMLHELPERSCOMMON_H

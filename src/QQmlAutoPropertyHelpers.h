@@ -9,7 +9,7 @@
 
 #include "QQmlHelpersCommon.h"
 
-QSUPER_MACROS_NAMESPACE_START
+QSUPERMACROS_NAMESPACE_START
 
  /**
   * \defgroup QSM_AUTO_HELPER Auto Properties
@@ -21,7 +21,7 @@ QSUPER_MACROS_NAMESPACE_START
 
 /** 
  * Generate a Getter in the form `Get<Name>`
- * To have a Qt-ish Getter (ie `<name>()`), define `QSUPER_MACROS_USE_QT_GETTERS` in your build system
+ * To have a Qt-ish Getter (ie `<name>()`), define `QSUPERMACROS_USE_QT_GETTERS` in your build system
  * \ingroup QSM_AUTO_HELPER
  * \hideinitializer
  * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
@@ -38,13 +38,13 @@ QSUPER_MACROS_NAMESPACE_START
  *  \endcode
  */
 #define QSM_AUTO_GETTER(type, name, Name) \
-    QSUPER_MACROS_NAMESPACE::CheapestType<type>::type_def QSM_MAKE_GETTER_NAME(name, Name) (void) const \
+    QSUPERMACROS_NAMESPACE::CheapestType<type>::type_def QSM_MAKE_GETTER_NAME(name, Name) (void) const \
     { \
         return QSM_MAKE_ATTRIBUTE_NAME(name, Name); \
     }
 
 /** Generate a Setter in the form `Set<Name>`
- * To have a Qt-ish Setter (ie `set<Name>()`), define `QSUPER_MACROS_USE_QT_SETTERS` in your build system
+ * To have a Qt-ish Setter (ie `set<Name>()`), define `QSUPERMACROS_USE_QT_SETTERS` in your build system
  * \ingroup QSM_AUTO_HELPER
  * \hideinitializer
  * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
@@ -79,7 +79,7 @@ QSUPER_MACROS_NAMESPACE_START
  *  \endcode
  */
 #define QSM_AUTO_SETTER(type, name, Name) \
-    bool QSM_MAKE_SETTER_NAME(name, Name) (QSUPER_MACROS_NAMESPACE::CheapestType<type>::type_def name) \
+    bool QSM_MAKE_SETTER_NAME(name, Name) (QSUPERMACROS_NAMESPACE::CheapestType<type>::type_def name) \
     { \
         if (QSM_MAKE_ATTRIBUTE_NAME(name, Name) != name) { \
             QSM_MAKE_ATTRIBUTE_NAME(name, Name) = name; \
@@ -92,7 +92,7 @@ QSUPER_MACROS_NAMESPACE_START
 
 /** 
  * Generate a Signal in the form `<Name>Changed()`
- * To have a Qt-ish Signal (ie `<name>Changed()`), define `QSUPER_MACROS_USE_QT_SIGNALS` in your build system
+ * To have a Qt-ish Signal (ie `<name>Changed()`), define `QSUPERMACROS_USE_QT_SIGNALS` in your build system
  * \ingroup QSM_AUTO_HELPER
  * \hideinitializer
  * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
@@ -112,7 +112,7 @@ QSUPER_MACROS_NAMESPACE_START
     void QSM_MAKE_SIGNAL_NAME(name, Name) (void);
 
 /** Generate a member in the form `_<name>`
- * To have a Qt-ish member (ie `m_<name>`), define `QSUPER_MACROS_USE_QT_PREFIX` in your build system
+ * To have a Qt-ish member (ie `m_<name>`), define `QSUPERMACROS_USE_QT_PREFIX` in your build system
  * \ingroup QSM_AUTO_HELPER
  * \hideinitializer
  * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
@@ -712,7 +712,7 @@ QSUPER_MACROS_NAMESPACE_START
  * Test class for auto properties
  * \internal
  */
-class QSUPER_MACROS_API_ _Test_QmlAutoProperty_ : public QObject 
+class QSUPERMACROS_API_ _Test_QmlAutoProperty_ : public QObject 
 {
 	Q_OBJECT
 
@@ -743,6 +743,6 @@ class QSUPER_MACROS_API_ _Test_QmlAutoProperty_ : public QObject
 	//QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT_WSTRING(QHostAddress, addr, Addr, QHostAddress("127.0.0.1"));
 };
 
-QSUPER_MACROS_NAMESPACE_END
+QSUPERMACROS_NAMESPACE_END
 
 #endif // QQMLAUTOPROPERTYHELPERS_H

@@ -8,7 +8,7 @@
 //					DECLARATION
 // ─────────────────────────────────────────────────────────────
 
-QSUPER_MACROS_USING_NAMESPACE;
+QSUPERMACROS_USING_NAMESPACE;
 
 // ─────────────────────────────────────────────────────────────
 //					FUNCTIONS

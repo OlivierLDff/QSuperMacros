@@ -12,7 +12,7 @@
 
 #include <QSuperMacros.h>
 
-QSUPER_MACROS_NAMESPACE_START
+QSUPERMACROS_NAMESPACE_START
 
 /**
  * \defgroup QSM_SINGLETON_HELPER Singleton Properties
@@ -90,6 +90,6 @@ class _Test_QmlSingleton_ : public QObject
 	QSM_SINGLETON_IMPL(_Test_QmlSingleton_, Instance);
 };
 
-QSUPER_MACROS_NAMESPACE_END
+QSUPERMACROS_NAMESPACE_END
 
 #endif // QQMLSINGLETONHELPER_H

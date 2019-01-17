@@ -10,7 +10,7 @@
 
 #include "QQmlHelpersCommon.h"
 
-QSUPER_MACROS_NAMESPACE_START
+QSUPERMACROS_NAMESPACE_START
 
 /**
  * \defgroup QSM_LIST_HELPER List Properties
@@ -106,13 +106,13 @@ private:
 /**
  * \internal
  */
-class QSUPER_MACROS_API_ _Test_QmlStartListWrapper : public QObject
+class QSUPERMACROS_API_ _Test_QmlStartListWrapper : public QObject
 {
 	Q_OBJECT
 	QSM_LIST_PROPERTY(QString, myStringList, MyStringList);
 };
 
-QSUPER_MACROS_NAMESPACE_END
+QSUPERMACROS_NAMESPACE_END
 
 #endif // QQMLLISTPROPERTYHELPER
 

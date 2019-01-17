@@ -28,10 +28,10 @@
 //					DECLARATION
 // ─────────────────────────────────────────────────────────────
 
-QSUPER_MACROS_NAMESPACE_START
+QSUPERMACROS_NAMESPACE_START
 
 /** An object that can be export to a json document */
-class QSUPER_MACROS_API_ QJsonExportable
+class QSUPERMACROS_API_ QJsonExportable
 {
 public:
 	/** Public virtual Destructor */
@@ -45,7 +45,7 @@ public:
 };
 
 /** An object that can be import from a json document */
-class QSUPER_MACROS_API_ QJsonImportable
+class QSUPERMACROS_API_ QJsonImportable
 {
 public:
 	/** Public virtual Destructor */
@@ -57,10 +57,10 @@ public:
 };
 
 /** An object that can be import and export to and from json format */
-class QSUPER_MACROS_API_ QJsonImportExport : public QJsonExportable, public QJsonImportable
+class QSUPERMACROS_API_ QJsonImportExport : public QJsonExportable, public QJsonImportable
 {
 };
 
-QSUPER_MACROS_NAMESPACE_END
+QSUPERMACROS_NAMESPACE_END
 
 #endif

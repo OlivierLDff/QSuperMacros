@@ -2,8 +2,8 @@
  * \file QSuperMacros.h
  * \brief Common define for the library
  */
-#ifndef __QSUPER_MACROS_HPP__
-#define __QSUPER_MACROS_HPP__
+#ifndef __QSUPERMACROS_HPP__
+#define __QSUPERMACROS_HPP__
 
 // ─────────────────────────────────────────────────────────────
 //					INCLUDE
@@ -25,48 +25,48 @@
 // ─────────────────────────────────────────────────────────────
 
 #ifdef WIN32
-	#ifdef QSUPER_MACROS_SHARED	
+	#ifdef QSUPERMACROS_SHARED	
 /** Class decorator to handle dynamic linkage in windows */
-		#define QSUPER_MACROS_API_ __declspec(dllexport)
-	#elif QSUPER_MACROS_STATIC 	
+		#define QSUPERMACROS_API_ __declspec(dllexport)
+	#elif QSUPERMACROS_STATIC 	
 /** Class decorator to handle dynamic linkage in windows */
-		#define QSUPER_MACROS_API_
+		#define QSUPERMACROS_API_
 	#else 		
 /** Class decorator to handle dynamic linkage in windows */
-		#define QSUPER_MACROS_API_ __declspec(dllimport)
+		#define QSUPERMACROS_API_ __declspec(dllimport)
 	#endif
 #else
 /** Class decorator to handle dynamic linkage in windows */
-	#define QSUPER_MACROS_API_
+	#define QSUPERMACROS_API_
 #endif
 
 /** Set by build system. Define if a namespace should be used */
-#ifdef QSUPER_MACROS_USE_NAMESPACE
-#ifndef QSUPER_MACROS_NAMESPACE
+#ifdef QSUPERMACROS_USE_NAMESPACE
+#ifndef QSUPERMACROS_NAMESPACE
 /** Name of then namespace. By default Qsm. Using this macro give the same result no matters if the library is compiled with or without a namespace */
-#define QSUPER_MACROS_NAMESPACE Qsm
+#define QSUPERMACROS_NAMESPACE Qsm
 #endif
 /** Start of the namespace declaratio. Using this macro give the same result no matters if the library is compiled with or without a namespace */
-#define QSUPER_MACROS_NAMESPACE_START namespace QSUPER_MACROS_NAMESPACE {
+#define QSUPERMACROS_NAMESPACE_START namespace QSUPERMACROS_NAMESPACE {
 /** End of the namespace declaration. Using this macro give the same result no matters if the library is compiled with or without a namespace */
-#define QSUPER_MACROS_NAMESPACE_END }
+#define QSUPERMACROS_NAMESPACE_END }
 /** Use the namespace. Using this macro give the same result no matters if the library is compiled with or without a namespace */
-#define QSUPER_MACROS_USING_NAMESPACE using namespace QSUPER_MACROS_NAMESPACE;
+#define QSUPERMACROS_USING_NAMESPACE using namespace QSUPERMACROS_NAMESPACE;
 #else
-#undef QSUPER_MACROS_NAMESPACE
-#define QSUPER_MACROS_NAMESPACE
+#undef QSUPERMACROS_NAMESPACE
+#define QSUPERMACROS_NAMESPACE
 /** Start of the namespace declaratio. Using this macro give the same result no matters if the library is compiled with or without a namespace */
-#define QSUPER_MACROS_NAMESPACE_START
+#define QSUPERMACROS_NAMESPACE_START
 /** End of the namespace declaration. Using this macro give the same result no matters if the library is compiled with or without a namespace */
-#define QSUPER_MACROS_NAMESPACE_END
+#define QSUPERMACROS_NAMESPACE_END
 /** Use the namespace. Using this macro give the same result no matters if the library is compiled with or without a namespace */
-#define QSUPER_MACROS_USING_NAMESPACE
+#define QSUPERMACROS_USING_NAMESPACE
 #endif
 
-QSUPER_MACROS_NAMESPACE_START
+QSUPERMACROS_NAMESPACE_START
 
 /** Get the version of the library */
-class QSUPER_MACROS_API_ QSuperMacrosVersion
+class QSUPERMACROS_API_ QSuperMacrosVersion
 {
 public:
 	/** Library Major Version */
@@ -81,6 +81,6 @@ public:
 	static QString GetVersion();
 };
 
-QSUPER_MACROS_NAMESPACE_END
+QSUPERMACROS_NAMESPACE_END
 
 #endif
