@@ -36,13 +36,13 @@ A set of one-line C++ macros to simplify the creation of reccurent things (like 
 
 The `***` can be either `VAR`, `PTR`, `CSTREF`, or `AUTO`. The three first are simple macros that you use by simply passing the non-qualified type (`T`) and it'll add the qualifiers for var (none), pointer (`*`), or constant-reference (`const &`) where needed. The last one in the other hand, uses either `T` or `T*` and it's capable of adding constant-reference by deciding itself which type is the cheapest (using some template trickery internally).
 
-> INFO : by default, getters are named `Get<PropertyName>`, but if you want more Qt-compliant naming (no prefix) you can set the `QSUPER_MACROS_USE_QT_GETTERS` flag in QMake or QBS or CMake.
+> INFO : by default, getters are named `Get<PropertyName>`, but if you want more Qt-compliant naming (no prefix) you can set the `QSUPERMACROS_USE_QT_GETTERS` flag in QMake or QBS or CMake.
 >
-> The same for setters that are named `Set<PropertyName>`. With the flag `QSUPER_MACROS_USE_QT_SETTERS` the will be set as `set<PropertyName>`.
+> The same for setters that are named `Set<PropertyName>`. With the flag `QSUPERMACROS_USE_QT_SETTERS` the will be set as `set<PropertyName>`.
 >
-> Same for signals they are default to `<PropertyName>Changed`. With the flag `QSUPER_MACROS_USE_QT_SIGNALS` the will be set to `<propertyName>Changed`. It is recommended for better to use the Qt-ish form of signals (they are default in CMake) because QML connections don't support signals starting with a Capital letter.
+> Same for signals they are default to `<PropertyName>Changed`. With the flag `QSUPERMACROS_USE_QT_SIGNALS` the will be set to `<propertyName>Changed`. It is recommended for better to use the Qt-ish form of signals (they are default in CMake) because QML connections don't support signals starting with a Capital letter.
 >
-> The Prefix of member variable is default to nothing. So the attribute is `_attribute`. You can set `QSUPER_MACROS_USE_QT_PREFIX` to `m` to have a more Qt-ish naming convention.
+> The Prefix of member variable is default to nothing. So the attribute is `_attribute`. You can set `QSUPERMACROS_USE_QT_PREFIX` to `m` to have a more Qt-ish naming convention.
 
 ### Using default values for attribute
 
@@ -69,48 +69,48 @@ It is possible to set a default value for the attribute by using the macros `<MA
 ```bash
 git clone https://github.com/OlivierLDff/QSuperMacros
 cd QSuperMacros && mkdir build && cd build
-cmake -DQT_DIR="path/to/Qt/toolchain" -DQSUPER_MACROS_BUILD_SHARED=ON -DQSUPER_MACROS_USE_NAMESPACE=ON -DQSUPER_MACROS_BUILD_DOC=ON ..
+cmake -DQT_DIR="path/to/Qt/toolchain" -DQSUPERMACROS_BUILD_SHARED=ON -DQSUPERMACROS_USE_NAMESPACE=ON -DQSUPERMACROS_BUILD_DOC=ON ..
 make
 ```
 
 ### Input
 
-- **QSUPER_MACROS_TARGET** : Name of the library target. *Default : "QSuperMacros"*
-- **QSUPER_MACROS_PROJECT** : Name of the project. *Default : "QSuperMacros"*
-- **QSUPER_MACROS_BUILD_SHARED** : Build shared library [ON OFF]. *Default: OFF.*
-- **QSUPER_MACROS_BUILD_STATIC** : Build static library [ON OFF]. *Default: ON.*
-- **QSUPER_MACROS_USE_NAMESPACE** : If the library compile with a namespace [ON OFF]. *Default: ON.*
-- **QSUPER_MACROS_NAMESPACE** : Namespace for the library. Only relevant if QSUPER_MACROS_USE_NAMESPACE is ON. *Default: "Qsm".*
-- **QSUPER_MACROS_BUILD_DOC** : Build the QSuperMacros Doc [ON OFF]. *Default: OFF.*
+- **QSUPERMACROS_TARGET** : Name of the library target. *Default : "QSuperMacros"*
+- **QSUPERMACROS_PROJECT** : Name of the project. *Default : "QSuperMacros"*
+- **QSUPERMACROS_BUILD_SHARED** : Build shared library [ON OFF]. *Default: OFF.*
+- **QSUPERMACROS_BUILD_STATIC** : Build static library [ON OFF]. *Default: ON.*
+- **QSUPERMACROS_USE_NAMESPACE** : If the library compile with a namespace [ON OFF]. *Default: ON.*
+- **QSUPERMACROS_NAMESPACE** : Namespace for the library. Only relevant if QSUPERMACROS_USE_NAMESPACE is ON. *Default: "Qsm".*
+- **QSUPERMACROS_BUILD_DOC** : Build the QSuperMacros Doc [ON OFF]. *Default: OFF.*
 
 ### Naming Convention
 
-* **QSUPER_MACROS_USE_QT_PREFIX** : Use Qt-ish internal attribute prefix `m_attribute `[ON OFF]. *Default = OFF.*
-* **QSUPER_MACROS_USE_QT_GETTERS** : Use Qt-ish Getter naming convention `attribute()` [ON OFF]. *Default = OFF.*
-* **QSUPER_MACROS_USE_QT_SETTERS** : Use Qt-ish Setter naming convention `setAttribute` [ON OFF]. *Default = OFF.*
-* **QSUPER_MACROS_USE_QT_RESETS** : Use Qt-ish Setter naming convention resetAttribute [ON OFF]. *Default = OFF.*
-* **QSUPER_MACROS_USE_QT_SIGNALS** : Use Qt-ish signal naming convention `attributeChanged`. It is really recommended to leave this option ON because QML Connections don't handle signals starting with Capital Letter [ON OFF]. *Default = ON.*
+* **QSUPERMACROS_USE_QT_PREFIX** : Use Qt-ish internal attribute prefix `m_attribute `[ON OFF]. *Default = OFF.*
+* **QSUPERMACROS_USE_QT_GETTERS** : Use Qt-ish Getter naming convention `attribute()` [ON OFF]. *Default = OFF.*
+* **QSUPERMACROS_USE_QT_SETTERS** : Use Qt-ish Setter naming convention `setAttribute` [ON OFF]. *Default = OFF.*
+* **QSUPERMACROS_USE_QT_RESETS** : Use Qt-ish Setter naming convention resetAttribute [ON OFF]. *Default = OFF.*
+* **QSUPERMACROS_USE_QT_SIGNALS** : Use Qt-ish signal naming convention `attributeChanged`. It is really recommended to leave this option ON because QML Connections don't handle signals starting with Capital Letter [ON OFF]. *Default = ON.*
 
 ### Dependencies
 
-- **QSUPER_MACROS_DOXYGEN_BT_REPOSITORY** : Repository of DoxygenBt. *Default : "https://github.com/OlivierLDff/DoxygenBootstrapped.git"*
-- **QSUPER_MACROS_DOXYGEN_BT_TAG** : Git Tag of DoxygenBt. *Default : "v1.3.2"*
+- **QSUPERMACROS_DOXYGEN_BT_REPOSITORY** : Repository of DoxygenBt. *Default : "https://github.com/OlivierLDff/DoxygenBootstrapped.git"*
+- **QSUPERMACROS_DOXYGEN_BT_TAG** : Git Tag of DoxygenBt. *Default : "v1.3.2"*
 
 ### Output
 
-- **QSUPER_MACROS_TARGET** : Output target to link to.
-- **QSUPER_MACROS_VERSION** : Current version of the library
+- **QSUPERMACROS_TARGET** : Output target to link to.
+- **QSUPERMACROS_VERSION** : Current version of the library
 
 ### Integration in CMake project
 
 The main goal of this CMake project is to big included into another CMake project.
 
 ```cmake
-SET( QSUPER_MACROS_TARGET QSuperMacros )
-SET( QSUPER_MACROS_PROJECT QSuperMacros )
-SET( QSUPER_MACROS_BUILD_SHARED OFF )
-SET( QSUPER_MACROS_BUILD_STATIC ON )
-SET( QSUPER_MACROS_BUILD_DOC OFF )
+SET( QSUPERMACROS_TARGET QSuperMacros )
+SET( QSUPERMACROS_PROJECT QSuperMacros )
+SET( QSUPERMACROS_BUILD_SHARED OFF )
+SET( QSUPERMACROS_BUILD_STATIC ON )
+SET( QSUPERMACROS_BUILD_DOC OFF )
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/path/to/QSuperMacros ${CMAKE_CURRENT_BINARY_DIR}/QSuperMacros_Build)
 ```
 
@@ -123,14 +123,14 @@ You will need:
 - `BuildQSuperMacros.cmake`
 
 ```cmake
-SET( QSUPER_MACROS_TARGET QSuperMacros )
-SET( QSUPER_MACROS_PROJECT QSuperMacros )
-SET( QSUPER_MACROS_BUILD_SHARED OFF )
-SET( QSUPER_MACROS_BUILD_STATIC ON )
-SET( QSUPER_MACROS_BUILD_DOC OFF )
-SET( QSUPER_MACROS_USE_NAMESPACE ON )
-SET( QSUPER_MACROS_REPOSITORY "https://github.com/OlivierLDff/QSuperMacros.git" )
-SET( QSUPER_MACROS_TAG v1.0.1 )
+SET( QSUPERMACROS_TARGET QSuperMacros )
+SET( QSUPERMACROS_PROJECT QSuperMacros )
+SET( QSUPERMACROS_BUILD_SHARED OFF )
+SET( QSUPERMACROS_BUILD_STATIC ON )
+SET( QSUPERMACROS_BUILD_DOC OFF )
+SET( QSUPERMACROS_USE_NAMESPACE ON )
+SET( QSUPERMACROS_REPOSITORY "https://github.com/OlivierLDff/QSuperMacros.git" )
+SET( QSUPERMACROS_TAG v1.0.1 )
 INCLUDE(path/to/BuildQSuperMacros.cmake)
 ```
 
