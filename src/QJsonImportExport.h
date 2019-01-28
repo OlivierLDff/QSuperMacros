@@ -28,173 +28,26 @@
 //					DECLARATION
 // ─────────────────────────────────────────────────────────────
 
-#define QJSONIMPORT_ISVALID(jsonName, type) json.contains(jsonName) && json[jsonName].is##type()
+// ───────── GLOBAL ───────────
+#define QJSONIMPORT_ISVALID(jsonName, jsonType) json.contains(jsonName) && json[jsonName].is##jsonType() \
 
-// ───────── UINT64 ───────────
-
-#define QJSONIMPORT_ISUINT64VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, String) \
-
-#define QJSONIMPORT_UINT64(jsonName, setter) \
-	if (QJSONIMPORT_ISUINT64VALID(jsonName)) \
+#define QJSONIMPORT(jsonName, setter, type, jsonType) \
+	if (QJSONIMPORT_ISVALID(jsonName, jsonType)) \
 	{ \
-		setter(json[jsonName].toString.toULongLong()); \
+		setter((type)(json[jsonName].to##jsonType())); \
 	} \
-	
-#define QJSONIMPORT_UINT64_WLOG(jsonName, setter, logCat) \
+
+#define QJSONIMPORT_WLOG(jsonName, setter, type, jsonType, logCat) \
 { \
-	if (QJSONIMPORT_ISUINT64VALID(jsonName)) \
-	{ \
-		bool stringValid = false; \
-		quint64 value = json[jsonName].toString().toULongLong(&stringValid); \
-		if (!stringValid) \
-		{ \
-			qCWarning(logCat, "Cannot convert String to Unit64"); \
-		} \
-		setter(value); \
-	} \
+	QJSONIMPORT(jsonName, setter, type, jsonType) \
 	else \
 	{ \
-		qCWarning(logCat, "%s isn't a valid Json String", qPrintable(jsonName)); \
-	} \
-} \
-
-
-// ───────── UINT32 ───────────
-
-#define QJSONIMPORT_ISUINT32VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
-
-#define QJSONIMPORT_UINT32(jsonName, setter) \
-	if (QJSONIMPORT_ISUINT32VALID(jsonName)) \
-	{ \
-		setter((quint32)(json[jsonName].toDouble())); \
-	} \
-
-#define QJSONIMPORT_UINT32_WLOG(jsonName, setter, logCat) \
-{ \
-	QJSONIMPORT_UINT32(jsonName, setter) \
-	else \
-	{ \
-		qCWarning(logCat, "%s isn't a valid Json Double", qPrintable(jsonName)); \
-	} \
-} \
-
-// ───────── UINT16 ───────────
-
-#define QJSONIMPORT_ISUINT16VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
-
-#define QJSONIMPORT_UINT16(jsonName, setter) \
-	if (QJSONIMPORT_ISUINT16VALID(jsonName)) \
-	{ \
-		setter((quint16)(json[jsonName].toDouble())); \
-	} \
-
-#define QJSONIMPORT_UINT16_WLOG(jsonName, setter, logCat) \
-{ \
-	QJSONIMPORT_UINT16(jsonName, setter) \
-	else \
-	{ \
-		qCWarning(logCat, "%s isn't a valid Json Double", qPrintable(jsonName)); \
-	} \
-} \
-
-// ───────── UINT8 ───────────
-
-#define QJSONIMPORT_ISUINT8VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
-
-#define QJSONIMPORT_UINT8(jsonName, setter) \
-	if (QJSONIMPORT_ISUINT8VALID(jsonName)) \
-	{ \
-		setter((quint8)(json[jsonName].toDouble())); \
-	} \
-
-#define QJSONIMPORT_UINT8_WLOG(jsonName, setter, logCat) \
-{ \
-	QJSONIMPORT_UINT8(jsonName, setter) \
-	else \
-	{ \
-		qCWarning(logCat, "%s isn't a valid Json Double", qPrintable(jsonName)); \
-	} \
-} \
-
-// ───────── INT ───────────
-
-#define QJSONIMPORT_ISINTVALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
-
-#define QJSONIMPORT_INT(jsonName, setter) \
-	if (QJSONIMPORT_ISINTVALID(jsonName)) \
-	{ \
-		setter((int)(json[jsonName].toDouble())); \
-	} \
-
-#define QJSONIMPORT_INT_WLOG(jsonName, setter, logCat) \
-{ \
-	QJSONIMPORT_INT(jsonName, setter) \
-	else \
-	{ \
-		qCWarning(logCat, "%s isn't a valid Json Double", qPrintable(jsonName)); \
-	} \
-} \
-
-// ───────── BOOL ───────────
-
-#define QJSONIMPORT_ISBOOLVALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Bool) \
-
-#define QJSONIMPORT_BOOL(jsonName, setter) \
-	if (QJSONIMPORT_ISBOOLVALID(jsonName)) \
-	{ \
-		setter(json[jsonName].toBool()); \
-	} \
-
-#define QJSONIMPORT_BOOL_WLOG(jsonName, setter, logCat) \
-{ \
-	QJSONIMPORT_BOOL(jsonName, setter) \
-	else \
-	{ \
-		qCWarning(logCat, "%s isn't a valid Json Bool", qPrintable(jsonName)); \
-	} \
-} \
-
-// ───────── STRING ───────────
-
-#define QJSONIMPORT_ISSTRINGVALID(jsonName) QJSONIMPORT_ISVALID(jsonName, String) \
-
-#define QJSONIMPORT_STRING(jsonName, setter) \
-	if (QJSONIMPORT_ISSTRINGVALID(jsonName)) \
-	{ \
-		setter(json[jsonName].toString()); \
-	} \
-
-#define QJSONIMPORT_STRING_WLOG(jsonName, setter, logCat) \
-{ \
-	QJSONIMPORT_STRING(jsonName, setter) \
-	else \
-	{ \
-		qCWarning(logCat, "%s isn't a valid Json String", qPrintable(jsonName)); \
-	} \
-} \
-
-// ───────── FLOAT ───────────
-
-#define QJSONIMPORT_ISFLOATVALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
-
-#define QJSONIMPORT_FLOAT(jsonName, setter) \
-	if (QJSONIMPORT_ISFLOATVALID(jsonName)) \
-	{ \
-		setter((float)(json[jsonName].toDouble())); \
-	} \
-
-#define QJSONIMPORT_FLOAT_WLOG(jsonName, setter, logCat) \
-{ \
-	QJSONIMPORT_FLOAT(jsonName, setter) \
-	else \
-	{ \
-		qCWarning(logCat, "%s isn't a valid Json Double", qPrintable(jsonName)); \
+		qCWarning(logCat, "%s isn't a valid Json " #jsonType, qPrintable(jsonName)); \
 	} \
 } \
 
 // ───────── OBJECT ───────────
-
-#define QJSONIMPORT_ISOBJECTVALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Object)
+#define QJSONIMPORT_ISOBJECTVALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Object) \
 
 #define QJSONIMPORT_OBJECT(jsonName, objectDest) \
 	if (QJSONIMPORT_ISOBJECTVALID(jsonName)) \
@@ -211,10 +64,140 @@
 	} \
 } \
 
-
 // ───────── ARRAY ───────────
-
 #define QJSONIMPORT_ISARRAYVALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Array) \
+
+// ───────── UINT64 ───────────
+#define QJSONIMPORT_ISUINT64VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, String) \
+
+#define QJSONIMPORT_UINT64(jsonName, setter) \
+	if (QJSONIMPORT_ISUINT64VALID(jsonName)) \
+	{ \
+		setter(json[jsonName].toString.toULongLong()); \
+	} \
+	
+#define QJSONIMPORT_UINT64_WLOG(jsonName, setter, logCat) \
+{ \
+	if (QJSONIMPORT_ISUINT64VALID(jsonName)) \
+	{ \
+		bool stringValid = false; \
+		quint64 value = json[jsonName].toString().toULongLong(&stringValid); \
+		if (!stringValid) \
+		{ \
+			qCWarning(logCat, "Cannot convert String to uint64"); \
+		} \
+		setter(value); \
+	} \
+	else \
+	{ \
+		qCWarning(logCat, "%s isn't a valid Json String", qPrintable(jsonName)); \
+	} \
+} \
+
+// ───────── UINT32 ───────────
+#define QJSONIMPORT_ISUINT32VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
+
+#define QJSONIMPORT_UINT32(jsonName, setter) QJSONIMPORT(jsonName, setter, quint32, Double) \
+
+#define QJSONIMPORT_UINT32_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, quint32, Double, logCat) \
+
+// ───────── UINT16 ───────────
+#define QJSONIMPORT_ISUINT16VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
+
+#define QJSONIMPORT_UINT16(jsonName, setter) QJSONIMPORT(jsonName, setter, quint16, Double) \
+
+#define QJSONIMPORT_UINT16_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, quint16, Double, logCat) \
+
+// ───────── UINT8 ───────────
+#define QJSONIMPORT_ISUINT8VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
+
+#define QJSONIMPORT_UINT8(jsonName, setter) QJSONIMPORT(jsonName, setter, quint8, Double) \
+
+#define QJSONIMPORT_UINT8_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, quint8, Double, logCat) \
+
+// ───────── UINT ───────────
+#define QJSONIMPORT_ISUINTVALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
+
+#define QJSONIMPORT_UINT(jsonName, setter) QJSONIMPORT(jsonName, setter, quint, Double) \
+
+#define QJSONIMPORT_UINT_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, quint, Double, logCat) \
+
+// ───────── INT64 ───────────
+#define QJSONIMPORT_ISUINT64VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, String) \
+
+#define QJSONIMPORT_UINT64(jsonName, setter) \
+	if (QJSONIMPORT_ISUINT64VALID(jsonName)) \
+	{ \
+		setter(json[jsonName].toString.toLongLong()); \
+	} \
+
+#define QJSONIMPORT_UINT64_WLOG(jsonName, setter, logCat) \
+{ \
+	if (QJSONIMPORT_ISUINT64VALID(jsonName)) \
+	{ \
+		bool stringValid = false; \
+		qint64 value = json[jsonName].toString().toLongLong(&stringValid); \
+		if (!stringValid) \
+		{ \
+			qCWarning(logCat, "Cannot convert String to int64"); \
+		} \
+		setter(value); \
+	} \
+	else \
+	{ \
+		qCWarning(logCat, "%s isn't a valid Json String", qPrintable(jsonName)); \
+	} \
+} \
+
+// ───────── INT32 ───────────
+#define QJSONIMPORT_ISINT32VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
+
+#define QJSONIMPORT_INT32(jsonName, setter) QJSONIMPORT(jsonName, setter, qint32, Double) \
+
+#define QJSONIMPORT_INT32_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, qint32, Double, logCat) \
+
+// ───────── INT16 ───────────
+#define QJSONIMPORT_ISINT16VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
+
+#define QJSONIMPORT_INT16(jsonName, setter) QJSONIMPORT(jsonName, setter, qint16, Double) \
+
+#define QJSONIMPORT_INT16_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, qint16, Double, logCat) \
+
+// ───────── INT8 ───────────
+#define QJSONIMPORT_ISINT8VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
+
+#define QJSONIMPORT_INT8(jsonName, setter) QJSONIMPORT(jsonName, setter, qint8, Double) \
+
+#define QJSONIMPORT_INT8_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, qint8, Double, logCat) \
+
+// ───────── INT ───────────
+#define QJSONIMPORT_ISINTVALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
+
+#define QJSONIMPORT_INT(jsonName, setter) QJSONIMPORT(jsonName, setter, int, Double) \
+
+#define QJSONIMPORT_INT_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, int, Double, logCat) \
+
+// ───────── BOOL ───────────
+#define QJSONIMPORT_ISBOOLVALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Bool) \
+
+#define QJSONIMPORT_BOOL(jsonName, setter) QJSONIMPORT(jsonName, setter, bool, Bool) \
+
+#define QJSONIMPORT_BOOL_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, bool, Bool, logCat) \
+
+// ───────── STRING ───────────
+#define QJSONIMPORT_ISSTRINGVALID(jsonName) QJSONIMPORT_ISVALID(jsonName, String) \
+
+#define QJSONIMPORT_STRING(jsonName, setter) QJSONIMPORT(jsonName, setter, QString, String) \
+
+#define QJSONIMPORT_STRING_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, QString, String, logCat) \
+
+// ───────── FLOAT ───────────
+#define QJSONIMPORT_ISFLOATVALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
+
+#define QJSONIMPORT_FLOAT(jsonName, setter) QJSONIMPORT(jsonName, setter, float, Double) \
+
+#define QJSONIMPORT_FLOAT_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, float, Double, logCat) \
+
 
 QSUPERMACROS_NAMESPACE_START
 
