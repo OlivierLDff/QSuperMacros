@@ -190,7 +190,7 @@
 		setter(json[jsonName].toString.toLongLong()); \
 	} \
 
-#define QJSONIMPORT_UINT64_WLOG(jsonName, setter, logCat) \
+#define QJSONIMPORT_INT64_WLOG(jsonName, setter, logCat) \
 { \
 	if (QJSONIMPORT_ISINT64VALID(jsonName)) \
 	{ \
