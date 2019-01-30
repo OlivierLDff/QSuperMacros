@@ -182,17 +182,17 @@
 #define QJSONEXPORT_UINT(jsonName, value) QJSONEXPORT(jsonName, (quint)##value) \
 
 // ───────── INT64 ───────────
-#define QJSONIMPORT_ISUINT64VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, String) \
+#define QJSONIMPORT_ISINT64VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, String) \
 
-#define QJSONIMPORT_UINT64(jsonName, setter) \
-	if (QJSONIMPORT_ISUINT64VALID(jsonName)) \
+#define QJSONIMPORT_INT64(jsonName, setter) \
+	if (QJSONIMPORT_ISINT64VALID(jsonName)) \
 	{ \
 		setter(json[jsonName].toString.toLongLong()); \
 	} \
 
 #define QJSONIMPORT_UINT64_WLOG(jsonName, setter, logCat) \
 { \
-	if (QJSONIMPORT_ISUINT64VALID(jsonName)) \
+	if (QJSONIMPORT_ISINT64VALID(jsonName)) \
 	{ \
 		bool stringValid = false; \
 		qint64 value = json[jsonName].toString().toLongLong(&stringValid); \
