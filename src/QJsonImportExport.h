@@ -143,7 +143,7 @@
 	} \
 }
 
-#define QJSONEXPORT_UINT64(jsonName, value) QJSONEXPORT(jsonName, QString::number(##value)) \
+#define QJSONEXPORT_UINT64(jsonName, value) QJSONEXPORT(jsonName, QString::number(value)) \
 
 // ───────── UINT32 ───────────
 #define QJSONIMPORT_ISUINT32VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
@@ -152,7 +152,7 @@
 
 #define QJSONIMPORT_UINT32_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, quint32, Double, logCat) \
 
-#define QJSONEXPORT_UINT32(jsonName, value) QJSONEXPORT(jsonName, (quint32)##value) \
+#define QJSONEXPORT_UINT32(jsonName, value) QJSONEXPORT(jsonName, (quint32) value) \
 
 // ───────── UINT16 ───────────
 #define QJSONIMPORT_ISUINT16VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
@@ -161,7 +161,7 @@
 
 #define QJSONIMPORT_UINT16_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, quint16, Double, logCat) \
 
-#define QJSONEXPORT_UINT16(jsonName, value) QJSONEXPORT(jsonName, (quint16)##value) \
+#define QJSONEXPORT_UINT16(jsonName, value) QJSONEXPORT(jsonName, (quint16) value) \
 
 // ───────── UINT8 ───────────
 #define QJSONIMPORT_ISUINT8VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
@@ -170,7 +170,7 @@
 
 #define QJSONIMPORT_UINT8_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, quint8, Double, logCat) \
 
-#define QJSONEXPORT_UINT8(jsonName, value) QJSONEXPORT(jsonName, (quint8)##value) \
+#define QJSONEXPORT_UINT8(jsonName, value) QJSONEXPORT(jsonName, (quint8) value) \
 
 // ───────── UINT ───────────
 #define QJSONIMPORT_ISUINTVALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
@@ -179,7 +179,7 @@
 
 #define QJSONIMPORT_UINT_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, quint, Double, logCat) \
 
-#define QJSONEXPORT_UINT(jsonName, value) QJSONEXPORT(jsonName, (quint)##value) \
+#define QJSONEXPORT_UINT(jsonName, value) QJSONEXPORT(jsonName, (quint) value) \
 
 // ───────── INT64 ───────────
 #define QJSONIMPORT_ISINT64VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, String) \
@@ -208,7 +208,7 @@
 	} \
 }
 
-#define QJSONEXPORT_INT64(jsonName, value) QJSONEXPORT(jsonName, QString::number(##value)) \
+#define QJSONEXPORT_INT64(jsonName, value) QJSONEXPORT(jsonName, QString::number(value)) \
 
 // ───────── INT32 ───────────
 #define QJSONIMPORT_ISINT32VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
@@ -217,7 +217,7 @@
 
 #define QJSONIMPORT_INT32_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, qint32, Double, logCat) \
 
-#define QJSONEXPORT_INT32(jsonName, value) QJSONEXPORT(jsonName, (qint32)##value) \
+#define QJSONEXPORT_INT32(jsonName, value) QJSONEXPORT(jsonName, (qint32) value) \
 
 // ───────── INT16 ───────────
 #define QJSONIMPORT_ISINT16VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
@@ -226,7 +226,7 @@
 
 #define QJSONIMPORT_INT16_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, qint16, Double, logCat) \
 
-#define QJSONEXPORT_INT16(jsonName, value) QJSONEXPORT(jsonName, (qint16)##value) \
+#define QJSONEXPORT_INT16(jsonName, value) QJSONEXPORT(jsonName, (qint16) value) \
 
 // ───────── INT8 ───────────
 #define QJSONIMPORT_ISINT8VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
@@ -235,7 +235,7 @@
 
 #define QJSONIMPORT_INT8_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, qint8, Double, logCat) \
 
-#define QJSONEXPORT_INT8(jsonName, value) QJSONEXPORT(jsonName, (qint8)##value) \
+#define QJSONEXPORT_INT8(jsonName, value) QJSONEXPORT(jsonName, (qint8) value) \
 
 // ───────── INT ───────────
 #define QJSONIMPORT_ISINTVALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
@@ -244,7 +244,7 @@
 
 #define QJSONIMPORT_INT_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, int, Double, logCat) \
 
-#define QJSONEXPORT_INT(jsonName, value) QJSONEXPORT(jsonName, (int)##value) \
+#define QJSONEXPORT_INT(jsonName, value) QJSONEXPORT(jsonName, (int) value) \
 
 // ───────── BOOL ───────────
 #define QJSONIMPORT_ISBOOLVALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Bool) \
@@ -253,7 +253,7 @@
 
 #define QJSONIMPORT_BOOL_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, bool, Bool, logCat) \
 
-#define QJSONEXPORT_BOOL(jsonName, value) QJSONEXPORT(jsonName, (bool)##value) \
+#define QJSONEXPORT_BOOL(jsonName, value) QJSONEXPORT(jsonName, (bool) value) \
 
 // ───────── STRING ───────────
 #define QJSONIMPORT_ISSTRINGVALID(jsonName) QJSONIMPORT_ISVALID(jsonName, String) \
@@ -262,7 +262,7 @@
 
 #define QJSONIMPORT_STRING_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, QString, String, logCat) \
 
-#define QJSONEXPORT_STRING(jsonName, value) QJSONEXPORT(jsonName, (QString)##value) \
+#define QJSONEXPORT_STRING(jsonName, value) QJSONEXPORT(jsonName, (QString) value) \
 
 // ───────── FLOAT ───────────
 #define QJSONIMPORT_ISFLOATVALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
@@ -271,7 +271,7 @@
 
 #define QJSONIMPORT_FLOAT_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, float, Double, logCat) \
 
-#define QJSONEXPORT_FLOAT(jsonName, value) QJSONEXPORT(jsonName, (float)##value) \
+#define QJSONEXPORT_FLOAT(jsonName, value) QJSONEXPORT(jsonName, (float) value) \
 
 
 QSUPERMACROS_NAMESPACE_START
