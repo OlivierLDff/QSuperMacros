@@ -162,28 +162,28 @@ public: \
 	} \
 private:
 
- /**
-  * \def QSM_REGISTER_OBJ_TO_QML_NO_NAME(Type)
-  * \ingroup QQML_HELPER_COMMON
-  * \hideinitializer
-  * \brief Create a function to easily register a QObject to the qml system
-  * \param Type Class Name
-  *
-  * To use this macro simply call it into your QObject derived class
-  * \code
-  * class MyQObject : public QObject
-  * {
-  *     Q_OBJECT
-  *     QSM_REGISTER_OBJ_TO_QML_NO_NAME(MyQObject)
-  * };
-  * \endcode
-  * Then to register the class :
-  * \code
-  * // Regular Naming convetion
-  * MyQObject::RegisterToQml("MyUri", 1, 0);
-  * \endcode
-  *
-  */
+/**
+ * \def QSM_REGISTER_OBJ_TO_QML_NO_NAME(Type)
+ * \ingroup QQML_HELPER_COMMON
+ * \hideinitializer
+ * \brief Create a function to easily register a QObject to the qml system
+ * \param Type Class Name
+ *
+ * To use this macro simply call it into your QObject derived class
+ * \code
+ * class MyQObject : public QObject
+ * {
+ *     Q_OBJECT
+ *     QSM_REGISTER_OBJ_TO_QML_NO_NAME(MyQObject)
+ * };
+ * \endcode
+ * Then to register the class :
+ * \code
+ * // Regular Naming convetion
+ * MyQObject::RegisterToQml("MyUri", 1, 0);
+ * \endcode
+ *
+ */
 #define QSM_REGISTER_OBJ_TO_QML_NO_NAME(Type) \
 public: \
 	static void RegisterToQml(const char * uri, const int majorVersion, const int minorVersion) { \
@@ -191,58 +191,57 @@ public: \
 	} \
 private:
 
-  /**
-   * \def QSM_REGISTER_OBJ_TO_QML(Type)
-   * \ingroup QQML_HELPER_COMMON
-   * \hideinitializer
-   * \brief Create a function to easily register a QObject to the qml system
-   * \param Type Class Name
-   *
-   * To use this macro simply call it into your QObject derived class
-   * \code
-   * class MyQObject : public QObject
-   * {
-   *     Q_OBJECT
-   *     QSM_REGISTER_OBJ_TO_QML(MyQObject)
-   * };
-   * \endcode
-   * Then to register the class :
-   * \code
-   * // Regular Naming convetion
-   * MyQObject::RegisterToQml("MyUri", 1, 0);
-   * // or
-   * MyQObject::RegisterToQml("MyUri", 1, 0, "MyQObjectQmlName");
-   * \endcode
-   *
-   */
+/**
+ * \def QSM_REGISTER_OBJ_TO_QML(Type)
+ * \ingroup QQML_HELPER_COMMON
+ * \hideinitializer
+ * \brief Create a function to easily register a QObject to the qml system
+ * \param Type Class Name
+ *
+ * To use this macro simply call it into your QObject derived class
+ * \code
+ * class MyQObject : public QObject
+ * {
+ *     Q_OBJECT
+ *     QSM_REGISTER_OBJ_TO_QML(MyQObject)
+ * };
+ * \endcode
+ * Then to register the class :
+ * \code
+ * // Regular Naming convetion
+ * MyQObject::RegisterToQml("MyUri", 1, 0);
+ * // or
+ * MyQObject::RegisterToQml("MyUri", 1, 0, "MyQObjectQmlName");
+ * \endcode
+ *
+ */
 #define QSM_REGISTER_OBJ_TO_QML(Type) \
 	QSM_REGISTER_OBJ_TO_QML_WITH_NAME(Type); \
 	QSM_REGISTER_OBJ_TO_QML_NO_NAME(Type)\
 private:
 
-	/**
-	 * \def QSM_REGISTER_OBJ_TO_QML_NO_NAME_NAMESPACE(Type)
-	 * \ingroup QQML_HELPER_COMMON
-	 * \hideinitializer
-	 * \brief Create a function to easily register a QObject to the qml system
-	 * \param Type Class Name
-	 *
-	 * To use this macro simply call it into your QObject derived class
-	 * \code
-	 * class MyQObject : public QObject
-	 * {
-	 *     Q_OBJECT
-	 *     QSM_REGISTER_OBJ_TO_QML_NO_NAME_NAMESPACE(MyQObject, MyNmspce)
-	 * };
-	 * \endcode
-	 * Then to register the class :
-	 * \code
-	 * // Regular Naming convetion
-	 * MyQObject::RegisterToQml("MyUri", 1, 0);
-	 * \endcode
-	 *
-	 */
-#define QSM_APPEND_TYPE_TO_NAMESPACE(Type, Namespace) Type##Namespace
+/**
+ * \def QSM_REGISTER_OBJ_TO_QML_NO_NAME_NAMESPACE(Type)
+ * \ingroup QQML_HELPER_COMMON
+ * \hideinitializer
+ * \brief Create a function to easily register a QObject to the qml system
+ * \param Type Class Name
+ *
+ * To use this macro simply call it into your QObject derived class
+ * \code
+ * class MyQObject : public QObject
+ * {
+ *     Q_OBJECT
+ *     QSM_REGISTER_OBJ_TO_QML_NO_NAME_NAMESPACE(MyQObject, MyNmspce)
+ * };
+ * \endcode
+ * Then to register the class :
+ * \code
+ * // Regular Naming convetion
+ * MyQObject::RegisterToQml("MyUri", 1, 0);
+ * \endcode
+ *
+ */
 #define QSM_REGISTER_OBJ_TO_QML_NO_NAME_NAMESPACE(Type, Namespace) \
 public: \
 	static void RegisterToQml(const char * uri, const int majorVersion, const int minorVersion) { \
@@ -250,33 +249,189 @@ public: \
 	} \
 private:
 
-	 /**
-	  * \def QSM_REGISTER_OBJ_TO_QML_NAMESPACE(Type)
-	  * \ingroup QQML_HELPER_COMMON
-	  * \hideinitializer
-	  * \brief Create a function to easily register a QObject to the qml system
-	  * \param Type Class Name
-	  *
-	  * To use this macro simply call it into your QObject derived class
-	  * \code
-	  * class MyQObject : public QObject
-	  * {
-	  *     Q_OBJECT
-	  *     QSM_REGISTER_OBJ_TO_QML(MyQObject, MyNspc)
-	  * };
-	  * \endcode
-	  * Then to register the class :
-	  * \code
-	  * // Regular Naming convetion
-	  * MyQObject::RegisterToQml("MyUri", 1, 0);
-	  * // or
-	  * MyQObject::RegisterToQml("MyUri", 1, 0, "MyQObjectQmlName");
-	  * \endcode
-	  *
-	  */
+/**
+ * \def QSM_REGISTER_OBJ_TO_QML_NAMESPACE(Type)
+ * \ingroup QQML_HELPER_COMMON
+ * \hideinitializer
+ * \brief Create a function to easily register a QObject to the qml system
+ * \param Type Class Name
+ *
+ * To use this macro simply call it into your QObject derived class
+ * \code
+ * class MyQObject : public QObject
+ * {
+ *     Q_OBJECT
+ *     QSM_REGISTER_OBJ_TO_QML(MyQObject, MyNspc)
+ * };
+ * \endcode
+ * Then to register the class :
+ * \code
+ * // Regular Naming convetion
+ * MyQObject::RegisterToQml("MyUri", 1, 0);
+ * // or
+ * MyQObject::RegisterToQml("MyUri", 1, 0, "MyQObjectQmlName");
+ * \endcode
+ *
+ */
 #define QSM_REGISTER_OBJ_TO_QML_NAMESPACE(Type, Namespace) \
 	QSM_REGISTER_OBJ_TO_QML_WITH_NAME(Type); \
 	QSM_REGISTER_OBJ_TO_QML_NO_NAME_NAMESPACE(Type, Namespace)\
+private:
+
+/**
+ * \def QSM_REGISTER_UNCREATABLE_OBJ_TO_QML_WITH_NAME(Type, DefaultMessage)
+ * \ingroup QQML_HELPER_COMMON
+ * \hideinitializer
+ * \brief Create a function to easily register an uncreatable QObject to the qml system
+ * \param Type Class Name
+ * \param DefaultMessage The message given if creation is attempted. This macro add the QStringLiteral macro for faster load.
+ * This param is important because it then allow the user to leave the default message and don't care about the use of this object
+ *
+ * To use this macro simply call it into your QObject derived class
+ * \code
+ * class MyQObject : public QObject
+ * {
+ *     Q_OBJECT
+ *     QSM_REGISTER_UNCREATABLE_OBJ_TO_QML_WITH_NAME(MyQObject, "DefaultMessage")
+ * };
+ * \endcode
+ * Then to register the class :
+ * \code
+ * // Regular Naming convetion
+ * MyQObject::RegisterUnCreatableToQml("MyUri", 1, 0, "MyQObjectQmlName", "Message");
+ * \endcode
+ *
+ */
+#define QSM_REGISTER_UNCREATABLE_OBJ_TO_QML_WITH_NAME(Type, DefaultMessage) \
+public: \
+	static void RegisterUnCreatableToQml(const char * uri, const int majorVersion, const int minorVersion, const char * name, const QString &message = QStringLiteral(DefaultMessage)) { \
+			qmlRegisterUncreatableType<Type>(uri, majorVersion, minorVersion, name, message); \
+	} \
+private:
+
+/**
+ * \def QSM_REGISTER_UNCREATABLE_OBJ_TO_QML_NO_NAME(Type, DefaultMessage)
+ * \ingroup QQML_HELPER_COMMON
+ * \hideinitializer
+ * \brief Create a function to easily register an uncreatable QObject to the qml system
+ * \param Type Class Name
+ * \param DefaultMessage The message given if creation is attempted. This macro add the QStringLiteral macro for faster load.
+ * This param is important because it then allow the user to leave the default message and don't care about the use of this object
+ *
+ * To use this macro simply call it into your QObject derived class
+ * \code
+ * class MyQObject : public QObject
+ * {
+ *     Q_OBJECT
+ *     QSM_REGISTER_UNCREATABLE_OBJ_TO_QML_NO_NAME(MyQObject, "DefaultMessage")
+ * };
+ * \endcode
+ * Then to register the class :
+ * \code
+ * // Regular Naming convetion
+ * MyQObject::RegisterUnCreatableToQml("MyUri", 1, 0, "Message");
+ * \endcode
+ *
+ */
+#define QSM_REGISTER_UNCREATABLE_OBJ_TO_QML_NO_NAME(Type, DefaultMessage) \
+public: \
+	static void RegisterUnCreatableToQml(const char * uri, const int majorVersion, const int minorVersion, const QString &message = QStringLiteral(DefaultMessage)) { \
+			qmlRegisterUncreatableType<Type>(uri, majorVersion, minorVersion, #Type, message ); \
+	} \
+private:
+
+/**
+ * \def QSM_REGISTER_UNCREATABLE_OBJ_TO_QML(Type, DefaultMessage)
+ * \ingroup QQML_HELPER_COMMON
+ * \hideinitializer
+ * \brief Create a function to easily register an uncreatable QObject to the qml system
+ * \param Type Class Name
+ * \param DefaultMessage The message given if creation is attempted. This macro add the QStringLiteral macro for faster load.
+ * This param is important because it then allow the user to leave the default message and don't care about the use of this object
+ *
+ * To use this macro simply call it into your QObject derived class
+ * \code
+ * class MyQObject : public QObject
+ * {
+ *     Q_OBJECT
+ *     QSM_REGISTER_UNCREATABLE_OBJ_TO_QML(MyQObject)
+ * };
+ * \endcode
+ * Then to register the class :
+ * \code
+ * // Regular Naming convetion
+ * MyQObject::RegisterUnCreatableToQml("MyUri", 1, 0, "Message");
+ * // or
+ * MyQObject::RegisterUnCreatableToQml("MyUri", 1, 0, "MyQObjectQmlName", "Message");
+ * \endcode
+ *
+ */
+#define QSM_REGISTER_UNCREATABLE_OBJ_TO_QML(Type, DefaultMessage) \
+	QSM_REGISTER_UNCREATABLE_OBJ_TO_QML_WITH_NAME(Type, DefaultMessage); \
+	QSM_REGISTER_UNCREATABLE_OBJ_TO_QML_NO_NAME(Type, DefaultMessage)\
+private:
+
+
+/**
+ * \def QSM_REGISTER_OBJ_TO_QML_NO_NAME_NAMESPACE(Type, DefaultMessage)
+ * \ingroup QQML_HELPER_COMMON
+ * \hideinitializer
+ * \brief Create a function to easily register a QObject to the qml system
+ * \param Type Class Name
+ * \param DefaultMessage The message given if creation is attempted. This macro add the QStringLiteral macro for faster load.
+ * This param is important because it then allow the user to leave the default message and don't care about the use of this object
+ *
+ * To use this macro simply call it into your QObject derived class
+ * \code
+ * class MyQObject : public QObject
+ * {
+ *     Q_OBJECT
+ *     QSM_REGISTER_OBJ_TO_QML_NO_NAME_NAMESPACE(MyQObject, MyNmspce, "DefaultMessage")
+ * };
+ * \endcode
+ * Then to register the class :
+ * \code
+ * // Regular Naming convetion
+ * MyQObject::RegisterUnCreatableToQml("MyUri", 1, 0, "Message");
+ * \endcode
+ *
+ */
+#define QSM_REGISTER_UNCREATABLE_OBJ_TO_QML_NO_NAME_NAMESPACE(Type, Namespace, DefaultMessage) \
+public: \
+	static void RegisterUnCreatableToQml(const char * uri, const int majorVersion, const int minorVersion, const QString &message = QStringLiteral(DefaultMessage)) { \
+			qmlRegisterUncreatableType<Type>(uri, majorVersion, minorVersion, #Namespace#Type, message ); \
+	} \
+private:
+
+/**
+ * \def QSM_REGISTER_OBJ_TO_QML_NAMESPACE(Type)
+ * \ingroup QQML_HELPER_COMMON
+ * \hideinitializer
+ * \brief Create a function to easily register an uncreatable QObject to the qml system
+ * \param Type Class Name
+ * \param DefaultMessage The message given if creation is attempted. This macro add the QStringLiteral macro for faster load.
+ * This param is important because it then allow the user to leave the default message and don't care about the use of this object
+ *
+ * To use this macro simply call it into your QObject derived class
+ * \code
+ * class MyUncreatableQObject : public QObject
+ * {
+ *     Q_OBJECT
+ *     QSM_REGISTER_UNCREATABLE_OBJ_TO_QML_NAMESPACE(MyUncreatableQObject, MyNspc, "DefaultMessage")
+ * };
+ * \endcode
+ * Then to register the class :
+ * \code
+ * // Regular Naming convetion
+ * MyQObject::RegisterUncreatableToQml("MyUri", 1, 0, "Description");
+ * // or
+ * MyQObject::RegisterUncreatableToQml("MyUri", 1, 0, "MyQObjectQmlName", "Message");
+ * \endcode
+ *
+ */
+#define QSM_REGISTER_UNCREATABLE_OBJ_TO_QML_NAMESPACE(Type, Namespace, DefaultMessage) \
+	QSM_REGISTER_UNCREATABLE_OBJ_TO_QML_WITH_NAME(Type, DefaultMessage); \
+	QSM_REGISTER_UNCREATABLE_OBJ_TO_QML_NO_NAME_NAMESPACE(Type, Namespace, DefaultMessage)\
 private:
 
 QSUPERMACROS_NAMESPACE_END
