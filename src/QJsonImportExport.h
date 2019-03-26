@@ -286,10 +286,15 @@ class QSUPERMACROS_API_ QJsonExportable
 public:
 	/** Public virtual Destructor */
 	virtual ~QJsonExportable() = default;
+protected:
+	bool DataSave(const QUrl& filepath, const bool fromJson = true) const;
+public:
 	/** Save the object in the filepath.
 	 * \return If the save succeed
 	 */
 	virtual bool JsonSave(const QUrl& filepath);
+	/** Save the object in the filepath. \return If the save succeed */
+	virtual bool BinarySave(const QUrl& filepath);
 	/** Dump the object in the json object */
 	virtual void JsonWrite(QJsonObject &json) const {};
 };
@@ -300,8 +305,14 @@ class QSUPERMACROS_API_ QJsonImportable
 public:
 	/** Public virtual Destructor */
 	virtual ~QJsonImportable() = default;
+protected:
+	/** Real loader function */
+	bool DataLoad(const QUrl& filepath, const bool fromJson = true);
+public:
 	/** Load from a Json file. \return If the load was a success */
 	virtual bool JsonLoad(const QUrl& filepath);
+	/** Load from a json binary file (very fast) \return if the load was a success */
+	virtual bool BinaryLoad(const QUrl& filepath);
 	/** Inflate from the json object */
 	virtual void JsonRead(const QJsonObject &json) {};
 };
