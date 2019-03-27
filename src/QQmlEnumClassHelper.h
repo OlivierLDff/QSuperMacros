@@ -28,7 +28,7 @@
 #endif
 
 /**
- * \def QSM_ENUM_CLASS(Name, Namespace, ...)
+ * \def QSM_ENUM_CLASS_NAMESPACE(Name, Namespace, ...)
  * \ingroup QSM_ENUM_HELPER_NAMESPACE
  * \hideinitializer
  * \details Creates a class that contains a C++ enum that can be exposed to QML.
