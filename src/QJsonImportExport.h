@@ -292,9 +292,9 @@ public:
 	/** Save the object in the filepath.
 	 * \return If the save succeed
 	 */
-	virtual bool JsonSave(const QUrl& filepath);
+	virtual bool JsonSave(const QUrl& filepath) const;
 	/** Save the object in the filepath. \return If the save succeed */
-	virtual bool BinarySave(const QUrl& filepath);
+	virtual bool BinarySave(const QUrl& filepath) const;
 	/** Dump the object in the json object */
 	virtual void JsonWrite(QJsonObject &json) const {};
 };

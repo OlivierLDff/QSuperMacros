@@ -32,12 +32,12 @@ bool QJsonExportable::DataSave(const QUrl& filepath, const bool fromJson) const
 	return true;
 }
 
-bool QJsonExportable::JsonSave(const QUrl& filepath)
+bool QJsonExportable::JsonSave(const QUrl& filepath) const
 {
 	return DataSave(filepath, true);
 }
 
-bool QJsonExportable::BinarySave(const QUrl& filepath)
+bool QJsonExportable::BinarySave(const QUrl& filepath) const
 {
 	return DataSave(filepath, false);
 }
