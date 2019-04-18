@@ -56,7 +56,7 @@
 #define QJSONIMPORT_OBJECT(jsonName, objectDest) \
 	if (QJSONIMPORT_ISOBJECTVALID(jsonName)) \
 	{ \
-		objectDest->JsonRead(json[jsonName].toObject()); \
+		objectDest->jsonRead(json[jsonName].toObject()); \
 	} \
 
 #define QJSONIMPORT_OBJECT_WLOG(jsonName, objectDest, logCat) \
@@ -69,12 +69,12 @@
 }
 
 #define QJSONIMPORT_OBJECT_FROMARRAY(object) \
-	object->JsonRead(it.toObject());
+	object->jsonRead(it.toObject());
 
 #define QJSONEXPORT_OBJECT(jsonName, objectSrc) \
 { \
 	QJsonObject jsonObj; \
-	objectSrc->JsonWrite(jsonObj); \
+	objectSrc->jsonWrite(jsonObj); \
 	json[jsonName] = jsonObj; \
 }
 
@@ -110,7 +110,7 @@
 	for (auto it : list) \
 	{ \
 		QJsonObject jsonObject; \
-		it->JsonWrite(jsonObject); \
+		it->jsonWrite(jsonObject); \
 		arrayObject.append(jsonObject); \
 	} \
 	QJSONEXPORT(jsonName, arrayObject); \
@@ -287,16 +287,16 @@ public:
 	/** Public virtual Destructor */
 	virtual ~QJsonExportable() = default;
 protected:
-	bool DataSave(const QUrl& filepath, const bool fromJson = true) const;
+	bool dataSave(const QUrl& filepath, const bool fromJson = true) const;
 public:
 	/** Save the object in the filepath.
 	 * \return If the save succeed
 	 */
-	virtual bool JsonSave(const QUrl& filepath) const;
+	virtual bool jsonSave(const QUrl& filepath) const;
 	/** Save the object in the filepath. \return If the save succeed */
-	virtual bool BinarySave(const QUrl& filepath) const;
+	virtual bool binarySave(const QUrl& filepath) const;
 	/** Dump the object in the json object */
-	virtual void JsonWrite(QJsonObject &json) const {};
+	virtual void jsonWrite(QJsonObject &json) const {};
 };
 
 /** An object that can be import from a json document */
@@ -307,14 +307,14 @@ public:
 	virtual ~QJsonImportable() = default;
 protected:
 	/** Real loader function */
-	bool DataLoad(const QUrl& filepath, const bool fromJson = true);
+	bool dataLoad(const QUrl& filepath, const bool fromJson = true);
 public:
 	/** Load from a Json file. \return If the load was a success */
-	virtual bool JsonLoad(const QUrl& filepath);
+	virtual bool jsonLoad(const QUrl& filepath);
 	/** Load from a json binary file (very fast) \return if the load was a success */
-	virtual bool BinaryLoad(const QUrl& filepath);
+	virtual bool binaryLoad(const QUrl& filepath);
 	/** Inflate from the json object */
-	virtual void JsonRead(const QJsonObject &json) {};
+	virtual void jsonRead(const QJsonObject &json) {};
 };
 
 /** An object that can be import and export to and from json format */

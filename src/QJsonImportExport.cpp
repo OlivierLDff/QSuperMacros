@@ -14,7 +14,7 @@ QSUPERMACROS_USING_NAMESPACE;
 //					FUNCTIONS
 // ─────────────────────────────────────────────────────────────
 
-bool QJsonExportable::DataSave(const QUrl& filepath, const bool fromJson) const
+bool QJsonExportable::dataSave(const QUrl& filepath, const bool fromJson) const
 {
 	QFile saveFile(filepath.toLocalFile());
 
@@ -25,24 +25,24 @@ bool QJsonExportable::DataSave(const QUrl& filepath, const bool fromJson) const
 	}
 
 	QJsonObject jsonObject;
-	JsonWrite(jsonObject);
+	jsonWrite(jsonObject);
 	QJsonDocument saveDoc(jsonObject);
 	saveFile.write(fromJson ? saveDoc.toJson() : saveDoc.toBinaryData());
 
 	return true;
 }
 
-bool QJsonExportable::JsonSave(const QUrl& filepath) const
+bool QJsonExportable::jsonSave(const QUrl& filepath) const
 {
-	return DataSave(filepath, true);
+	return dataSave(filepath, true);
 }
 
-bool QJsonExportable::BinarySave(const QUrl& filepath) const
+bool QJsonExportable::binarySave(const QUrl& filepath) const
 {
-	return DataSave(filepath, false);
+	return dataSave(filepath, false);
 }
 
-bool QJsonImportable::DataLoad(const QUrl& filepath, const bool fromJson)
+bool QJsonImportable::dataLoad(const QUrl& filepath, const bool fromJson)
 {
 	QFile loadFile(filepath.toLocalFile());
 
@@ -54,17 +54,17 @@ bool QJsonImportable::DataLoad(const QUrl& filepath, const bool fromJson)
 
 	const QByteArray saveData = loadFile.readAll();
 	QJsonDocument loadDoc(fromJson ? QJsonDocument::fromJson(saveData) : QJsonDocument::fromBinaryData(saveData));
-	JsonRead(loadDoc.object());
+	jsonRead(loadDoc.object());
 
 	return true;
 }
 
-bool QJsonImportable::JsonLoad(const QUrl& filepath)
+bool QJsonImportable::jsonLoad(const QUrl& filepath)
 {
-	return DataLoad(filepath, true);
+	return dataLoad(filepath, true);
 }
 
-bool QJsonImportable::BinaryLoad(const QUrl& filepath)
+bool QJsonImportable::binaryLoad(const QUrl& filepath)
 {
-	return DataLoad(filepath, false);
+	return dataLoad(filepath, false);
 }
