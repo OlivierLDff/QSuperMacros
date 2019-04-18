@@ -75,13 +75,13 @@
                 __VA_ARGS__ \
             }; \
             QSM_EXPORT_ENUM (Type) \
-            static QString AsString (const int value) { \
+            static QString toString (const int value) { \
                 return QString::fromLatin1 (staticMetaObject.enumerator (0).valueToKey (value)); \
             } \
-            static void RegisterToQml (const char * uri, const int majorVersion, const int minorVersion, const char * name, const char* enumName) { \
+            static void tegisterToQml (const char * uri, const int majorVersion, const int minorVersion, const char * name, const char* enumName) { \
                 qmlRegisterUncreatableType<Name> (uri, majorVersion, minorVersion, name, "Enum class, can't be instanciated !"); \
             } \
-            static void RegisterToQml (const char * uri, const int majorVersion, const int minorVersion) { \
+            static void registerToQml (const char * uri, const int majorVersion, const int minorVersion) { \
                 qmlRegisterUncreatableType<Name> (uri, majorVersion, minorVersion, QSM_ENUM_CREATE_TYPE_NAME(Name, Namespace), "Enum class, can't be instanciated !"); \
             } \
         public: \

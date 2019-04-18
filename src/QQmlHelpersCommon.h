@@ -78,10 +78,14 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
  * \param name Attribute name in lowerCamelCase
  * \param Name Attribute name in UpperCamelCase
  */
+#ifdef QSUPERMACROS_USE_QT_GETTERS_GET
+#   define QSM_MAKE_GETTER_NAME(name, Name) get##Name
+#else
 #ifdef QSUPERMACROS_USE_QT_GETTERS
 #   define QSM_MAKE_GETTER_NAME(name, Name) name
 #else
 #   define QSM_MAKE_GETTER_NAME(name, Name) Get##Name
+#endif
 #endif
 
 /** 
@@ -157,7 +161,7 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
  */
 #define QSM_REGISTER_OBJ_TO_QML_WITH_NAME(Type) \
 public: \
-	static void RegisterToQml(const char * uri, const int majorVersion, const int minorVersion, const char * name) { \
+	static void registerToQml(const char * uri, const int majorVersion, const int minorVersion, const char * name) { \
 			qmlRegisterType<Type>(uri, majorVersion, minorVersion, name); \
 	} \
 private:
@@ -186,7 +190,7 @@ private:
  */
 #define QSM_REGISTER_OBJ_TO_QML_NO_NAME(Type) \
 public: \
-	static void RegisterToQml(const char * uri, const int majorVersion, const int minorVersion) { \
+	static void registerToQml(const char * uri, const int majorVersion, const int minorVersion) { \
 			qmlRegisterType<Type>(uri, majorVersion, minorVersion, #Type ); \
 	} \
 private:
@@ -244,7 +248,7 @@ private:
  */
 #define QSM_REGISTER_OBJ_TO_QML_NO_NAME_NAMESPACE(Type, Namespace) \
 public: \
-	static void RegisterToQml(const char * uri, const int majorVersion, const int minorVersion) { \
+	static void registerToQml(const char * uri, const int majorVersion, const int minorVersion) { \
 			qmlRegisterType<Type>(uri, majorVersion, minorVersion, #Namespace#Type ); \
 	} \
 private:
@@ -304,7 +308,7 @@ private:
  */
 #define QSM_REGISTER_UNCREATABLE_OBJ_TO_QML_WITH_NAME(Type, DefaultMessage) \
 public: \
-	static void RegisterUnCreatableToQml(const char * uri, const int majorVersion, const int minorVersion, const char * name, const QString &message = QStringLiteral(DefaultMessage)) { \
+	static void registerUnCreatableToQml(const char * uri, const int majorVersion, const int minorVersion, const char * name, const QString &message = QStringLiteral(DefaultMessage)) { \
 			qmlRegisterUncreatableType<Type>(uri, majorVersion, minorVersion, name, message); \
 	} \
 private:
@@ -335,7 +339,7 @@ private:
  */
 #define QSM_REGISTER_UNCREATABLE_OBJ_TO_QML_NO_NAME(Type, DefaultMessage) \
 public: \
-	static void RegisterUnCreatableToQml(const char * uri, const int majorVersion, const int minorVersion, const QString &message = QStringLiteral(DefaultMessage)) { \
+	static void registerUnCreatableToQml(const char * uri, const int majorVersion, const int minorVersion, const QString &message = QStringLiteral(DefaultMessage)) { \
 			qmlRegisterUncreatableType<Type>(uri, majorVersion, minorVersion, #Type, message ); \
 	} \
 private:
@@ -398,7 +402,7 @@ private:
  */
 #define QSM_REGISTER_UNCREATABLE_OBJ_TO_QML_NO_NAME_NAMESPACE(Type, Namespace, DefaultMessage) \
 public: \
-	static void RegisterUnCreatableToQml(const char * uri, const int majorVersion, const int minorVersion, const QString &message = QStringLiteral(DefaultMessage)) { \
+	static void registerUnCreatableToQml(const char * uri, const int majorVersion, const int minorVersion, const QString &message = QStringLiteral(DefaultMessage)) { \
 			qmlRegisterUncreatableType<Type>(uri, majorVersion, minorVersion, #Namespace#Type, message ); \
 	} \
 private:
@@ -458,7 +462,7 @@ private:
  */
 #define QSM_REGISTER_SINGLETON_OBJ_TO_QML_WITH_NAME(Type) \
 public: \
-	static void RegisterSingletonToQml(const char * uri, const int majorVersion, const int minorVersion, const char * name, QObject *(*)(QQmlEngine *, QJSEngine *) callback) { \
+	static void registerSingletonToQml(const char * uri, const int majorVersion, const int minorVersion, const char * name, QObject *(*)(QQmlEngine *, QJSEngine *) callback) { \
 			qmlRegisterSingletonType<Type>(uri, majorVersion, minorVersion, name, callback); \
 	} \
 private:
@@ -487,7 +491,7 @@ private:
  */
 #define QSM_REGISTER_SINGLETON_OBJ_TO_QML_NO_NAME(Type, Provider) \
 public: \
-	static void RegisterSingletonToQml(const char * uri, const int majorVersion, const int minorVersion, QObject *(*)(QQmlEngine *, QJSEngine *) callback) { \
+	static void registerSingletonToQml(const char * uri, const int majorVersion, const int minorVersion, QObject *(*)(QQmlEngine *, QJSEngine *) callback) { \
 			qmlRegisterSingletonType<Type>(uri, majorVersion, minorVersion, #Type, callback ); \
 	} \
 private:
@@ -552,7 +556,7 @@ private:
  */
 #define QSM_REGISTER_SINGLETON_OBJ_TO_QML_NO_NAME_NAMESPACE(Type, Namespace) \
 public: \
-	static void RegisterSingletonToQml(const char * uri, const int majorVersion, const int minorVersion, QObject *(*)(QQmlEngine *, QJSEngine *) callback) { \
+	static void registerSingletonToQml(const char * uri, const int majorVersion, const int minorVersion, QObject *(*)(QQmlEngine *, QJSEngine *) callback) { \
 			qmlRegisterSingletonType<Type>(uri, majorVersion, minorVersion, #Namespace#Type, callback ); \
 	} \
 private:

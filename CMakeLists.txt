@@ -1,48 +1,48 @@
 #
-#	QSuperMacros CMake script by Olivier Le Doeuff
+#   QSuperMacros CMake script by Olivier Le Doeuff
 
 #
 ## CMAKE INPUT
 #
-#	- QSUPERMACROS_TARGET : Name of the library target. Default : "QSuperMacros"
-#	- QSUPERMACROS_PROJECT : Name of the project. Default : "QSuperMacros"
-#	- QSUPERMACROS_BUILD_SHARED : Build shared library [ON OFF]. Default: OFF.
-#	- QSUPERMACROS_BUILD_STATIC : Build static library [ON OFF]. Default: ON.
-#	- QSUPERMACROS_USE_NAMESPACE : If the library compile with a namespace. Default: OFF.
-#	- QSUPERMACROS_NAMESPACE : Namespace for the library. Only relevant if QSUPERMACROS_USE_NAMESPACE is ON. Default: "Qsm".
-#	- QSUPERMACROS_BUILD_DOC : Build the QSuperMacros Doc [ON OFF]. Default: OFF.
-#	- QSUPERMACROS_DOXYGEN_BT_REPOSITORY : Repository of DoxygenBt. Default : "https://github.com/OlivierLDff/DoxygenBootstrapped.git"
-#	- QSUPERMACROS_DOXYGEN_BT_TAG : Git Tag of DoxygenBt. Default : "v1.3.1"
+#   - QSUPERMACROS_TARGET : Name of the library target. Default : "QSuperMacros"
+#   - QSUPERMACROS_PROJECT : Name of the project. Default : "QSuperMacros"
+#   - QSUPERMACROS_BUILD_SHARED : Build shared library [ON OFF]. Default: OFF.
+#   - QSUPERMACROS_BUILD_STATIC : Build static library [ON OFF]. Default: ON.
+#   - QSUPERMACROS_USE_NAMESPACE : If the library compile with a namespace. Default: OFF.
+#   - QSUPERMACROS_NAMESPACE : Namespace for the library. Only relevant if QSUPERMACROS_USE_NAMESPACE is ON. Default: "Qsm".
+#   - QSUPERMACROS_BUILD_DOC : Build the QSuperMacros Doc [ON OFF]. Default: OFF.
+#   - QSUPERMACROS_DOXYGEN_BT_REPOSITORY : Repository of DoxygenBt. Default : "https://github.com/OlivierLDff/DoxygenBootstrapped.git"
+#   - QSUPERMACROS_DOXYGEN_BT_TAG : Git Tag of DoxygenBt. Default : "v1.3.1"
 
 #
 ## NAMING CONVENTION
 #
-#	- QSUPERMACROS_USE_QT_PREFIX : Use Qt-ish internal attribute prefix m_attribute [ON OFF]. Default = OFF.
-#	- QSUPERMACROS_USE_QT_GETTERS : Use Qt-ish Getter naming convention attribute() [ON OFF]. Default = OFF.
-#	- QSUPERMACROS_USE_QT_SETTERS : Use Qt-ish Setter naming convention setAttribute [ON OFF]. Default = OFF.
-#	- QSUPERMACROS_USE_QT_RESETS : Use Qt-ish Setter naming convention resetAttribute [ON OFF]. Default = OFF.
-#	- QSUPERMACROS_USE_QT_SIGNALS : Use Qt-ish signal naming convention attributeChanged. It is really recommended to leave this option ON because QML Connections don't handle signals starting with Capital Letter [ON OFF]. Default = ON.
+#   - QSUPERMACROS_USE_QT_PREFIX : Use Qt-ish internal attribute prefix m_attribute [ON OFF]. Default = OFF.
+#   - QSUPERMACROS_USE_QT_GETTERS : Use Qt-ish Getter naming convention attribute() [ON OFF]. Default = OFF.
+#   - QSUPERMACROS_USE_QT_SETTERS : Use Qt-ish Setter naming convention setAttribute [ON OFF]. Default = OFF.
+#   - QSUPERMACROS_USE_QT_RESETS : Use Qt-ish Setter naming convention resetAttribute [ON OFF]. Default = OFF.
+#   - QSUPERMACROS_USE_QT_SIGNALS : Use Qt-ish signal naming convention attributeChanged. It is really recommended to leave this option ON because QML Connections don't handle signals starting with Capital Letter [ON OFF]. Default = ON.
 
 #
 ## CMAKE OUTPUT
 #
-#	- QSUPERMACROS_TARGET : Output target to link to. Default: QSuperMacros
-#	- QSUPERMACROS_VERSION : Version of QSuperMacros
+#   - QSUPERMACROS_TARGET : Output target to link to. Default: QSuperMacros
+#   - QSUPERMACROS_VERSION : Version of QSuperMacros
 #
 
 #
 ## VERSION
-#	- 1.0.0 : 06/12/2018 : Initial Work
-#	- 1.1.0 : 12/12/2018 : Reset functions
+#   - 1.0.0 : 06/12/2018 : Initial Work
+#   - 1.1.0 : 12/12/2018 : Reset functions
 
 # ┌──────────────────────────────────────────────────────────────────┐
-# │						  CMAKE PROPERTIES							 │
+# │                       CMAKE PROPERTIES                           │
 # └──────────────────────────────────────────────────────────────────┘
 
 CMAKE_MINIMUM_REQUIRED( VERSION 3.1.0 )
 
 # ┌──────────────────────────────────────────────────────────────────┐
-# │						  PROJECT SETTINGS							 │
+# │                       PROJECT SETTINGS                           │
 # └──────────────────────────────────────────────────────────────────┘
 
 SET( QSUPERMACROS_TARGET "QSuperMacros" CACHE STRING "Target Name" )
@@ -64,15 +64,16 @@ ENDIF(QSUPERMACROS_BUILD_DOC)
 
 SET( QSUPERMACROS_USE_QT_PREFIX OFF CACHE BOOL "Use Qt-ish internal attribute prefix m_attribute [ON OFF]" )
 SET( QSUPERMACROS_USE_QT_GETTERS OFF CACHE BOOL "Use Qt-ish Getter naming convention attribute() [ON OFF]" )
-SET( QSUPERMACROS_USE_QT_SETTERS OFF CACHE BOOL "Use Qt-ish Setter naming convention setAttribute [ON OFF]" )
-SET( QSUPERMACROS_USE_QT_RESETS OFF CACHE BOOL "Use Qt-ish Reset naming convention resetAttribute [ON OFF]" )
+SET( QSUPERMACROS_USE_QT_GETTERS_GET ON CACHE BOOL "Use Getter naming convention getAttribute() [ON OFF]" )
+SET( QSUPERMACROS_USE_QT_SETTERS ON CACHE BOOL "Use Qt-ish Setter naming convention setAttribute [ON OFF]" )
+SET( QSUPERMACROS_USE_QT_RESETS ON CACHE BOOL "Use Qt-ish Reset naming convention resetAttribute [ON OFF]" )
 SET( QSUPERMACROS_USE_QT_SIGNALS ON CACHE BOOL "Use Qt-ish signal naming convention attributeChanged. It is really recommended to leave this option ON because QML Connections don't handle signals starting with Capital Letter [ON OFF]" )
 
 PROJECT( ${QSUPERMACROS_PROJECT} )
 SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # ┌──────────────────────────────────────────────────────────────────┐
-# │						  	QT5 CMAKE 								 │
+# │                         QT5 CMAKE                                │
 # └──────────────────────────────────────────────────────────────────┘
 
 # Find includes in corresponding build directories
@@ -86,14 +87,14 @@ set (CMAKE_CXX_STANDARD 11)
 
 # Find correct qt directory
 IF( QT_DIR )
-	SET( CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};${QT_DIR}" )
+    SET( CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};${QT_DIR}" )
 ENDIF( QT_DIR )
 
 FIND_PACKAGE(Qt5Core CONFIG REQUIRED CMAKE_FIND_ROOT_PATH_BOTH)
 FIND_PACKAGE(Qt5Qml CONFIG REQUIRED CMAKE_FIND_ROOT_PATH_BOTH)
 
 # ┌──────────────────────────────────────────────────────────────────┐
-# │						  VERSION 	 								 │
+# │                       VERSION                                    │
 # └──────────────────────────────────────────────────────────────────┘
 
 # Project version must be set here
@@ -103,19 +104,19 @@ SET(QSUPERMACROS_VERSION_PATCH 1)
 SET(QSUPERMACROS_VERSION ${QSUPERMACROS_VERSION_MAJOR}.${QSUPERMACROS_VERSION_MINOR}.${QSUPERMACROS_VERSION_PATCH} CACHE STRING "Version")
 
 IF( EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/.git" )
-	EXECUTE_PROCESS(
-		COMMAND git describe --always
-		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-		OUTPUT_VARIABLE QSUPERMACROS_VERSION_TAG
-		OUTPUT_STRIP_TRAILING_WHITESPACE
-	)
+    EXECUTE_PROCESS(
+        COMMAND git describe --always
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        OUTPUT_VARIABLE QSUPERMACROS_VERSION_TAG
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
 ELSE()
-	SET( QSUPERMACROS_VERSION_TAG 00000000 )
+    SET( QSUPERMACROS_VERSION_TAG 00000000 )
 ENDIF()
 SET( QSUPERMACROS_VERSION_TAG_HEX 0x${QSUPERMACROS_VERSION_TAG})
 
 # ┌──────────────────────────────────────────────────────────────────┐
-# │						  STATUS 	 								 │
+# │                       STATUS                                     │
 # └──────────────────────────────────────────────────────────────────┘
 
 MESSAGE( STATUS  "------ ${QSUPERMACROS_TARGET} Configuration v${QSUPERMACROS_VERSION} ------" )
@@ -148,50 +149,50 @@ MESSAGE( FATAL_ERROR "Set either Build shared or build static to ON, can't build
 ENDIF((QSUPERMACROS_BUILD_SHARED AND QSUPERMACROS_BUILD_STATIC) OR (NOT QSUPERMACROS_BUILD_SHARED AND NOT QSUPERMACROS_BUILD_STATIC))
 
 # ┌──────────────────────────────────────────────────────────────────┐
-# │						  SOURCES 	 								 │
+# │                       SOURCES                                    │
 # └──────────────────────────────────────────────────────────────────┘
 
 SET( QSUPERMACROS_SRCS 
-	# Main
-	${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlAutoPropertyHelpers.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlConstRefPropertyHelpers.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlEnumClassHelper.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlHelpersCommon.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlListPropertyHelper.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlPtrPropertyHelpers.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlSingletonHelper.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlVarPropertyHelpers.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/QJsonImportExport.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/src/QJsonImportExport.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/QSuperMacros.h
-	${CMAKE_CURRENT_SOURCE_DIR}/src/QSuperMacros.cpp
-	)
+    # Main
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlAutoPropertyHelpers.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlConstRefPropertyHelpers.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlEnumClassHelper.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlHelpersCommon.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlListPropertyHelper.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlPtrPropertyHelpers.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlSingletonHelper.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlVarPropertyHelpers.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/QJsonImportExport.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/QJsonImportExport.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/QSuperMacros.h
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/QSuperMacros.cpp
+    )
 
 # ┌──────────────────────────────────────────────────────────────────┐
-# │						  TARGET 	 								 │
+# │                       TARGET                                     │
 # └──────────────────────────────────────────────────────────────────┘
 
 IF(QSUPERMACROS_BUILD_SHARED)
-	IF( MSVC )
-	INCLUDE (GenerateExportHeader)
-	ENDIF( MSVC )
+    IF( MSVC )
+    INCLUDE (GenerateExportHeader)
+    ENDIF( MSVC )
 
-	ADD_LIBRARY( ${QSUPERMACROS_TARGET} SHARED ${QSUPERMACROS_SRCS} )
+    ADD_LIBRARY( ${QSUPERMACROS_TARGET} SHARED ${QSUPERMACROS_SRCS} )
 
-	IF( MSVC )
-	GENERATE_EXPORT_HEADER( ${QSUPERMACROS_TARGET}
-		BASE_NAME ${QSUPERMACROS_TARGET}
-		EXPORT_MACRO_NAME ${QSUPERMACROS_TARGET}_EXPORT
-		EXPORT_FILE_NAME ${QSUPERMACROS_TARGET}_Export.h
-		STATIC_DEFINE ${QSUPERMACROS_TARGET}_BUILT_AS_STATIC
-	)
-	ENDIF( MSVC )
-	
-	TARGET_COMPILE_DEFINITIONS( ${QSUPERMACROS_TARGET} PRIVATE -DQSUPERMACROS_SHARED )
+    IF( MSVC )
+    GENERATE_EXPORT_HEADER( ${QSUPERMACROS_TARGET}
+        BASE_NAME ${QSUPERMACROS_TARGET}
+        EXPORT_MACRO_NAME ${QSUPERMACROS_TARGET}_EXPORT
+        EXPORT_FILE_NAME ${QSUPERMACROS_TARGET}_Export.h
+        STATIC_DEFINE ${QSUPERMACROS_TARGET}_BUILT_AS_STATIC
+    )
+    ENDIF( MSVC )
+    
+    TARGET_COMPILE_DEFINITIONS( ${QSUPERMACROS_TARGET} PRIVATE -DQSUPERMACROS_SHARED )
 
 ELSE()
-	ADD_LIBRARY( ${QSUPERMACROS_TARGET} STATIC ${QSUPERMACROS_SRCS} )
-	TARGET_COMPILE_DEFINITIONS( ${QSUPERMACROS_TARGET} PUBLIC -DQSUPERMACROS_STATIC )
+    ADD_LIBRARY( ${QSUPERMACROS_TARGET} STATIC ${QSUPERMACROS_SRCS} )
+    TARGET_COMPILE_DEFINITIONS( ${QSUPERMACROS_TARGET} PUBLIC -DQSUPERMACROS_STATIC )
 ENDIF()
 
 TARGET_INCLUDE_DIRECTORIES( ${QSUPERMACROS_TARGET} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src )
@@ -207,25 +208,28 @@ TARGET_COMPILE_DEFINITIONS( ${QSUPERMACROS_TARGET} PUBLIC -DQSUPERMACROS_NAMESPA
 ENDIF(QSUPERMACROS_USE_NAMESPACE)
 
 IF(QSUPERMACROS_USE_QT_PREFIX)
-	TARGET_COMPILE_DEFINITIONS( ${QSUPERMACROS_TARGET} PUBLIC -DQSUPERMACROS_USE_QT_PREFIX )
+    TARGET_COMPILE_DEFINITIONS( ${QSUPERMACROS_TARGET} PUBLIC -DQSUPERMACROS_USE_QT_PREFIX )
 ENDIF(QSUPERMACROS_USE_QT_PREFIX)
 IF(QSUPERMACROS_USE_QT_GETTERS)
-	TARGET_COMPILE_DEFINITIONS( ${QSUPERMACROS_TARGET} PUBLIC -DQSUPERMACROS_USE_QT_GETTERS )
+    TARGET_COMPILE_DEFINITIONS( ${QSUPERMACROS_TARGET} PUBLIC -DQSUPERMACROS_USE_QT_GETTERS )
 ENDIF(QSUPERMACROS_USE_QT_GETTERS)
+IF(QSUPERMACROS_USE_QT_GETTERS_GET)
+    TARGET_COMPILE_DEFINITIONS( ${QSUPERMACROS_TARGET} PUBLIC -DQSUPERMACROS_USE_QT_GETTERS_GET )
+ENDIF(QSUPERMACROS_USE_QT_GETTERS_GET)
 IF(QSUPERMACROS_USE_QT_SETTERS)
-	TARGET_COMPILE_DEFINITIONS( ${QSUPERMACROS_TARGET} PUBLIC -DQSUPERMACROS_USE_QT_SETTERS )
+    TARGET_COMPILE_DEFINITIONS( ${QSUPERMACROS_TARGET} PUBLIC -DQSUPERMACROS_USE_QT_SETTERS )
 ENDIF(QSUPERMACROS_USE_QT_SETTERS)
 IF(QSUPERMACROS_USE_QT_RESETS)
-	TARGET_COMPILE_DEFINITIONS( ${QSUPERMACROS_TARGET} PUBLIC -DQSUPERMACROS_USE_QT_RESETS )
+    TARGET_COMPILE_DEFINITIONS( ${QSUPERMACROS_TARGET} PUBLIC -DQSUPERMACROS_USE_QT_RESETS )
 ENDIF(QSUPERMACROS_USE_QT_RESETS)
 IF(QSUPERMACROS_USE_QT_SIGNALS)
-	TARGET_COMPILE_DEFINITIONS( ${QSUPERMACROS_TARGET} PUBLIC -DQSUPERMACROS_USE_QT_SIGNALS )
+    TARGET_COMPILE_DEFINITIONS( ${QSUPERMACROS_TARGET} PUBLIC -DQSUPERMACROS_USE_QT_SIGNALS )
 ENDIF(QSUPERMACROS_USE_QT_SIGNALS)
 
 qt5_use_modules( ${QSUPERMACROS_TARGET} Core Qml )
 
 # ┌──────────────────────────────────────────────────────────────────┐
-# │						  DOXYGEN 									 │
+# │                       DOXYGEN                                    │
 # └──────────────────────────────────────────────────────────────────┘
 
 IF(QSUPERMACROS_BUILD_DOC)
