@@ -79,7 +79,7 @@ QSUPERMACROS_NAMESPACE_START
  *  \endcode
  */
 #define QSM_AUTO_SETTER(type, name, Name) \
-    bool QSM_MAKE_SETTER_NAME(name, Name) (QSUPERMACROS_NAMESPACE::CheapestType<type>::type_def name) \
+    bool QSM_MAKE_SETTER_NAME(name, Name) (const QSUPERMACROS_NAMESPACE::CheapestType<type>::type_def name) \
     { \
         if (QSM_MAKE_ATTRIBUTE_NAME(name, Name) != name) { \
             QSM_MAKE_ATTRIBUTE_NAME(name, Name) = name; \
@@ -804,7 +804,7 @@ QSUPERMACROS_NAMESPACE_START
 	Q_PROPERTY(QString name##String READ QSM_MAKE_GETTER_NAME(name##String, Name##String) NOTIFY QSM_MAKE_SIGNAL_NAME(name, Name)); \
 	public: \
 	QString QSM_MAKE_GETTER_NAME(name##String, Name##String) () const { return QSM_MAKE_GETTER_NAME(name, Name) ().toString(); } \
-	bool QSM_MAKE_SETTER_NAME(name##String, Name##String) (const QString s) \
+	bool QSM_MAKE_SETTER_NAME(name##String, Name##String) (const QString& s) \
 	{ \
 		const type fromString(s); \
 		if(fromString != QSM_MAKE_ATTRIBUTE_NAME(name, Name)) \
