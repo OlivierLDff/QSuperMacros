@@ -43,7 +43,7 @@
 	QJSONIMPORT(jsonName, setter, type, jsonType) \
 	else \
 	{ \
-		qCWarning(logCat, "%s isn't a valid Json " #jsonType, qPrintable(jsonName)); \
+		qCDebug(logCat, "%s isn't a valid Json " #jsonType, qPrintable(jsonName)); \
 	} \
 }
 
@@ -64,7 +64,7 @@
 	QJSONIMPORT_OBJECT(jsonName, objectDest) \
 	else \
 	{ \
-		qCWarning(logCat, "%s isn't a valid Json Object", qPrintable(jsonName)); \
+		qCDebug(logCat, "%s isn't a valid Json Object", qPrintable(jsonName)); \
 	} \
 }
 
@@ -94,13 +94,13 @@
 			} \
 			else \
 			{ \
-				qCWarning(logCat, "%s contains a non valid Json Object", qPrintable(jsonName)); \
+				qCDebug(logCat, "%s contains a non valid Json Object", qPrintable(jsonName)); \
 			} \
 		} \
 	} \
 	else \
 	{ \
-		qCWarning(logCat, "%s isn't a valid Json Array", qPrintable(jsonName)); \
+		qCDebug(logCat, "%s isn't a valid Json Array", qPrintable(jsonName)); \
 	} \
 }
 
@@ -133,13 +133,13 @@
 		quint64 value = json[jsonName].toString().toULongLong(&stringValid); \
 		if (!stringValid) \
 		{ \
-			qCWarning(logCat, "Cannot convert String to uint64"); \
+			qCDebug(logCat, "Cannot convert String to uint64"); \
 		} \
 		setter(value); \
 	} \
 	else \
 	{ \
-		qCWarning(logCat, "%s isn't a valid Json String", qPrintable(jsonName)); \
+		qCDebug(logCat, "%s isn't a valid Json String", qPrintable(jsonName)); \
 	} \
 }
 
@@ -198,13 +198,13 @@
 		qint64 value = json[jsonName].toString().toLongLong(&stringValid); \
 		if (!stringValid) \
 		{ \
-			qCWarning(logCat, "Cannot convert String to int64"); \
+			qCDebug(logCat, "Cannot convert String to int64"); \
 		} \
 		setter(value); \
 	} \
 	else \
 	{ \
-		qCWarning(logCat, "%s isn't a valid Json String", qPrintable(jsonName)); \
+		qCDebug(logCat, "%s isn't a valid Json String", qPrintable(jsonName)); \
 	} \
 }
 
