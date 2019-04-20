@@ -154,7 +154,7 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
  * \endcode
  * Then to register the class :
  * \code
- * // Regular Naming convetion
+ * // Regular Naming convention
  * MyQObject::RegisterToQml("MyUri", 1, 0, "MyQObjectQmlName");
  * \endcode
  *    
@@ -183,7 +183,7 @@ private:
  * \endcode
  * Then to register the class :
  * \code
- * // Regular Naming convetion
+ * // Regular Naming convention
  * MyQObject::RegisterToQml("MyUri", 1, 0);
  * \endcode
  *

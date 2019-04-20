@@ -152,7 +152,7 @@
 
 #define QJSONIMPORT_UINT32_WLOG(jsonName, setter, logCat) QJSONIMPORT_WLOG(jsonName, setter, quint32, Double, logCat) \
 
-#define QJSONEXPORT_UINT32(jsonName, value) QJSONEXPORT(jsonName, (quint32) value) \
+#define QJSONEXPORT_UINT32(jsonName, value) QJSONEXPORT(jsonName, (double) value) \
 
 // ───────── UINT16 ───────────
 #define QJSONIMPORT_ISUINT16VALID(jsonName) QJSONIMPORT_ISVALID(jsonName, Double) \
