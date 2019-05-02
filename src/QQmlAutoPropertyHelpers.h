@@ -79,7 +79,7 @@ QSUPERMACROS_NAMESPACE_START
  *  \endcode
  */
 #define QSM_AUTO_SETTER(type, name, Name) \
-    bool QSM_MAKE_SETTER_NAME(name, Name) (const QSUPERMACROS_NAMESPACE::CheapestType<type>::type_def name) \
+    bool QSM_MAKE_SETTER_NAME(name, Name) (QSUPERMACROS_NAMESPACE::CheapestType<type>::type_def name) \
     { \
         if (QSM_MAKE_ATTRIBUTE_NAME(name, Name) != name) { \
             QSM_MAKE_ATTRIBUTE_NAME(name, Name) = name; \
