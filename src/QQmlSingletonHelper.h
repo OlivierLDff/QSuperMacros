@@ -11,6 +11,7 @@
 #include <qqml.h>
 
 #include <QSuperMacros.h>
+#include <QQmlHelpersCommon.h>
 
 QSUPERMACROS_NAMESPACE_START
 
@@ -51,7 +52,7 @@ QSUPERMACROS_NAMESPACE_START
  *      class SingletonHandler 
  *      { 
  *          Q_OBJECT
- *          QSM_SINGLETON_IMPL(MyClass, Instance) ; 
+ *          QSM_SINGLETON_IMPL(MyClass, instance, Instance) ; 
  *      }
  * 
  *      // Register the singleton
@@ -61,21 +62,21 @@ QSUPERMACROS_NAMESPACE_START
  *      MyClass& instance = SingletonHandler::GetInstance();
  *  \endcode
  */
-#define QSM_SINGLETON_IMPL(Class, Name) \
+#define QSM_SINGLETON_IMPL(Class, name, Name) \
     public: \
-        static Class & Get##Name (void) { \
+        static Class & QSM_MAKE_GETTER_NAME(name, Name) (void) { \
             static Class ret; \
             return ret; \
         } \
-        static QObject * Set##Name##Factory (QQmlEngine * qmlEngine, QJSEngine * jsEngine) { \
+        static QObject * QSM_MAKE_SETTER_NAME(name, Name)##Factory (QQmlEngine * qmlEngine, QJSEngine * jsEngine) { \
             Q_UNUSED (jsEngine) \
             Q_UNUSED (qmlEngine) \
-            QObject * ret = &Get##Name (); \
+            QObject * ret = &QSM_MAKE_GETTER_NAME(name, Name) (); \
             QQmlEngine::setObjectOwnership (ret, QQmlEngine::CppOwnership); \
             return ret; \
         } \
-        static void register##Name##QmlModule (const char * uri, const int majorVersion, const int minorVersion, const char * name) { \
-            qmlRegisterSingletonType<Class> (uri, majorVersion, minorVersion, name, &Class::Set##Name##Factory); \
+        static void registerSingleton (const char * uri, const int majorVersion, const int minorVersion, const char * n = #Class) { \
+            qmlRegisterSingletonType<Class> (uri, majorVersion, minorVersion, n, &Class::QSM_MAKE_SETTER_NAME(name, Name)##Factory); \
         } \
 
 /**
@@ -87,7 +88,7 @@ class _Test_QmlSingleton_ : public QObject
 	/**
 	 * \internal _Test_QmlSingleton_
 	 */
-	QSM_SINGLETON_IMPL(_Test_QmlSingleton_, Instance);
+	QSM_SINGLETON_IMPL(_Test_QmlSingleton_, instance, Instance);
 };
 
 QSUPERMACROS_NAMESPACE_END
