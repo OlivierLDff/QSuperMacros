@@ -68,7 +68,7 @@ QSUPERMACROS_NAMESPACE_START
             static Class ret; \
             return ret; \
         } \
-        static QObject * QSM_MAKE_SETTER_NAME(name, Name)##Factory (QQmlEngine * qmlEngine, QJSEngine * jsEngine) { \
+        static QObject * QSM_MAKE_SETTER_NAME(name, Name) (QQmlEngine * qmlEngine, QJSEngine * jsEngine) { \
             Q_UNUSED (jsEngine) \
             Q_UNUSED (qmlEngine) \
             QObject * ret = &QSM_MAKE_GETTER_NAME(name, Name) (); \
@@ -76,7 +76,7 @@ QSUPERMACROS_NAMESPACE_START
             return ret; \
         } \
         static void registerSingleton (const char * uri, const int majorVersion, const int minorVersion, const char * n = #Class) { \
-            qmlRegisterSingletonType<Class> (uri, majorVersion, minorVersion, n, &Class::QSM_MAKE_SETTER_NAME(name, Name)##Factory); \
+            qmlRegisterSingletonType<Class> (uri, majorVersion, minorVersion, n, &Class::QSM_MAKE_SETTER_NAME(name, Name)); \
         } \
 
 /**
