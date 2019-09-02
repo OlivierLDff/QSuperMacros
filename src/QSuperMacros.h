@@ -1,4 +1,4 @@
-/** 
+/**
  * \file QSuperMacros.h
  * \brief Common define for the library
  */
@@ -25,13 +25,13 @@
 // ─────────────────────────────────────────────────────────────
 
 #ifdef WIN32
-	#ifdef QSUPERMACROS_SHARED	
+	#ifdef QSUPERMACROS_SHARED
 /** Class decorator to handle dynamic linkage in windows */
 		#define QSUPERMACROS_API_ __declspec(dllexport)
-	#elif QSUPERMACROS_STATIC 	
+	#elif QSUPERMACROS_STATIC
 /** Class decorator to handle dynamic linkage in windows */
 		#define QSUPERMACROS_API_
-	#else 		
+	#else
 /** Class decorator to handle dynamic linkage in windows */
 		#define QSUPERMACROS_API_ __declspec(dllimport)
 	#endif
@@ -66,7 +66,7 @@
 QSUPERMACROS_NAMESPACE_START
 
 /** Get the version of the library */
-class QSUPERMACROS_API_ QSuperMacrosVersion
+class QSUPERMACROS_API_ Version
 {
 public:
 	/** Library Major Version */

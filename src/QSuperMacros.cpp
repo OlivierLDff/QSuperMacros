@@ -4,27 +4,27 @@
 
 QSUPERMACROS_USING_NAMESPACE
 
-uint32_t QSuperMacrosVersion::getMajor()
+uint32_t Version::getMajor()
 {
 	return QSUPERMACROS_VERSION_MAJOR;
 }
 
-uint32_t QSuperMacrosVersion::getMinor()
+uint32_t Version::getMinor()
 {
 	return QSUPERMACROS_VERSION_MINOR;
 }
 
-uint32_t QSuperMacrosVersion::getPatch()
+uint32_t Version::getPatch()
 {
 	return QSUPERMACROS_VERSION_PATCH;
 }
 
-uint32_t QSuperMacrosVersion::getTag()
+uint32_t Version::getTag()
 {
 	return QSUPERMACROS_VERSION_TAG_HEX;
 }
 
-QString QSuperMacrosVersion::getVersion()
+QString Version::getVersion()
 {
 	return QString::number(getMajor()) + "." +
 		QString::number(getMinor()) + "." +

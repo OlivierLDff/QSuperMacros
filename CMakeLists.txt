@@ -34,6 +34,7 @@
 ## VERSION
 #   - 1.0.0 : 06/12/2018 : Initial Work
 #   - 1.1.0 : 12/12/2018 : Reset functions
+#   - 1.2.0 : 08/2019 : Virtual getter and setter possibility + examples
 
 # ┌──────────────────────────────────────────────────────────────────┐
 # │                       CMAKE PROPERTIES                           │
@@ -83,7 +84,7 @@ SET( CMAKE_AUTOMOC ON )
  # https://cmake.org/cmake/help/v3.0/prop_tgt/AUTORCC.html#prop_tgt:AUTORCC
 SET( CMAKE_AUTORCC ON )
 #required by Qt5
-set (CMAKE_CXX_STANDARD 11) 
+set (CMAKE_CXX_STANDARD 11)
 
 # Find correct qt directory
 IF( QT_DIR )
@@ -152,7 +153,7 @@ ENDIF((QSUPERMACROS_BUILD_SHARED AND QSUPERMACROS_BUILD_STATIC) OR (NOT QSUPERMA
 # │                       SOURCES                                    │
 # └──────────────────────────────────────────────────────────────────┘
 
-SET( QSUPERMACROS_SRCS 
+SET( QSUPERMACROS_SRCS
     # Main
     ${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlAutoPropertyHelpers.h
     ${CMAKE_CURRENT_SOURCE_DIR}/src/QQmlConstRefPropertyHelpers.h
@@ -187,7 +188,7 @@ IF(QSUPERMACROS_BUILD_SHARED)
         STATIC_DEFINE ${QSUPERMACROS_TARGET}_BUILT_AS_STATIC
     )
     ENDIF( MSVC )
-    
+
     TARGET_COMPILE_DEFINITIONS( ${QSUPERMACROS_TARGET} PRIVATE -DQSUPERMACROS_SHARED )
 
 ELSE()

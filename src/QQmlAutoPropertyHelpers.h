@@ -13,67 +13,154 @@ QSUPERMACROS_NAMESPACE_START
 
  /**
   * \defgroup QSM_AUTO_HELPER Auto Properties
-  * \brief Macros to generate Auto Property uses either `T` or `T*` and is capable of adding constant-reference by 
+  * \brief Macros to generate Auto Property uses either `T` or `T*` and is capable of adding constant-reference by
   * deciding itself which type is the cheapest (using some template trickery internally).
   */
 
 // NOTE : individual macros for getter, setter, notifier, and member
 
-/** 
- * Generate a Getter in the form `Get<Name>`
- * To have a Qt-ish Getter (ie `<name>()`), define `QSUPERMACROS_USE_QT_GETTERS` in your build system
+/**
+ * Generate a Getter in the form `get<Name>`
  * \ingroup QSM_AUTO_HELPER
  * \hideinitializer
  * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
  * \param name Attribute name in lowerCamelCase
  * \param Name Attribute name in UpperCamelCase
- * 
+ *
  * It generates for this goal :
  *  \code
- *      // Default Naming Convention
- *      CheapestType<type>::type_def GetName(void) const { return _name; }
+ *      // QSM_AUTO_GETTER_DECL(type, name, Name)
+ *      CheapestType<type>::type_def getName(void) const
+ *  \endcode
+ */
+#define QSM_AUTO_GETTER_DECL(type, name, Name) \
+    QSUPERMACROS_NAMESPACE::CheapestType<type>::type_def QSM_MAKE_GETTER_NAME(name, Name) (void) const
+
+/**
+ * Generate a Getter in the form `get<Name>`
+ * \ingroup QSM_AUTO_HELPER
+ * \hideinitializer
+ * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
+ * \param name Attribute name in lowerCamelCase
+ * \param Name Attribute name in UpperCamelCase
  *
- *      // Qt Naming Convention
- *      CheapestType<type>::type_def name(void) const { return m_name; }
+ * It generates for this goal :
+ *  \code
+ *      // QSM_AUTO_GETTER(type, name, Name)
+ *      CheapestType<type>::type_def getName(void) const { return _name; }
  *  \endcode
  */
 #define QSM_AUTO_GETTER(type, name, Name) \
-    QSUPERMACROS_NAMESPACE::CheapestType<type>::type_def QSM_MAKE_GETTER_NAME(name, Name) (void) const \
+    QSM_AUTO_GETTER_DECL(type, name, Name) { return QSM_MAKE_ATTRIBUTE_NAME(name, Name); }
+
+/**
+ * Generate a Getter in the form `get<Name>` that override an already existing function
+ * \ingroup QSM_AUTO_HELPER
+ * \hideinitializer
+ * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
+ * \param name Attribute name in lowerCamelCase
+ * \param Name Attribute name in UpperCamelCase
+ *
+ * It generates for this goal :
+ *  \code
+ *      // QSM_AUTO_GETTER_OVERRIDE(type, name, Name)
+ *      CheapestType<type>::type_def getName(void) const override { return _name; }
+ *  \endcode
+ */
+#define QSM_AUTO_GETTER_OVERRIDE(type, name, Name) \
+    QSM_AUTO_GETTER_DECL(type, name, Name) override \
     { \
         return QSM_MAKE_ATTRIBUTE_NAME(name, Name); \
     }
 
-/** Generate a Setter in the form `Set<Name>`
- * To have a Qt-ish Setter (ie `set<Name>()`), define `QSUPERMACROS_USE_QT_SETTERS` in your build system
+/**
+ * Generate a Getter in the form `get<Name>` that override an already existing function and add final specifier
  * \ingroup QSM_AUTO_HELPER
  * \hideinitializer
  * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
  * \param name Attribute name in lowerCamelCase
  * \param Name Attribute name in UpperCamelCase
- * 
+ *
+ * It generates for this goal :
+ *  \code
+ *      // QSM_AUTO_GETTER_OVERRIDE(type, name, Name)
+ *      CheapestType<type>::type_def getName(void) const override final { return _name; }
+ *  \endcode
+ */
+#define QSM_AUTO_GETTER_FINAL(type, name, Name) \
+    QSM_AUTO_GETTER_DECL(type, name, Name) override final \
+    { \
+        return QSM_MAKE_ATTRIBUTE_NAME(name, Name); \
+    }
+
+/**
+ * Define a virtual get function for attribute <get>
+ * \ingroup QSM_AUTO_HELPER
+ * \hideinitializer
+ * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
+ * \param name Attribute name in lowerCamelCase
+ * \param Name Attribute name in UpperCamelCase
+ *
+ * It generates for this goal :
+ *  \code
+ *      // QSM_AUTO_GETTER_VIRTUAL(type, name Name)
+ *      virtual CheapestType<type>::type_def getName(void) const = 0;
+ *  \endcode
+ */
+#define QSM_AUTO_GETTER_VIRTUAL(type, name, Name) \
+    virtual QSM_AUTO_GETTER_DECL(type, name, Name) = 0;
+
+/** Declare a Setter in the form `set<Name>`
+ * \ingroup QSM_AUTO_HELPER
+ * \hideinitializer
+ * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
+ * \param name Attribute name in lowerCamelCase
+ * \param Name Attribute name in UpperCamelCase
+ *
+ * It generates for this goal :
+ *  \code
+ *      // QSM_AUTO_SETTER_DECL(type, name, Name)
+ *      bool setName(CheapestType<type>::type_def name)
+ *  \endcode
+ */
+#define QSM_AUTO_SETTER_DECL(type, name, Name) \
+    bool QSM_MAKE_SETTER_NAME(name, Name) (QSUPERMACROS_NAMESPACE::CheapestType<type>::type_def name)
+
+/** Generate virtual Setter in the form `set<Name>`
+ * \ingroup QSM_AUTO_HELPER
+ * \hideinitializer
+ * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
+ * \param name Attribute name in lowerCamelCase
+ * \param Name Attribute name in UpperCamelCase
+ *
+ * It generates for this goal :
+ *  \code
+ *      // QSM_AUTO_SETTER_DECL(type, name, Name)
+ *      virtual bool setName(CheapestType<type>::type_def name) = 0;
+ *  \endcode
+ */
+#define QSM_AUTO_SETTER_DECL(type, name, Name) \
+    virtual QSM_AUTO_SETTER_DECL(type, name, Name) = 0;
+
+/** Generate a Setter in the form `Set<Name>`
+ * \ingroup QSM_AUTO_HELPER
+ * \hideinitializer
+ * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
+ * \param name Attribute name in lowerCamelCase
+ * \param Name Attribute name in UpperCamelCase
+ *
  * It generates for this goal :
  *  \code
  *      // Default Naming Convention
- *      bool SetName(CheapestType<type>::type_def name) 
+ *      bool setName(CheapestType<type>::type_def name)
  *      {
  *          if(_name != name)
  *          {
  *              _name = name;
- *              emit NameChanged();
- *          }
- *          else 
- *              return false;
- *      }
- *
- *      // Qt Naming Convention
- *      bool setName(CheapestType<type>::type_def name) 
- *      {
- *          if(m_name != name)
- *          {
- *              m_name = name;
  *              emit nameChanged();
+ *              return true;
  *          }
- *          else 
+ *          else
  *              return false;
  *      }
  *  \endcode
@@ -90,15 +177,79 @@ QSUPERMACROS_NAMESPACE_START
             return false; \
     }
 
-/** 
+/** Generate the body Setter in the form `Set<Name>`
+ * \ingroup QSM_AUTO_HELPER
+ * \hideinitializer
+ * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
+ * \param name Attribute name in lowerCamelCase
+ * \param Name Attribute name in UpperCamelCase
+ *
+ * It generates for this goal :
+ *  \code
+ *      // QSM_AUTO_SETTER_BODY(type, name, Name)
+ *      {
+ *          if(_name != name)
+ *          {
+ *              _name = name;
+ *              return true;
+ *          }
+ *          else
+ *              return false;
+ *      }
+ *  \endcode
+ */
+#define QSM_AUTO_SETTER_BODY(type, name, Name) \
+    { \
+        if (QSM_MAKE_ATTRIBUTE_NAME(name, Name) != name) { \
+            QSM_MAKE_ATTRIBUTE_NAME(name, Name) = name; \
+            return true; \
+        } \
+        else \
+            return false; \
+    }
+
+/** Generate the body Setter in the form `Set<Name>` that emit a signal when attribute changed
+ * \ingroup QSM_AUTO_HELPER
+ * \hideinitializer
+ * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
+ * \param name Attribute name in lowerCamelCase
+ * \param Name Attribute name in UpperCamelCase
+ *
+ * It generates for this goal :
+ *  \code
+ *      // QSM_AUTO_SETTER_BODY_WSIGNAL(type, name, Name)
+ *      {
+ *          if(_name != name)
+ *          {
+ *              _name = name;
+ *              emit nameChanged();
+ *              return true;
+ *          }
+ *          else
+ *              return false;
+ *      }
+ *  \endcode
+ */
+#define QSM_AUTO_SETTER_BODY_WSIGNAL(type, name, Name) \
+    { \
+        if (QSM_MAKE_ATTRIBUTE_NAME(name, Name) != name) { \
+            QSM_MAKE_ATTRIBUTE_NAME(name, Name) = name; \
+            emit QSM_MAKE_SIGNAL_NAME(name, Name) (); \
+            return true; \
+        } \
+        else \
+            return false; \
+    }
+
+/**
  * Generate a Signal in the form `<Name>Changed()`
  * To have a Qt-ish Signal (ie `<name>Changed()`), define `QSUPERMACROS_USE_QT_SIGNALS` in your build system
  * \ingroup QSM_AUTO_HELPER
  * \hideinitializer
  * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
  * \param name Attribute name in lowerCamelCase
- * \param Name Attribute name in UpperCamelCase 
- * 
+ * \param Name Attribute name in UpperCamelCase
+ *
  * It generates for this goal :
  *  \code
  *      // Default Naming Convention
@@ -119,7 +270,7 @@ QSUPERMACROS_NAMESPACE_START
  * \param name Attribute name in lowerCamelCase
  * \param Name Attribute name in UpperCamelCase
  * \param def Default value of the members. If you want to let the type choose default value just use `{}`
- * 
+ *
  * It generates for this goal :
  *  \code
  *      // Default Naming Convention
@@ -139,7 +290,7 @@ QSUPERMACROS_NAMESPACE_START
  * \param name Attribute name in lowerCamelCase
  * \param Name Attribute name in UpperCamelCase
  * \param def Default value of the members. If you want to let the type choose default value just use `{}`
- * 
+ *
  * It generates for this goal :
  *  \code
  *      // Default Naming Convention
@@ -155,7 +306,7 @@ QSUPERMACROS_NAMESPACE_START
 // NOTE : Actual Helpers
 
 /** Generate a **Writable** Auto Property
- * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by 
+ * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by
  * deciding itself which type is the cheapest (using some template trickery internally).
  * \ingroup QSM_AUTO_HELPER
  * \hideinitializer
@@ -163,7 +314,7 @@ QSUPERMACROS_NAMESPACE_START
  * \param name Attribute name in lowerCamelCase
  * \param Name Attribute name in UpperCamelCase
  * \param def Default value of the members. If you want to let the type choose default value just use `{}`
- * 
+ *
  * It generates for this goal :
  *  \code
  *      // Default Naming Convention
@@ -173,14 +324,14 @@ QSUPERMACROS_NAMESPACE_START
  *             type _name = def;
  *      public:
  *          CheapestType<type>::type_def GetName() const { return _name; }
- *          bool SetName(CheapestType<type>::type_def name) 
+ *          bool SetName(CheapestType<type>::type_def name)
  *          {
  *              if(_name != name)
  *              {
  *                  _name = name;
  *                  emit NameChanged();
  *              }
- *              else 
+ *              else
  *                  return false;
  *          }
  *          bool ResetName() { return SetName(def); }
@@ -195,33 +346,33 @@ QSUPERMACROS_NAMESPACE_START
  *          type m_name = def;
  *      public:
  *          CheapestType<type>::type_def name() const { return m_name; }
- *          bool setName(CheapestType<type>::type_def name) 
+ *          bool setName(CheapestType<type>::type_def name)
  *          {
  *              if(m_name != name)
  *              {
  *                  m_name = name;
  *                  emit nameChanged();
  *              }
- *              else 
+ *              else
  *                  return false;
  *          }
  *             bool resetName() { return setName(def); }
  *      signals:
  *          void nameChanged();
  *      private:
- *  \endcode 
+ *  \endcode
  *
  *  You can declare a property in your QObject like this
- *  \code 
+ *  \code
  *  // Create an integer with default value 23
  *  QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT(int, myInt, MyInt, 23);
- * 
+ *
  *  // Create a QString with default value "MyString"
  *  QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT(QString, myString, MyString, "MyString");
- * 
+ *
  *  // Create a pointer to a QObject, default to nullptr
  *  QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT(QObject*, myObject, MyObject, nullptr);
- *  \endcode 
+ *  \endcode
  */
 #define QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT(type, name, Name, def) \
     protected: \
@@ -237,14 +388,14 @@ QSUPERMACROS_NAMESPACE_START
     private:
 
 /** Generate a **Writable** Auto Property
- * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by 
+ * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by
  * deciding itself which type is the cheapest (using some template trickery internally).
  * \ingroup QSM_AUTO_HELPER
  * \hideinitializer
  * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
  * \param name Attribute name in lowerCamelCase
  * \param Name Attribute name in UpperCamelCase
- * 
+ *
  * It generates for this goal :
  *  \code
  *      // Default Naming Convention
@@ -254,14 +405,14 @@ QSUPERMACROS_NAMESPACE_START
  *          type _name = {}};
  *      public:
  *          CheapestType<type>::type_def GetName() const { return _name; }
- *          bool SetName(CheapestType<type>::type_def name) 
+ *          bool SetName(CheapestType<type>::type_def name)
  *          {
  *              if(_name != name)
  *              {
  *                  _name = name;
  *                  emit NameChanged();
  *              }
- *              else 
+ *              else
  *                  return false;
  *          }
  *          bool ResetName() { return SetName({}); }
@@ -276,39 +427,39 @@ QSUPERMACROS_NAMESPACE_START
  *          type m_name = {};
  *      public:
  *          CheapestType<type>::type_def name() const { return m_name; }
- *          bool setName(CheapestType<type>::type_def name) 
+ *          bool setName(CheapestType<type>::type_def name)
  *          {
  *              if(m_name != name)
  *              {
  *                  m_name = name;
  *                  emit nameChanged();
  *              }
- *              else 
+ *              else
  *                  return false;
  *          }
  *          bool resetName() { return setName({}); }
  *      signals:
  *          void nameChanged();
  *      private:
- *  \endcode 
+ *  \endcode
  *
  *  You can declare a property in your QObject like this
- *  \code 
+ *  \code
  *  // Create an integer with default to {}
  *  QSM_WRITABLE_AUTO_PROPERTY(int, myInt, MyInt);
- * 
+ *
  *  // Create a QString with default to {}
  *  QSM_WRITABLE_AUTO_PROPERTY(QString, myString, MyString);
- * 
+ *
  *  // Create a pointer to a QObject default to {}
  *  QSM_WRITABLE_AUTO_PROPERTY(QObject*, myObject, MyObject);
- *  \endcode 
+ *  \endcode
  */
 #define QSM_WRITABLE_AUTO_PROPERTY(type, name, Name) \
         QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT(type, name, Name, {})
 
 /** Generate a **Read-Only** Auto Property
- * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by 
+ * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by
  * deciding itself which type is the cheapest (using some template trickery internally).
  * \ingroup QSM_AUTO_HELPER
  * \hideinitializer
@@ -316,7 +467,7 @@ QSUPERMACROS_NAMESPACE_START
  * \param name Attribute name in lowerCamelCase
  * \param Name Attribute name in UpperCamelCase
  * \param def Default value of the members. If you want to let the type choose default value just use `{}`
- * 
+ *
  * It generates for this goal :
  *  \code
  *      // Default Naming Convention
@@ -326,14 +477,14 @@ QSUPERMACROS_NAMESPACE_START
  *          type _name = def;
  *      public:
  *          CheapestType<type>::type_def GetName() const { return _name; }
- *          bool SetName(CheapestType<type>::type_def name) 
+ *          bool SetName(CheapestType<type>::type_def name)
  *          {
  *              if(_name != name)
  *              {
  *                  _name = name;
  *                  emit NameChanged();
  *              }
- *              else 
+ *              else
  *                  return false;
  *          }
  *          bool ResetName() { return SetName(def); }
@@ -348,33 +499,33 @@ QSUPERMACROS_NAMESPACE_START
  *          type m_name = def;
  *      public:
  *          CheapestType<type>::type_def name() const { return m_name; }
- *          bool setName(CheapestType<type>::type_def name) 
+ *          bool setName(CheapestType<type>::type_def name)
  *          {
  *              if(m_name != name)
  *              {
  *                  m_name = name;
  *                  emit nameChanged();
  *              }
- *              else 
+ *              else
  *                  return false;
  *          }
  *          bool resetName() { return setName(def); }
  *      signals:
  *          void nameChanged();
  *      private:
- *  \endcode 
+ *  \endcode
  *
  *  You can declare a property in your QObject like this
- *  \code 
+ *  \code
  *  // Create an integer with default value 23
  *  QSM_READONLY_AUTO_PROPERTY_WDEFAULT(int, myInt, MyInt, 23);
- * 
+ *
  *  // Create a QString with default value "MyString"
  *  QSM_READONLY_AUTO_PROPERTY_WDEFAULT(QString, myString, MyString, "MyString");
- * 
+ *
  *  // Create a pointer to a QObject, default to nullptr
  *  QSM_READONLY_AUTO_PROPERTY_WDEFAULT(QObject*, myObject, MyObject, nullptr);
- *  \endcode 
+ *  \endcode
  */
 #define QSM_READONLY_AUTO_PROPERTY_WDEFAULT(type, name, Name, def) \
     protected: \
@@ -390,14 +541,14 @@ QSUPERMACROS_NAMESPACE_START
     private:
 
 /** Generate a **Read-Only** Auto Property
- * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by 
+ * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by
  * deciding itself which type is the cheapest (using some template trickery internally).
  * \ingroup QSM_AUTO_HELPER
  * \hideinitializer
  * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
  * \param name Attribute name in lowerCamelCase
  * \param Name Attribute name in UpperCamelCase
- * 
+ *
  * It generates for this goal :
  *  \code
  *      // Default Naming Convention
@@ -407,14 +558,14 @@ QSUPERMACROS_NAMESPACE_START
  *          type _name = {};
  *      public:
  *          CheapestType<type>::type_def GetName() const { return _name; }
- *          bool SetName(CheapestType<type>::type_def name) 
+ *          bool SetName(CheapestType<type>::type_def name)
  *          {
  *              if(_name != name)
  *              {
  *                  _name = name;
  *                  emit NameChanged();
  *              }
- *              else 
+ *              else
  *                  return false;
  *          }
  *          bool ResetName() { return SetName({}); }
@@ -429,39 +580,39 @@ QSUPERMACROS_NAMESPACE_START
  *          type m_name = {};
  *      public:
  *          CheapestType<type>::type_def name() const { return m_name; }
- *          bool setName(CheapestType<type>::type_def name) 
+ *          bool setName(CheapestType<type>::type_def name)
  *          {
  *              if(m_name != name)
  *              {
  *                  m_name = name;
  *                  emit nameChanged();
  *              }
- *              else 
+ *              else
  *                  return false;
  *          }
  *          bool resetName() { return setName({}); }
  *      signals:
  *          void nameChanged();
  *      private:
- *  \endcode 
+ *  \endcode
  *
  *  You can declare a property in your QObject like this
- *  \code 
+ *  \code
  *  // Create an integer with default to {}
  *  QSM_READONLY_AUTO_PROPERTY(int, myInt, MyInt);
- * 
+ *
  *  // Create a QString with default to {}
  *  QSM_READONLY_AUTO_PROPERTY(QString, myString, MyString);
- * 
+ *
  *  // Create a pointer to a QObject default to {}
  *  QSM_READONLY_AUTO_PROPERTY(QObject*, myObject, MyObject);
- *  \endcode 
+ *  \endcode
  */
 #define QSM_READONLY_AUTO_PROPERTY(type, name, Name) \
         QSM_READONLY_AUTO_PROPERTY_WDEFAULT(type, name, Name, {})
 
 /** Generate a **Const** Auto Property
- * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by 
+ * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by
  * deciding itself which type is the cheapest (using some template trickery internally).
  * \ingroup QSM_AUTO_HELPER
  * \hideinitializer
@@ -469,7 +620,7 @@ QSUPERMACROS_NAMESPACE_START
  * \param name Attribute name in lowerCamelCase
  * \param Name Attribute name in UpperCamelCase
  * \param def Default value of the members. If you want to let the type choose default value just use `{}`
- * 
+ *
  * It generates for this goal :
  *  \code
  *      // Default Naming Convention
@@ -490,17 +641,17 @@ QSUPERMACROS_NAMESPACE_START
  *          CheapestType<type>::type_def name() const { return m_name; }
  *
  *  You can declare a property in your QObject like this
- *  \code 
+ *  \code
  *  // Create an integer with default value 23
  *  QSM_CONSTANT_AUTO_PROPERTY_WDEFAULT(int, myInt, MyInt, 23);
- * 
+ *
  *  // Create a QString with default value "MyString"
  *  QSM_CONSTANT_AUTO_PROPERTY_WDEFAULT(QString, myString, MyString, "MyString");
- * 
+ *
  *  // Create a pointer to a QObject, default to nullptr
  *  QSM_CONSTANT_AUTO_PROPERTY_WDEFAULT(QObject*, myObject, MyObject, nullptr);
  *      private:
- *  \endcode 
+ *  \endcode
  */
 #define QSM_CONSTANT_AUTO_PROPERTY_WDEFAULT(type, name, Name, def) \
     protected: \
@@ -512,14 +663,14 @@ QSUPERMACROS_NAMESPACE_START
     private:
 
 /** Generate a **Const** Auto Property
- * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by 
+ * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by
  * deciding itself which type is the cheapest (using some template trickery internally).
  * \ingroup QSM_AUTO_HELPER
  * \hideinitializer
  * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
  * \param name Attribute name in lowerCamelCase
  * \param Name Attribute name in UpperCamelCase
- * 
+ *
  * It generates for this goal :
  *  \code
  *      // Default Naming Convention
@@ -539,16 +690,16 @@ QSUPERMACROS_NAMESPACE_START
  *      public:
  *          CheapestType<type>::type_def name() const { return m_name; }
  *      private:
- *  \endcode 
+ *  \endcode
  *
  *  You can declare a property in your QObject like this
- *  \code 
+ *  \code
  *  // Create an integer with default to {}
  *  QSM_CONSTANT_AUTO_PROPERTY(int, myInt, MyInt);
- * 
+ *
  *  // Create a QString with default to {}
  *  QSM_CONSTANT_AUTO_PROPERTY(QString, myString, MyString);
- * 
+ *
  *  // Create a pointer to a QObject default to {}
  *  QSM_CONSTANT_AUTO_PROPERTY(QObject*, myObject, MyObject);
  *  \endcode
@@ -820,7 +971,7 @@ QSUPERMACROS_NAMESPACE_START
  * Test class for auto properties
  * \internal
  */
-class QSUPERMACROS_API_ _Test_QmlAutoProperty_ : public QObject 
+class QSUPERMACROS_API_ _Test_QmlAutoProperty_ : public QObject
 {
 	Q_OBJECT
 
