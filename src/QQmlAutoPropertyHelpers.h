@@ -243,7 +243,6 @@ QSUPERMACROS_NAMESPACE_START
 
 /**
  * Generate a Signal in the form `<Name>Changed()`
- * To have a Qt-ish Signal (ie `<name>Changed()`), define `QSUPERMACROS_USE_QT_SIGNALS` in your build system
  * \ingroup QSM_AUTO_HELPER
  * \hideinitializer
  * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
@@ -252,10 +251,7 @@ QSUPERMACROS_NAMESPACE_START
  *
  * It generates for this goal :
  *  \code
- *      // Default Naming Convention
- *      void NameChanged();
- *
- *      // Qt Naming Convention
+ *      // QSM_AUTO_NOTIFIER(type, name, Name)
  *      void nameChanged();
  *  \endcode
  */
@@ -263,7 +259,6 @@ QSUPERMACROS_NAMESPACE_START
     void QSM_MAKE_SIGNAL_NAME(name, Name) (void);
 
 /** Generate a member in the form `_<name>`
- * To have a Qt-ish member (ie `m_<name>`), define `QSUPERMACROS_USE_QT_PREFIX` in your build system
  * \ingroup QSM_AUTO_HELPER
  * \hideinitializer
  * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
@@ -273,11 +268,8 @@ QSUPERMACROS_NAMESPACE_START
  *
  * It generates for this goal :
  *  \code
- *      // Default Naming Convention
+ *      // QSM_AUTO_MEMBER(type, name, Name, def)
  *      type _name = def;
- *
- *      // Qt Naming Convention
- *      type m_name = def;
  *  \endcode
  */
 #define QSM_AUTO_MEMBER(type, name, Name, def) \
@@ -293,17 +285,64 @@ QSUPERMACROS_NAMESPACE_START
  *
  * It generates for this goal :
  *  \code
- *      // Default Naming Convention
- *      bool ResetName() { return SetName(def); }
- *
- *      // Qt Naming Convention
+ *      // QSM_AUTO_RESET(type, name, Name, def)
  *      bool resetName() { return setName(def); }
  *  \endcode
  */
 #define QSM_AUTO_RESET(type, name, Name, def) \
     bool QSM_MAKE_RESET_NAME(name, Name)() { return QSM_MAKE_SETTER_NAME(name, Name)(def); }
 
+/** Reset the member to the default value def
+ * \ingroup QSM_AUTO_HELPER
+ * \hideinitializer
+ * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
+ * \param name Attribute name in lowerCamelCase
+ * \param Name Attribute name in UpperCamelCase
+ * \param def Default value of the members. If you want to let the type choose default value just use `{}`
+ *
+ * It generates for this goal :
+ *  \code
+ *      // QSM_AUTO_RESET(type, name, Name, def)
+ *      virtual bool resetName() = 0;
+ *  \endcode
+ */
+#define QSM_AUTO_RESET_VIRTUAL(type, name, Name) \
+    virtual bool QSM_MAKE_RESET_NAME(name, Name)() = 0;
+
 // NOTE : Actual Helpers
+
+/** Generate a virtual **Writable** Auto Getter and setter
+ * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by
+ * deciding itself which type is the cheapest (using some template trickery internally).
+ * \ingroup QSM_AUTO_HELPER
+ * \hideinitializer
+ * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
+ * \param name Attribute name in lowerCamelCase
+ * \param Name Attribute name in UpperCamelCase
+ * \param def Default value of the members. If you want to let the type choose default value just use `{}`
+ *
+ * It generates for this goal :
+ *  \code
+ *      // QSM_WRITABLE_AUTO_VIRTUAL(type, name, Name)
+ *      public:
+ *          virtual CheapestType<type>::type_def getName() const = 0;
+ *          virtual bool setName(CheapestType<type>::type_def name) = 0;
+ *          virtual bool resetName() = 0;
+ *      private:
+ *  \endcode
+ */
+#define QSM_WRITABLE_AUTO_VIRTUAL(type, name, Name) \
+    public: \
+        QSM_AUTO_GETTER_VIRTUAL(type, name, Name) \
+        QSM_AUTO_SETTER_VIRTUAL(type, name, Name) \
+        QSM_AUTO_RESET_VIRTUAL(type, name, Name) \
+
+#define QSM_READONLY_AUTO_VIRTUAL(type, name, Name) \
+    public: \
+        QSM_AUTO_GETTER_VIRTUAL(type, name, Name) \
+        QSM_AUTO_SETTER_VIRTUAL(type, name, Name) \
+        QSM_AUTO_RESET_VIRTUAL(type, name, Name) \
+
 
 /** Generate a **Writable** Auto Property
  * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by
@@ -317,46 +356,24 @@ QSUPERMACROS_NAMESPACE_START
  *
  * It generates for this goal :
  *  \code
- *      // Default Naming Convention
+ *      // QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT(type, name, Name, def)
  *      protected:
- *           Q_PROPERTY (type name READ GetName WRITE SetName RESET ResetName NOTIFY NameChanged)
+ *           Q_PROPERTY (type name READ getName WRITE setName RESET resetName NOTIFY nameChanged)
  *      private:
  *             type _name = def;
  *      public:
- *          CheapestType<type>::type_def GetName() const { return _name; }
- *          bool SetName(CheapestType<type>::type_def name)
+ *          CheapestType<type>::type_def getName() const { return _name; }
+ *          bool setName(CheapestType<type>::type_def name)
  *          {
  *              if(_name != name)
  *              {
  *                  _name = name;
- *                  emit NameChanged();
- *              }
- *              else
- *                  return false;
- *          }
- *          bool ResetName() { return SetName(def); }
- *      signals:
- *          void NameChanged();
- *      private:
- *
- *      // Qt Naming Convention
- *      protected:
- *          Q_PROPERTY (type name READ name WRITE setName RESET resetName NOTIFY nameChanged)
- *      private:
- *          type m_name = def;
- *      public:
- *          CheapestType<type>::type_def name() const { return m_name; }
- *          bool setName(CheapestType<type>::type_def name)
- *          {
- *              if(m_name != name)
- *              {
- *                  m_name = name;
  *                  emit nameChanged();
  *              }
  *              else
  *                  return false;
  *          }
- *             bool resetName() { return setName(def); }
+ *          bool resetName() { return setName(def); }
  *      signals:
  *          void nameChanged();
  *      private:
@@ -398,40 +415,18 @@ QSUPERMACROS_NAMESPACE_START
  *
  * It generates for this goal :
  *  \code
- *      // Default Naming Convention
+ *      // QSM_WRITABLE_AUTO_PROPERTY(type, name, Name)
  *      protected:
- *          Q_PROPERTY (type name READ GetName WRITE SetName RESET ResetName NOTIFY NameChanged)
+ *          Q_PROPERTY (type name READ getName WRITE setName RESET resetName NOTIFY nameChanged)
  *      private:
  *          type _name = {}};
  *      public:
- *          CheapestType<type>::type_def GetName() const { return _name; }
- *          bool SetName(CheapestType<type>::type_def name)
+ *          CheapestType<type>::type_def getName() const { return _name; }
+ *          bool setName(CheapestType<type>::type_def name)
  *          {
  *              if(_name != name)
  *              {
  *                  _name = name;
- *                  emit NameChanged();
- *              }
- *              else
- *                  return false;
- *          }
- *          bool ResetName() { return SetName({}); }
- *      signals:
- *          void NameChanged();
- *      private:
- *
- *      // Qt Naming Convention
- *      protected:
- *          Q_PROPERTY (type name READ name WRITE setName RESET resetName NOTIFY nameChanged)
- *      private:
- *          type m_name = {};
- *      public:
- *          CheapestType<type>::type_def name() const { return m_name; }
- *          bool setName(CheapestType<type>::type_def name)
- *          {
- *              if(m_name != name)
- *              {
- *                  m_name = name;
  *                  emit nameChanged();
  *              }
  *              else
@@ -470,40 +465,18 @@ QSUPERMACROS_NAMESPACE_START
  *
  * It generates for this goal :
  *  \code
- *      // Default Naming Convention
+ *      // QSM_READONLY_AUTO_PROPERTY_WDEFAULT(type, name, Name, def)
  *      protected:
- *          Q_PROPERTY (type name READ GetName NOTIFY NameChanged)
+ *          Q_PROPERTY (type name READ getName NOTIFY nameChanged)
  *      private:
  *          type _name = def;
  *      public:
- *          CheapestType<type>::type_def GetName() const { return _name; }
- *          bool SetName(CheapestType<type>::type_def name)
+ *          CheapestType<type>::type_def getName() const { return _name; }
+ *          bool setName(CheapestType<type>::type_def name)
  *          {
  *              if(_name != name)
  *              {
  *                  _name = name;
- *                  emit NameChanged();
- *              }
- *              else
- *                  return false;
- *          }
- *          bool ResetName() { return SetName(def); }
- *      signals:
- *          void NameChanged();
- *      private:
- *
- *      // Qt Naming Convention
- *      protected:
- *          Q_PROPERTY (type name READ name NOTIFY nameChanged)
- *      private:
- *          type m_name = def;
- *      public:
- *          CheapestType<type>::type_def name() const { return m_name; }
- *          bool setName(CheapestType<type>::type_def name)
- *          {
- *              if(m_name != name)
- *              {
- *                  m_name = name;
  *                  emit nameChanged();
  *              }
  *              else
@@ -551,40 +524,18 @@ QSUPERMACROS_NAMESPACE_START
  *
  * It generates for this goal :
  *  \code
- *      // Default Naming Convention
+ *      // QSM_READONLY_AUTO_PROPERTY(type, name, Name)
  *      protected:
- *          Q_PROPERTY (type name READ GetName NOTIFY NameChanged)
+ *          Q_PROPERTY (type name READ getName NOTIFY nameChanged)
  *      private:
  *          type _name = {};
  *      public:
- *          CheapestType<type>::type_def GetName() const { return _name; }
- *          bool SetName(CheapestType<type>::type_def name)
+ *          CheapestType<type>::type_def getName() const { return _name; }
+ *          bool setName(CheapestType<type>::type_def name)
  *          {
  *              if(_name != name)
  *              {
  *                  _name = name;
- *                  emit NameChanged();
- *              }
- *              else
- *                  return false;
- *          }
- *          bool ResetName() { return SetName({}); }
- *      signals:
- *          void NameChanged();
- *      private:
- *
- *      // Qt Naming Convention
- *      protected:
- *          Q_PROPERTY (type name READ name NOTIFY nameChanged)
- *      private:
- *          type m_name = {};
- *      public:
- *          CheapestType<type>::type_def name() const { return m_name; }
- *          bool setName(CheapestType<type>::type_def name)
- *          {
- *              if(m_name != name)
- *              {
- *                  m_name = name;
  *                  emit nameChanged();
  *              }
  *              else
@@ -623,22 +574,14 @@ QSUPERMACROS_NAMESPACE_START
  *
  * It generates for this goal :
  *  \code
- *      // Default Naming Convention
+ *      // QSM_CONSTANT_AUTO_PROPERTY_WDEFAULT(type, name, Name, def)
  *      protected:
- *          Q_PROPERTY (type name READ GetName CONSTANT)
+ *          Q_PROPERTY (type name READ getName CONSTANT)
  *      private:
  *          type _name = def;
  *      public:
- *          CheapestType<type>::type_def GetName() const { return _name; }
+ *          CheapestType<type>::type_def getName() const { return _name; }
  *      private:
- *
- *      // Qt Naming Convention
- *      protected:
- *          Q_PROPERTY (type name READ name CONSTANT)
- *      private:
- *          type m_name = def;
- *      public:
- *          CheapestType<type>::type_def name() const { return m_name; }
  *
  *  You can declare a property in your QObject like this
  *  \code
@@ -673,22 +616,13 @@ QSUPERMACROS_NAMESPACE_START
  *
  * It generates for this goal :
  *  \code
- *      // Default Naming Convention
+ *      // QSM_CONSTANT_AUTO_PROPERTY(type, name, Name)
  *      protected:
- *          Q_PROPERTY (type name READ GetName CONSTANT)
+ *          Q_PROPERTY (type name READ getName CONSTANT)
  *      private:
  *          type _name = {};
  *      public:
- *          CheapestType<type>::type_def GetName() const { return _name; }
- *      private:
- *
- *      // Qt Naming Convention
- *      protected:
- *          Q_PROPERTY (type name READ name CONSTANT)
- *      private:
- *          type m_name = {};
- *      public:
- *          CheapestType<type>::type_def name() const { return m_name; }
+ *          CheapestType<type>::type_def getName() const { return _name; }
  *      private:
  *  \endcode
  *
@@ -719,14 +653,9 @@ QSUPERMACROS_NAMESPACE_START
   *
   * It generates for this goal :
   *  \code
-  *      // Default Naming Convention
+  *      // QSM_CONSTANT_AUTO_VIRTUAL_PROPERTY(type, name, Name, getter)
   *      protected:
-  *          Q_PROPERTY (type name READ GetName CONSTANT)
-  *      private:
-  *
-  *      // Qt Naming Convention
-  *      protected:
-  *          Q_PROPERTY (type name READ name CONSTANT)
+  *          Q_PROPERTY (type name READ getName CONSTANT)
   *      private:
   *  \endcode
   *
@@ -763,70 +692,37 @@ QSUPERMACROS_NAMESPACE_START
    *
    * It generates for this goal :
    *  \code
-   *      // Default Naming Convention
+   *      // QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT_WSTRING(type, name, Name, def)
    *      protected:
-   *           Q_PROPERTY (type name READ GetName WRITE SetName RESET ResetName NOTIFY NameChanged)
+   *           Q_PROPERTY (type name READ getName WRITE setName RESET resetName NOTIFY nameChanged)
    *      private:
    *             type _name = def;
    *      public:
-   *          CheapestType<type>::type_def GetName() const { return _name; }
-   *          bool SetName(CheapestType<type>::type_def name)
+   *          CheapestType<type>::type_def getName() const { return _name; }
+   *          bool setName(CheapestType<type>::type_def name)
    *          {
    *              if(_name != name)
    *              {
    *                  _name = name;
-   *                  emit NameChanged();
-   *              }
-   *              else
-   *                  return false;
-   *          }
-   *          bool ResetName() { return SetName(def); }
-   *      signals:
-   *          void NameChanged();
-   *      protected:
-   *          Q_PROPERTY (type nameString READ GetNameString WRITE SetNameString NOTIFY NameChanged)
-   *      public:
-   *		  QString GetNameString() const { return GetName().toString(); }
-   *		  void SetNameString(const QString s)
-   *		  {
-   *			  type fromString(s);
-   *			  if(fromString != GetName())
-   *			      return SetName(fromString)
-   *			  return false;
-   *		  }
-   *      private:
-   *
-   *      // Qt Naming Convention
-   *      protected:
-   *          Q_PROPERTY (type name READ name WRITE setName RESET resetName NOTIFY nameChanged)
-   *      private:
-   *          type m_name = def;
-   *      public:
-   *          CheapestType<type>::type_def name() const { return m_name; }
-   *          bool setName(CheapestType<type>::type_def name)
-   *          {
-   *              if(m_name != name)
-   *              {
-   *                  m_name = name;
    *                  emit nameChanged();
    *              }
    *              else
    *                  return false;
    *          }
-   *             bool resetName() { return setName(def); }
+   *          bool resetName() { return setName(def); }
    *      signals:
    *          void nameChanged();
    *      protected:
-   *          Q_PROPERTY (type nameString READ nameString WRITE setNameString NOTIFY nameChanged)
+   *          Q_PROPERTY (type nameString READ getNameString WRITE setNameString NOTIFY nameChanged)
    *      public:
-   *		  QString nameString() const { return name().toString(); }
-   *		  void setNameString(const QString s)
-   *		  {
-   *			  type fromString(s);
-   *			  if(fromString != name())
-   *			      return setName(fromString)
-   *			  return false;
-   *		  }
+   *          QString getNameString() const { return getName().toString(); }
+   *          void setNameString(const QString s)
+   *          {
+   *              type fromString(s);
+   *              if(fromString != getName())
+   *                  return setName(fromString)
+   *              return false;
+   *          }
    *      private:
    *  \endcode
    *
@@ -843,19 +739,19 @@ QSUPERMACROS_NAMESPACE_START
    *  \endcode
    */
 #define QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT_WSTRING(type, name, Name, def) \
-	QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT(type, name, Name, def) \
-	protected: \
-	Q_PROPERTY(QString name##String READ QSM_MAKE_GETTER_NAME(name##String, Name##String) WRITE QSM_MAKE_SETTER_NAME(name##String, Name##String) NOTIFY QSM_MAKE_SIGNAL_NAME(name, Name)); \
-	public: \
-	QString QSM_MAKE_GETTER_NAME(name##String, Name##String) () const { return QSM_MAKE_GETTER_NAME(name, Name) ().toString(); } \
-	bool QSM_MAKE_SETTER_NAME(name##String, Name##String) (const QString s) \
-	{ \
-		const type fromString(s); \
-		if(fromString != QSM_MAKE_ATTRIBUTE_NAME(name, Name)) \
-			 return QSM_MAKE_SETTER_NAME(name, Name) (fromString);\
-		return false; \
-	} \
-	private:
+    QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT(type, name, Name, def) \
+    protected: \
+    Q_PROPERTY(QString name##String READ QSM_MAKE_GETTER_NAME(name##String, Name##String) WRITE QSM_MAKE_SETTER_NAME(name##String, Name##String) NOTIFY QSM_MAKE_SIGNAL_NAME(name, Name)); \
+    public: \
+    QString QSM_MAKE_GETTER_NAME(name##String, Name##String) () const { return QSM_MAKE_GETTER_NAME(name, Name) ().toString(); } \
+    bool QSM_MAKE_SETTER_NAME(name##String, Name##String) (const QString s) \
+    { \
+        const type fromString(s); \
+        if(fromString != QSM_MAKE_ATTRIBUTE_NAME(name, Name)) \
+             return QSM_MAKE_SETTER_NAME(name, Name) (fromString);\
+        return false; \
+    } \
+    private:
 
   /** Generate a **ReadOnly** Auto Property And an accessor as a QString
    * The type must have a QString toString function and a constructor that can accept a QString
@@ -870,70 +766,37 @@ QSUPERMACROS_NAMESPACE_START
    *
    * It generates for this goal :
    *  \code
-   *      // Default Naming Convention
+   *      // QSM_READONLY_AUTO_PROPERTY_WDEFAULT_WSTRING(type, name, Name, def)
    *      protected:
-   *           Q_PROPERTY (type name READ GetName RESET ResetName NOTIFY NameChanged)
+   *           Q_PROPERTY (type name READ getName RESET resetName NOTIFY nameChanged)
    *      private:
    *             type _name = def;
    *      public:
-   *          CheapestType<type>::type_def GetName() const { return _name; }
-   *          bool SetName(CheapestType<type>::type_def name)
+   *          CheapestType<type>::type_def getName() const { return _name; }
+   *          bool setName(CheapestType<type>::type_def name)
    *          {
    *              if(_name != name)
    *              {
    *                  _name = name;
-   *                  emit NameChanged();
-   *              }
-   *              else
-   *                  return false;
-   *          }
-   *          bool ResetName() { return SetName(def); }
-   *      signals:
-   *          void NameChanged();
-   *      protected:
-   *          Q_PROPERTY (type nameString READ GetNameString NOTIFY NameChanged)
-   *      public:
-   *		  QString GetNameString() const { return GetName().toString(); }
-   *		  void SetNameString(const QString s)
-   *		  {
-   *			  type fromString(s);
-   *			  if(fromString != GetName())
-   *			      return SetName(fromString)
-   *			  return false;
-   *		  }
-   *      private:
-   *
-   *      // Qt Naming Convention
-   *      protected:
-   *          Q_PROPERTY (type name READ name RESET resetName NOTIFY nameChanged)
-   *      private:
-   *          type m_name = def;
-   *      public:
-   *          CheapestType<type>::type_def name() const { return m_name; }
-   *          bool setName(CheapestType<type>::type_def name)
-   *          {
-   *              if(m_name != name)
-   *              {
-   *                  m_name = name;
    *                  emit nameChanged();
    *              }
    *              else
    *                  return false;
    *          }
-   *             bool resetName() { return setName(def); }
+   *          bool resetName() { return setName(def); }
    *      signals:
    *          void nameChanged();
    *      protected:
-   *          Q_PROPERTY (type nameString READ nameString NOTIFY nameChanged)
+   *          Q_PROPERTY (type nameString READ getNameString NOTIFY nameChanged)
    *      public:
-   *		  QString nameString() const { return name().toString(); }
-   *		  void setNameString(const QString s)
-   *		  {
-   *			  type fromString(s);
-   *			  if(fromString != name())
-   *			      return setName(fromString)
-   *			  return false;
-   *		  }
+   *          QString getNameString() const { return getName().toString(); }
+   *          void setNameString(const QString s)
+   *          {
+   *              type fromString(s);
+   *              if(fromString != getName())
+   *                  return setName(fromString)
+   *              return false;
+   *          }
    *      private:
    *  \endcode
    *
@@ -950,19 +813,19 @@ QSUPERMACROS_NAMESPACE_START
    *  \endcode
    */
 #define QSM_READONLY_AUTO_PROPERTY_WDEFAULT_WSTRING(type, name, Name, def) \
-	QSM_READONLY_AUTO_PROPERTY_WDEFAULT(type, name, Name, def) \
-	protected: \
-	Q_PROPERTY(QString name##String READ QSM_MAKE_GETTER_NAME(name##String, Name##String) NOTIFY QSM_MAKE_SIGNAL_NAME(name, Name)); \
-	public: \
-	QString QSM_MAKE_GETTER_NAME(name##String, Name##String) () const { return QSM_MAKE_GETTER_NAME(name, Name) ().toString(); } \
-	bool QSM_MAKE_SETTER_NAME(name##String, Name##String) (const QString& s) \
-	{ \
-		const type fromString(s); \
-		if(fromString != QSM_MAKE_ATTRIBUTE_NAME(name, Name)) \
-			 return QSM_MAKE_SETTER_NAME(name, Name) (fromString);\
-		return false; \
-	} \
-	private:
+    QSM_READONLY_AUTO_PROPERTY_WDEFAULT(type, name, Name, def) \
+    protected: \
+    Q_PROPERTY(QString name##String READ QSM_MAKE_GETTER_NAME(name##String, Name##String) NOTIFY QSM_MAKE_SIGNAL_NAME(name, Name)); \
+    public: \
+    QString QSM_MAKE_GETTER_NAME(name##String, Name##String) () const { return QSM_MAKE_GETTER_NAME(name, Name) ().toString(); } \
+    bool QSM_MAKE_SETTER_NAME(name##String, Name##String) (const QString& s) \
+    { \
+        const type fromString(s); \
+        if(fromString != QSM_MAKE_ATTRIBUTE_NAME(name, Name)) \
+             return QSM_MAKE_SETTER_NAME(name, Name) (fromString);\
+        return false; \
+    } \
+    private:
 
 //Q_PROPERTY(QString name##String READ QSM_MAKE_GETTER_NAME(name, Name)##String WRITE QSM_MAKE_SETTER_NAME(name, Name)##String NOTIFY QSM_MAKE_SIGNAL_NAME(name, Name)); \
 // NOTE : test class for all cases
@@ -973,11 +836,11 @@ QSUPERMACROS_NAMESPACE_START
  */
 class QSUPERMACROS_API_ _Test_QmlAutoProperty_ : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	QSM_WRITABLE_AUTO_PROPERTY(bool,       var1, Var1);
-	QSM_WRITABLE_AUTO_PROPERTY(QString,    var2, Var2);
-	QSM_WRITABLE_AUTO_PROPERTY(QObject *,  var3, Var3);
+    QSM_WRITABLE_AUTO_PROPERTY(bool,       var1, Var1);
+    QSM_WRITABLE_AUTO_PROPERTY(QString,    var2, Var2);
+    QSM_WRITABLE_AUTO_PROPERTY(QObject *,  var3, Var3);
 
     QSM_READONLY_AUTO_PROPERTY (bool,      var4, Var4)
     QSM_READONLY_AUTO_PROPERTY (QString,   var5, Var5)
@@ -999,7 +862,7 @@ class QSUPERMACROS_API_ _Test_QmlAutoProperty_ : public QObject
     QSM_CONSTANT_AUTO_PROPERTY_WDEFAULT (QString,   var18, Var18, "Test String")
     QSM_CONSTANT_AUTO_PROPERTY_WDEFAULT (QObject *, var19, Var19, nullptr)
 
-	//QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT_WSTRING(QHostAddress, addr, Addr, QHostAddress("127.0.0.1"));
+    //QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT_WSTRING(QHostAddress, addr, Addr, QHostAddress("127.0.0.1"));
 };
 
 QSUPERMACROS_NAMESPACE_END
