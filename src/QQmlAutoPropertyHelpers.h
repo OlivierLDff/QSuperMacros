@@ -139,7 +139,7 @@ QSUPERMACROS_NAMESPACE_START
  *      virtual bool setName(CheapestType<type>::type_def name) = 0;
  *  \endcode
  */
-#define QSM_AUTO_SETTER_DECL(type, name, Name) \
+#define QSM_AUTO_SETTER_VIRTUAL(type, name, Name) \
     virtual QSM_AUTO_SETTER_DECL(type, name, Name) = 0;
 
 /** Generate a Setter in the form `Set<Name>`
