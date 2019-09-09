@@ -77,22 +77,11 @@ SET_PROPERTY(GLOBAL PROPERTY USE_FOLDERS ON)
 # │                         QT5 CMAKE                                │
 # └──────────────────────────────────────────────────────────────────┘
 
-# Find includes in corresponding build directories
-SET( CMAKE_INCLUDE_CURRENT_DIR ON )
-# Instruct CMake to run moc automatically when needed
-SET( CMAKE_AUTOMOC ON )
- # https://cmake.org/cmake/help/v3.0/prop_tgt/AUTORCC.html#prop_tgt:AUTORCC
-SET( CMAKE_AUTORCC ON )
 #required by Qt5
 set (CMAKE_CXX_STANDARD 11)
 
-# Find correct qt directory
-IF( QT_DIR )
-    SET( CMAKE_PREFIX_PATH "${CMAKE_PREFIX_PATH};${QT_DIR}" )
-ENDIF( QT_DIR )
-
-FIND_PACKAGE(Qt5Core CONFIG REQUIRED CMAKE_FIND_ROOT_PATH_BOTH)
-FIND_PACKAGE(Qt5Qml CONFIG REQUIRED CMAKE_FIND_ROOT_PATH_BOTH)
+FIND_PACKAGE(Qt5Core CONFIG REQUIRED)
+FIND_PACKAGE(Qt5Qml CONFIG REQUIRED)
 
 # ┌──────────────────────────────────────────────────────────────────┐
 # │                       VERSION                                    │
