@@ -19,30 +19,32 @@ QSUPERMACROS_NAMESPACE_START
  * \defgroup QSM_SINGLETON_HELPER Singleton Properties
  * \brief Macros to generate Singleton properties without the need to handle the factory
  */
+
 /** 
  * Generate a singleton
  * \ingroup QSM_SINGLETON_HELPER
  * \hideinitializer
  * \param Class Singleton class to generate
+ * \param name not used. Only here to have the same looking API than the rest of QSuperMacros
  * \param Name Name used to generate unique function for the singleton
  * 
  *  The code generated look like that:
  *  \code
  *  public:
- *      static Class& GetName(void)
+ *      static Class& getName(void)
  *      {
  *          static Class res;
  *          return res;
  *      }
- *      static QObject* SetNameFactory(QQmlEngine* qmlEngine, QJSEngine* jsEngine)
+ *      static QObject* setNameFactory(QQmlEngine* qmlEngine, QJSEngine* jsEngine)
  *      {
- *          QObject* res = &GetName();
+ *          QObject* res = &getName();
  *          QQmlEngine::setObjectOwnership (ret, QQmlEngine::CppOwnership);
  *          return res;
  *      }
  *      static void registerNameQmlModule (const char * uri, const int majorVersion, const int minorVersion, const char * name)
  *      {
- *          qmlRegisterSingletonType<Class> (uri, majorVersion, minorVersion, name, &Class::SetNameFactory);
+ *          qmlRegisterSingletonType<Class> (uri, majorVersion, minorVersion, name, &Class::setNameFactory);
  *      }
  *  \endcode
  *
@@ -58,8 +60,8 @@ QSUPERMACROS_NAMESPACE_START
  *      // Register the singleton
  *      SingletonHandler::registerInstanceQmlModule("Library", 1, 0, "SingletonName");
  *
- *      // Get the instnace
- *      MyClass& instance = SingletonHandler::GetInstance();
+ *      // Get the instance
+ *      MyClass& instance = SingletonHandler::getName();
  *  \endcode
  */
 #define QSM_SINGLETON_IMPL(Class, name, Name) \
