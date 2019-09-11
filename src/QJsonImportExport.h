@@ -1,4 +1,4 @@
-/** 
+/**
  * \file QJsonImportExport.h
  * \brief Common define for the library
  */
@@ -20,7 +20,7 @@
 #include <QFile>
 #include <QUrl>
 
-// Dependancies Header
+// Dependencies Header
 
 // Application Header
 #include <QSuperMacros.h>
@@ -125,7 +125,7 @@
 	{ \
 		setter(json[jsonName].toString.toULongLong()); \
 	} \
-	
+
 #define QJSONIMPORT_UINT64_WLOG(jsonName, setter, logCat) \
 { \
 	if (QJSONIMPORT_ISUINT64VALID(jsonName)) \

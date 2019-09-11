@@ -16,7 +16,7 @@
 // Qt Header
 #include <QString>
 
-// Dependancies Header
+// Dependencies Header
 
 // Application Header
 
