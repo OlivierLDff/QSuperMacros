@@ -343,6 +343,10 @@ QSUPERMACROS_NAMESPACE_START
         QSM_AUTO_SETTER_VIRTUAL(type, name, Name) \
         QSM_AUTO_RESET_VIRTUAL(type, name, Name) \
 
+#define QSM_CONSTANT_AUTO_VIRTUAL(type, name, Name) \
+    public: \
+        QSM_AUTO_GETTER_VIRTUAL(type, name, Name) \
+
 
 /** Generate a **Writable** Auto Property
  * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by
