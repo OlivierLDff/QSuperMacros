@@ -408,6 +408,99 @@ QSUPERMACROS_NAMESPACE_START
         QSM_AUTO_NOTIFIER (type, name, Name) \
     private:
 
+ /** Generate a **Writable** Auto Attribute. Without any Q_PROPERTY
+  * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by
+  * deciding itself which type is the cheapest (using some template trickery internally).
+  * \ingroup QSM_AUTO_HELPER
+  * \hideinitializer
+  * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
+  * \param name Attribute name in lowerCamelCase
+  * \param Name Attribute name in UpperCamelCase
+  * \param def Default value of the members. If you want to let the type choose default value just use `{}`
+  *
+  * It generates for this goal :
+  *  \code
+  *      // QSM_WRITABLE_AUTO_ATTRIBUTE_WDEFAULT(type, name, Name, def)
+  *      private:
+  *             type _name = def;
+  *      public:
+  *          CheapestType<type>::type_def getName() const { return _name; }
+  *          bool setName(CheapestType<type>::type_def name)
+  *          {
+  *              if(_name != name)
+  *                  _name = name;
+  *              else
+  *                  return false;
+  *          }
+  *          bool resetName() { return setName(def); }
+  *      private:
+  *  \endcode
+  *
+  *  You can declare a property in your QObject like this
+  *  \code
+  *  // Create an integer with default value 23
+  *  QSM_WRITABLE_AUTO_ATTRIBUTE_WDEFAULT(int, myInt, MyInt, 23);
+  *
+  *  // Create a QString with default value "MyString"
+  *  QSM_WRITABLE_AUTO_ATTRIBUTE_WDEFAULT(QString, myString, MyString, "MyString");
+  *
+  *  // Create a pointer to a QObject, default to nullptr
+  *  QSM_WRITABLE_AUTO_ATTRIBUTE_WDEFAULT(QObject*, myObject, MyObject, nullptr);
+  *  \endcode
+  */
+#define QSM_WRITABLE_AUTO_ATTRIBUTE_WDEFAULT(type, name, Name, def) \
+    private: \
+        QSM_AUTO_MEMBER (type, name, Name, def) \
+    public: \
+        QSM_AUTO_GETTER (type, name, Name) \
+        QSM_AUTO_SETTER_DECL (type, name, Name) \
+        QSM_AUTO_SETTER_BODY (type, name, Name) \
+        QSM_AUTO_RESET(type, name, Name, def) \
+    private:
+
+  /** Generate a **Writable** Auto Attribute. Without any Q_PROPERTY
+   * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by
+   * deciding itself which type is the cheapest (using some template trickery internally).
+   * \ingroup QSM_AUTO_HELPER
+   * \hideinitializer
+   * \param type Type of the attribute (`int`, `quint32`, `QObject*`, `QString`, etc...)
+   * \param name Attribute name in lowerCamelCase
+   * \param Name Attribute name in UpperCamelCase
+   * \param def Default value of the members. If you want to let the type choose default value just use `{}`
+   *
+   * It generates for this goal :
+   *  \code
+   *      // QSM_WRITABLE_AUTO_ATTRIBUTE(type, name, Name)
+   *      private:
+   *             type _name = {};
+   *      public:
+   *          CheapestType<type>::type_def getName() const { return _name; }
+   *          bool setName(CheapestType<type>::type_def name)
+   *          {
+   *              if(_name != name)
+   *                  _name = name;
+   *              else
+   *                  return false;
+   *          }
+   *          bool resetName() { return setName({}); }
+   *      private:
+   *  \endcode
+   *
+   *  You can declare a property in your QObject like this
+   *  \code
+   *  // Create an integer with default value 23
+   *  QSM_WRITABLE_AUTO_ATTRIBUTE(int, myInt, MyInt);
+   *
+   *  // Create a QString with default value "MyString"
+   *  QSM_WRITABLE_AUTO_ATTRIBUTE(QString, myString, MyString);
+   *
+   *  // Create a pointer to a QObject, default to nullptr
+   *  QSM_WRITABLE_AUTO_ATTRIBUTE(QObject*, myObject, MyObject);
+   *  \endcode
+   */
+#define QSM_WRITABLE_AUTO_ATTRIBUTE(type, name, Name) \
+    QSM_WRITABLE_AUTO_ATTRIBUTE_WDEFAULT(type, name, Name, {}) \
+
 /** Generate a **Writable** Auto Property
  * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by
  * deciding itself which type is the cheapest (using some template trickery internally).
