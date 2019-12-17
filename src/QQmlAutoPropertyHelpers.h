@@ -157,7 +157,7 @@ QSUPERMACROS_NAMESPACE_START
  *          if(_name != name)
  *          {
  *              _name = name;
- *              emit nameChanged();
+ *              Q_EMIT nameChanged();
  *              return true;
  *          }
  *          else
@@ -222,7 +222,7 @@ QSUPERMACROS_NAMESPACE_START
  *          if(_name != name)
  *          {
  *              _name = name;
- *              emit nameChanged(name);
+ *              Q_EMIT nameChanged(name);
  *              return true;
  *          }
  *          else
@@ -372,13 +372,13 @@ QSUPERMACROS_NAMESPACE_START
  *              if(_name != name)
  *              {
  *                  _name = name;
- *                  emit nameChanged(name);
+ *                  Q_EMIT nameChanged(name);
  *              }
  *              else
  *                  return false;
  *          }
  *          bool resetName() { return setName(def); }
- *      signals:
+ *      Q_SIGNALS:
  *          void nameChanged(type name);
  *      private:
  *  \endcode
@@ -524,13 +524,13 @@ QSUPERMACROS_NAMESPACE_START
  *              if(_name != name)
  *              {
  *                  _name = name;
- *                  emit nameChanged(name);
+ *                  Q_EMIT nameChanged(name);
  *              }
  *              else
  *                  return false;
  *          }
  *          bool resetName() { return setName({}); }
- *      signals:
+ *      Q_SIGNALS:
  *          void nameChanged(type name);
  *      private:
  *  \endcode
@@ -574,13 +574,13 @@ QSUPERMACROS_NAMESPACE_START
  *              if(_name != name)
  *              {
  *                  _name = name;
- *                  emit nameChanged(name);
+ *                  Q_EMIT nameChanged(name);
  *              }
  *              else
  *                  return false;
  *          }
  *          bool resetName() { return setName(def); }
- *      signals:
+ *      Q_SIGNALS:
  *          void nameChanged(type name);
  *      private:
  *  \endcode
@@ -633,13 +633,13 @@ QSUPERMACROS_NAMESPACE_START
  *              if(_name != name)
  *              {
  *                  _name = name;
- *                  emit nameChanged(name);
+ *                  Q_EMIT nameChanged(name);
  *              }
  *              else
  *                  return false;
  *          }
  *          bool resetName() { return setName({}); }
- *      signals:
+ *      Q_SIGNALS:
  *          void nameChanged(type name);
  *      private:
  *  \endcode
@@ -801,13 +801,13 @@ QSUPERMACROS_NAMESPACE_START
    *              if(_name != name)
    *              {
    *                  _name = name;
-   *                  emit nameChanged(name);
+   *                  Q_EMIT nameChanged(name);
    *              }
    *              else
    *                  return false;
    *          }
    *          bool resetName() { return setName(def); }
-   *      signals:
+   *      Q_SIGNALS:
    *          void nameChanged(type name);
    *      protected:
    *          Q_PROPERTY (type nameString READ getNameString WRITE setNameString NOTIFY nameChanged)
@@ -875,13 +875,13 @@ QSUPERMACROS_NAMESPACE_START
    *              if(_name != name)
    *              {
    *                  _name = name;
-   *                  emit nameChanged(name);
+   *                  Q_EMIT nameChanged(name);
    *              }
    *              else
    *                  return false;
    *          }
    *          bool resetName() { return setName(def); }
-   *      signals:
+   *      Q_SIGNALS:
    *          void nameChanged(type name);
    *      protected:
    *          Q_PROPERTY (type nameString READ getNameString NOTIFY nameChanged)
