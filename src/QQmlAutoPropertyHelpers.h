@@ -408,6 +408,18 @@ QSUPERMACROS_NAMESPACE_START
         QSM_AUTO_NOTIFIER (type, name, Name) \
     private:
 
+#define QSM_WRITABLE_AUTO_PROPERTY_WDEFAULT_NO_SETTER(type, name, Name, def) \
+    protected: \
+        Q_PROPERTY (type name READ QSM_MAKE_GETTER_NAME(name, Name) WRITE QSM_MAKE_SETTER_NAME(name, Name) RESET QSM_MAKE_RESET_NAME(name, Name) NOTIFY QSM_MAKE_SIGNAL_NAME(name, Name)) \
+    private: \
+        QSM_AUTO_MEMBER (type, name, Name, def) \
+    public: \
+        QSM_AUTO_GETTER (type, name, Name) \
+        QSM_AUTO_RESET(type, name, Name, def) \
+    Q_SIGNALS: \
+        QSM_AUTO_NOTIFIER (type, name, Name) \
+    private:
+
  /** Generate a **Writable** Auto Attribute. Without any Q_PROPERTY
   * Auto Property uses either `T` or `T*` and is capable of adding constant-reference by
   * deciding itself which type is the cheapest (using some template trickery internally).
