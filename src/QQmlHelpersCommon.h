@@ -138,35 +138,6 @@ template<typename T> struct CheapestType<T *>     { typedef T *       type_def; 
 #endif
 
 /**
- * \def QSM_REGISTER_OBJ_TO_QML_WITH_NAME(Type) 
- * \ingroup QQML_HELPER_COMMON
- * \hideinitializer
- * \brief Create a function to easily register a QObject to the qml system
- * \param Type Class Name
- * 
- * To use this macro simply call it into your QObject derived class
- * \code
- * class MyQObject : public QObject
- * {
- *     Q_OBJECT
- *     QSM_REGISTER_OBJ_TO_QML_WITH_NAME(MyQObject)
- * };
- * \endcode
- * Then to register the class :
- * \code
- * // Regular Naming convention
- * MyQObject::RegisterToQml("MyUri", 1, 0, "MyQObjectQmlName");
- * \endcode
- *    
- */
-#define QSM_REGISTER_OBJ_TO_QML_WITH_NAME(Type) \
-public: \
-	static void registerToQml(const char * uri, const int majorVersion, const int minorVersion, const char * name) { \
-			qmlRegisterType<Type>(uri, majorVersion, minorVersion, name); \
-	} \
-private:
-
-/**
  * \def QSM_REGISTER_OBJ_TO_QML_NO_NAME(Type)
  * \ingroup QQML_HELPER_COMMON
  * \hideinitializer
@@ -188,10 +159,10 @@ private:
  * \endcode
  *
  */
-#define QSM_REGISTER_OBJ_TO_QML_NO_NAME(Type) \
+#define QSM_REGISTER_TO_QML(Type) \
 public: \
-	static void registerToQml(const char * uri, const int majorVersion, const int minorVersion) { \
-			qmlRegisterType<Type>(uri, majorVersion, minorVersion, #Type ); \
+	static void registerToQml(const char * uri, const int majorVersion, const int minorVersion, const char * name = #Type) { \
+			qmlRegisterType<Type>(uri, majorVersion, minorVersion, name ); \
 	} \
 private:
 
